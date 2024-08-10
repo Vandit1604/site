@@ -1,0 +1,44 @@
+{{ template "header.html". }}
+
+<section class="sm:p-4 flex flex-col justify-center sm:mb-4">
+  <h1 class="font-heading text-4xl font-bold text-gray-900">
+    <span class="px-16 py-8 block font-serif italic">Blog.</span>
+  </h1>
+
+  <section>
+    <div class="w-full px-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {{ range .blogs}}
+      <div class="w-full mx-auto px-4 text-gray-500">
+        <div class="sm:mt-4">
+          <div
+            class="relative group overflow-hidden p-8 rounded-xl bg-white border border-gray-200"
+          >
+            <div
+              aria-hidden="true"
+              class="inset-0 absolute aspect-video border rounded-full -translate-y-1/2 group-hover:-translate-y-1/4 duration-300 bg-gradient-to-b from-blue-500 to-white blur-2xl opacity-25"
+            ></div>
+            <div class="relative">
+              <div class="flex items-center font-bold">
+                </div>
+                <h1 class="text-3xl text-black ml-4">{{.Title}}</h1>
+              <div class="rounded-b-[--card-border-radius]">
+                <p class="text-gray-700 h-36 text-wrap truncate">
+                  {{.Content}}
+                </p>
+              </div>
+              <div
+                class="flex place-content-between gap-3 -mb-8 py-4 border-t border-gray-200"
+              >
+                  Read<span class="text-bold">→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{end}}
+    </div>
+  </section>
+</section>
+
+{{ template "footer.html". }}
