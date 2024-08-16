@@ -20,7 +20,7 @@ func ShowBlogPage(c *gin.Context) {
 
 	c.HTML(
 		http.StatusOK,
-		"blogs.html",
+		"allblogs.html",
 		gin.H{"blogs": blogs},
 	)
 }
