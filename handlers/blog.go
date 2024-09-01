@@ -15,7 +15,7 @@ import (
 )
 
 func ReadFile(slug string) (string, string, error) {
-	filePath := "/home/vandit/codes/site/blogs/" + slug + ".md"
+	filePath := "/home/vandit/codes/site/content/blogs/" + slug + ".md"
 
 	f, err := os.Open(filePath)
 	if err != nil {

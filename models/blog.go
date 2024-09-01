@@ -1,18 +1,18 @@
 package models
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/russross/blackfriday/v2"
 	"github.com/vandit1604/site/types"
 )
 
 func ReadBlogs() map[string]types.BlogPost {
 	blogs := make(map[string]types.BlogPost)
-	dir := "./blogs/"
+	dir := "content/blogs/"
 	files, err := os.ReadDir(dir)
 	if err != nil {
 		log.Printf("Error reading directory: %v", err)
@@ -48,20 +48,22 @@ func transformDataToBlog(slug, data string) *types.BlogPost {
 			// Extract the title from the line starting with "# "
 			title = strings.TrimSpace(strings.TrimPrefix(line, "# "))
 			titleFound = true
-		} else if titleFound && line != "" {
-			// Add the remaining lines to content after the title has been found
-			contentLines = append(contentLines, fmt.Sprintf("%s\n", line))
 		}
+		// Add all lines to content, including title
+		contentLines = append(contentLines, line)
 	}
 
 	// Join all content lines into a single string
-	content := strings.Join(contentLines, "\n")
+	markdownContent := strings.Join(contentLines, "\n")
 
-	// Create and return the BlogPost struct with the title, content, and slug
+	// Convert markdown content to HTML
+	htmlContent := string(blackfriday.Run([]byte(markdownContent)))
+
+	// Create and return the BlogPost struct with the title, HTML content, and slug
 	blog := &types.BlogPost{
 		Slug:    slug,
 		Title:   title,
-		Content: content,
+		Content: htmlContent,
 	}
 
 	return blog

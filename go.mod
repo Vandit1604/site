@@ -4,6 +4,7 @@ go 1.22.4
 
 require (
 	github.com/gin-gonic/gin v1.10.0
+	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/yuin/goldmark v1.7.4
 )
 

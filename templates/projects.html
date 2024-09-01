@@ -1,0 +1,71 @@
+{{ template "header.html" .}}
+
+<div class="lg:w-1/2 mx-auto p-4">
+  {{ template "nav.html" .}}
+
+  <section class="mb-12">
+    <h1 class="font-heading text-3xl font-bold text-gray-900 text-center mb-4">
+      <span class="font-serif italic">Projects.</span>
+    </h1>
+
+    <div class="grid gap-6 grid-cols-1 md:grid-cols-2 bg-white px-4 py-6">
+      <div class="border border-gray-200 p-4 rounded-lg">
+        <h3 class="text-md italic font-serif text-gray-800 mb-2">GO-LB</h3>
+        <p class="text-sm text-gray-600">
+          A simple load balancer written in Golang with round-robin architecture
+          and passive health checks.
+        </p>
+        <a
+          href="#"
+          class="text-sm text-gray-700 hover:text-gray-900 italic mt-2 inline-block"
+          >Read →</a
+        >
+      </div>
+
+      <div class="border border-gray-200 p-4 rounded-lg">
+        <h3 class="text-md italic font-serif text-gray-800 mb-2">
+          Realtime Chat Application
+        </h3>
+        <p class="text-sm text-gray-600">
+          A real-time chat app with authentication, clean architecture, and
+          WebSockets for room management.
+        </p>
+        <a
+          href="#"
+          class="text-sm text-gray-700 hover:text-gray-900 italic mt-2 inline-block"
+          >Read →</a
+        >
+      </div>
+
+      <div class="border border-gray-200 p-4 rounded-lg">
+        <h3 class="text-md italic font-serif text-gray-800 mb-2">Dockerium</h3>
+        <p class="text-sm text-gray-600">
+          Created containers from scratch using Unix namespaces and system calls
+          like unshare and clone.
+        </p>
+        <a
+          href="#"
+          class="text-sm text-gray-700 hover:text-gray-900 italic mt-2 inline-block"
+          >Read →</a
+        >
+      </div>
+
+      <div class="border border-gray-200 p-4 rounded-lg">
+        <h3 class="text-md italic font-serif text-gray-800 mb-2">
+          Jenkins.io Alternative Tools
+        </h3>
+        <p class="text-sm text-gray-600">
+          Developed a versioned documentation site as a drop-in replacement for
+          Jenkins CI.
+        </p>
+        <a
+          href="#"
+          class="text-sm text-gray-700 hover:text-gray-900 italic mt-2 inline-block"
+          >Read →</a
+        >
+      </div>
+    </div>
+  </section>
+</div>
+
+{{ template "footer.html" .}}
