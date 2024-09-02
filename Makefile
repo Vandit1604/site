@@ -1,6 +1,6 @@
 build:
-	@go build -o site
+	@go build -o bin/site
 
 deploy: build
-	@./site
+	@./bin/site
 

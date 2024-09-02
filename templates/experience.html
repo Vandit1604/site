@@ -1,0 +1,45 @@
+
+{{ template "header.html" .}}
+
+<div class="lg:w-1/2 mx-auto p-4 mt-12">
+  {{ template "nav.html" .}}
+
+  <section class="mb-16">
+    <h1 class="font-heading text-4xl font-bold text-black mb-12 mt-8">
+      <span class="font-serif italic">Experiences.</span>
+    </h1>
+
+    <div class="space-y-8">
+      {{ range .Experiences }}
+      <div class="flex items-start ml-2">
+        <div class="flex-shrink-0">
+          <img src="{{ .ImageURL }}" alt="{{ .Company }} logo" class="h-14 w-14 rounded-full">
+        </div>
+        <div class="ml-4 flex-grow">
+          <div class="flex items-center mb-1">
+            <h4 class="text-xl font-semibold text-black">
+              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" class="text-blue-500 mr-2" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708z"></path>
+              </svg>
+              <a href="{{ .CompanyURL }}" target="_blank" rel="noopener noreferrer" class="hover:no-underline">{{ .Company }}</a>
+            </h4>
+          </div>
+          <div class="flex justify-between text-black mb-2">
+            <div>{{ .Title }}</div>
+            <div class="text-gray-600">{{ .DateRange }}</div>
+          </div>
+          <ul class="list-disc pl-6 mt-2 text-black">
+            {{ range .Responsibilities }}
+            <li>{{ . }}</li>
+            {{ end }}
+          </ul>
+        </div>
+      </div>
+      <div class="border border-gray-200 w-full my-8"></div>
+      {{ end }}
+    </div>
+  </section>
+</div>
+
+{{ template "footer.html" .}}
+
