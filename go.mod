@@ -6,6 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/yuin/goldmark v1.7.4
+	gopkg.in/yaml.v2 v2.4.0
 )
 
 require (

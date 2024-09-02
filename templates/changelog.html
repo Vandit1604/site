@@ -1,115 +1,42 @@
 {{ template "header.html" .}}
 
-<div class="lg:w-1/2 mx-auto p-4">
+<div class="container mx-auto py-12 px-6 bg-white">
   {{ template "nav.html" .}}
 
-  <section class="mt-16">
-    <h2 class="text-3xl font-bold text-gray-900 mb-4 block font-serif italic">
+  <section class="mt-12">
+    <h2 class="text-4xl font-bold text-gray-900 mb-12 font-serif text-center">
       Life Changelog
     </h2>
 
-    <div class="ps-2 my-2">
-      <h3 class="text-xs font-medium uppercase text-gray-500">
-        Jun 2024 - Present · 2 mos
-      </h3>
-      <div class="flex gap-x-3">
-        <div class="relative">
-          <div class="size-7 flex justify-center items-center">
-            <div class="size-2 rounded-full bg-gray-400"></div>
-          </div>
-        </div>
-        <div class="grow pt-0.5 pb-8">
-          <h3 class="font-semibold text-gray-800">
-            Software Development Consultant at RAPIDFORT · Internship
-          </h3>
-          <p class="text-sm text-gray-600">
-            Sunnyvale, California, United States · Remote
-          </p>
-        </div>
-      </div>
-    </div>
+    <div class="relative">
+      <div class="border-l-2 border-gray-300 absolute h-full left-8"></div>
 
-    <div class="ps-2 my-2">
-      <h3 class="text-xs font-medium uppercase text-gray-500">
-        Jul 2023 - Present · 1 yr 1 mo
-      </h3>
-      <div class="flex gap-x-3">
-        <div class="relative">
-          <div class="size-7 flex justify-center items-center">
-            <div class="size-2 rounded-full bg-gray-400"></div>
-          </div>
+      {{ range .Changelogs }}
+      <div class="mb-12 ml-20 relative">
+        <div>
+          <h3 class="text-2xl font-semibold text-gray-800">{{ .Title }}</h3>
+          <span class="text-sm text-gray-500">{{ .DateRange }}</span>
         </div>
-        <div class="grow pt-0.5 pb-8">
-          <h3 class="font-semibold text-gray-800">
-            President at GeeksforGeeks ABESEC
-          </h3>
-          <p class="text-sm text-gray-600">Ghaziabad, Uttar Pradesh, India</p>
-        </div>
-      </div>
-    </div>
 
-    <div class="ps-2 my-2">
-      <h3 class="text-xs font-medium uppercase text-gray-500">
-        Oct 2022 - Jul 2023 · 10 mos
-      </h3>
-      <div class="flex gap-x-3">
-        <div class="relative">
-          <div class="size-7 flex justify-center items-center">
-            <div class="size-2 rounded-full bg-gray-400"></div>
-          </div>
+        <div class="mt-2 text-sm text-gray-600">
+          {{ if .Company }}
+          <span class="font-medium">{{ .Company }}</span><br />
+          {{ end }}
+          <span>{{ .Location }}</span>
         </div>
-        <div class="grow pt-0.5 pb-8">
-          <h3 class="font-semibold text-gray-800">
-            Frontend Coordinator at GeeksforGeeks ABESEC
-          </h3>
-        </div>
-      </div>
-    </div>
 
-    <div class="ps-2 my-2">
-      <h3 class="text-xs font-medium uppercase text-gray-500">
-        Jan 2023 - Present · 1 yr 7 mos
-      </h3>
-      <div class="flex gap-x-3">
-        <div class="relative">
-          <div class="size-7 flex justify-center items-center">
-            <div class="size-2 rounded-full bg-gray-400"></div>
-          </div>
+        {{ if .DetailsURL }}
+        <div class="mt-4">
+          <a
+            href="{{ .DetailsURL }}"
+            class="text-blue-600 hover:underline text-sm font-medium"
+          >
+            Learn more
+          </a>
         </div>
-        <div class="grow pt-0.5 pb-8">
-          <h3 class="font-semibold text-gray-800">
-            Core Team Member at Elixir Tech Community · Part-time
-          </h3>
-          <p class="text-sm text-gray-600">Remote</p>
-        </div>
+        {{ end }}
       </div>
-    </div>
-
-    <div class="ps-2 my-2">
-      <h3 class="text-xs font-medium uppercase text-gray-500">
-        May 2023 - Oct 2023 · 6 mos
-      </h3>
-      <div class="flex gap-x-3">
-        <div class="relative">
-          <div class="size-7 flex justify-center items-center">
-            <div class="size-2 rounded-full bg-gray-400"></div>
-          </div>
-        </div>
-        <div class="grow pt-0.5 pb-8">
-          <h3 class="font-semibold text-gray-800">
-            Google Summer of Code Contributor at Jenkins · Part-time
-          </h3>
-          <p class="text-sm text-gray-600">Remote</p>
-          <p class="text-sm text-gray-600">
-            Details:
-            <a
-              href="https://summerofcode.withgoogle.com/archive/2023/projects/5B6EgSAn"
-              class="text-blue-600 hover:underline"
-              >GSoC archives</a
-            >
-          </p>
-        </div>
-      </div>
+      {{ end }}
     </div>
   </section>
 </div>

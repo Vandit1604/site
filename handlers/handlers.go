@@ -16,14 +16,6 @@ func ShowIndexPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", gin.H{"blogs": blogs})
 }
 
-func ShowChangelogPage(c *gin.Context) {
-	c.HTML(http.StatusOK, "changelog.html", nil)
-}
-
-func ShowProjectsPage(c *gin.Context) {
-	c.HTML(http.StatusOK, "projects.html", nil)
-}
-
 func ShowBlogPage(c *gin.Context) {
 	blogs := models.ReadBlogs()
 
