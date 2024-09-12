@@ -1,0 +1,59 @@
+/* styles.css */
+
+/* General styling for the blog content */
+.blog-content {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+/* Style headers */
+.blog-content h1,
+.blog-content h2,
+.blog-content h3 {
+    color: #333;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+}
+
+/* Style paragraphs */
+.blog-content p {
+    color: #555;
+    margin-bottom: 1em;
+}
+
+/* Style code blocks */
+.blog-content pre {
+    background-color: #2d2d2d;
+    color: #f8f8f2;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+/* Style inline code */
+.blog-content code {
+    background-color: #f1f1f1;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: "Courier New", Courier, monospace;
+}
+
+/* Style blockquotes */
+.blog-content blockquote {
+    border-left: 4px solid #ccc;
+    padding-left: 16px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Style links */
+.blog-content a {
+    color: #3498db;
+    text-decoration: underline;
+}

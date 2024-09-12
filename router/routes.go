@@ -19,6 +19,7 @@ func Run() {
 }
 
 func setUpRoutes(router *gin.Engine) {
+	router.Static("/static", "./static")
 	router.StaticFS("../assets/", http.Dir("assets"))
 	// 404 page
 	router.NoRoute(handlers.ShowNotFoundPage)

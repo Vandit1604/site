@@ -19,9 +19,13 @@ func ShowIndexPage(c *gin.Context) {
 func ShowBlogPage(c *gin.Context) {
 	blogs := models.ReadBlogs()
 
+	// Pass the current route to the template context
 	c.HTML(
 		http.StatusOK,
 		"allblogs.html",
-		gin.H{"blogs": blogs},
+		gin.H{
+			"blogs": blogs,
+			"Route": "/blogs", // Set the route value to "/blogs"
+		},
 	)
 }

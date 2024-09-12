@@ -1,6 +1,11 @@
 {{ template "header.html". }}
 
-<section class="lg:w-1/2 mx-auto pt-20">
+<section class="lg:w-1/2 mx-auto pt-4">
+
+  <!-- Conditional navigation -->
+  {{ if eq .Route "/blogs" }}
+    {{ template "nav.html" .}}
+  {{ end }}
 
   <div class="flex flex-col justify-center sm:mb-4">
     <h1 class="font-heading text-3xl font-bold text-gray-900 text-center mb-4">
@@ -22,4 +27,6 @@
     </section>
   </div>
 </section>
+
 {{ template "footer.html". }}
+

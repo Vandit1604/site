@@ -1,3 +1,9 @@
+---
+title: "How to Prepare for Google Summer of Code (GSoC)"
+date: "2023-09-10"
+tags: ["opensource", "gsoc", "contributing"]
+---
+
 # How to Prepare for Google Summer of Code (GSoC)
 
 Google Summer of Code (GSoC) is an exciting opportunity for students to dive into open-source projects, work with experienced developers, and contribute to real-world software. However, the process can be daunting, especially if you're new to open source. Here’s a step-by-step guide to help you prepare and maximize your chances of being selected.

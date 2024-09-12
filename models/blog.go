@@ -1,6 +1,7 @@
 package models
 
 import (
+	"html/template"
 	"log"
 	"os"
 	"path/filepath"
@@ -56,14 +57,15 @@ func transformDataToBlog(slug, data string) *types.BlogPost {
 	// Join all content lines into a single string
 	markdownContent := strings.Join(contentLines, "\n")
 
-	// Convert markdown content to HTML
+	// Convert markdown content to HTML using Blackfriday
 	htmlContent := string(blackfriday.Run([]byte(markdownContent)))
 
-	// Create and return the BlogPost struct with the title, HTML content, and slug
+	// Convert the string HTML content to template.HTML
+	// to safely render it as HTML in the template
 	blog := &types.BlogPost{
 		Slug:    slug,
 		Title:   title,
-		Content: htmlContent,
+		Content: template.HTML(htmlContent), // Convert string to template.HTML here
 	}
 
 	return blog

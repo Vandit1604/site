@@ -1,9 +1,70 @@
 <!-- navigation menu -->
-<section
-  class="flex flex-wrap gap-8 text-md text-grey-900 mt-4 font-bold justify-center border border-gray-200 p-4 rounded-lg"
->
-    <a class="underline" href="/">/home</a>
-    <a class="underline" href="/blog">/blog</a>
-    <a class="underline" href="/experiences">/experiences</a>
-    <a class="underline" href="/projects">/projects</a>
-</section>
+<nav aria-label="Breadcrumb" class="mx-12 mb-8">
+  <ol
+    class="flex items-center text-md text-gray-600 mt-4 font-bold justify-center border border-gray-200 p-4 rounded-full gap-6"
+  >
+    <li>
+      <a
+        href="/"
+        class="flex items-center transition hover:text-gray-700 hover:underline"
+      >
+        <span class="sr-only"> Home </span>
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+          />
+        </svg>
+      </a>
+    </li>
+
+    <li>
+      <a href="/blog" class="transition hover:text-gray-700"> /blog </a>
+    </li>
+
+    <li>
+      <a href="/experiences" class="transition hover:text-gray-700">
+        /experiences
+      </a>
+    </li>
+
+    <li>
+      <a href="/projects" class="transition hover:text-gray-700"> /projects </a>
+    </li>
+
+    <li>
+      <a
+        href="https://drive.google.com/file/d/1R_-Z6QtSoUzylzK2LvIw13T4Z_U6T0Sg/view"
+        class="flex items-center transition hover:text-gray-700"
+      >
+        <span>/resume</span>
+        <svg
+          class="size-5 ml-1"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14 13.9633H16V7.96331H10V9.96331H12.5858L7.25623 15.2929L8.67044 16.7071L14 11.3775V13.9633Z"
+            fill="currentColor"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M23 19C23 21.2091 21.2091 23 19 23H5C2.79086 23 1 21.2091 1 19V5C1 2.79086 2.79086 1 5 1H19C21.2091 1 23 2.79086 23 5V19ZM19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21Z"
+            fill="currentColor"
+          />
+        </svg>
+      </a>
+    </li>
+  </ol>
+</nav>
