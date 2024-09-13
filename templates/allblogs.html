@@ -12,16 +12,31 @@
       <span class="font-serif italic">Blogs.</span>
     </h1>
 
+    <!-- Add tag filter -->
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-2">Filter by tag:</h2>
+      <div class="flex flex-wrap gap-2">
+        <a href="/blogs" class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-700 hover:bg-purple-200 hover:text-purple-800 transition duration-300 ease-in-out {{ if not .selectedTag }}font-bold{{ end }}">
+          All
+        </a>
+        {{ range .allTags }}
+          <a href="/blogs?tag={{ . }}" class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-700 hover:bg-purple-200 hover:text-purple-800 transition duration-300 ease-in-out {{ if eq . $.selectedTag }}font-bold{{ end }}">
+            {{ . }}
+          </a>
+        {{ end }}
+      </div>
+    </div>
+
     <section>
-      <div class="w-full px-4 grid gap-6"> <!-- Increased gap from 2 to 6 -->
+      <div class="w-full px-4 grid gap-6">
         {{ range .blogs }}
-        <a href="blogs/{{.Slug}}" class="block border-b border-gray-200 py-4 hover:bg-gray-50 transition duration-300"> <!-- Added padding and hover effect -->
+        <a href="blogs/{{.Slug}}" class="block border-b border-gray-200 py-4 hover:bg-gray-50 transition duration-300">
           <div class="text-gray-700">
-            <div class="text-sm text-gray-500 mb-1">{{ .Date }}</div> <!-- Added margin-bottom -->
-            <h2 class="text-xl font-semibold text-black mb-2">{{.Title}}</h2> <!-- Added margin-bottom -->
-            <div class="text-sm mt-2"> <!-- Increased top margin -->
+            <div class="text-sm text-gray-500 mb-1">{{ .Date }}</div>
+            <h2 class="text-xl font-semibold text-black mb-2">{{.Title}}</h2>
+            <div class="text-sm mt-2">
               {{ range .Tags }}
-              <span class="whitespace-nowrap rounded-full border border-purple-500 px-2.5 py-0.5 text-sm text-purple-700 mr-1 mb-1 inline-block"> <!-- Added margin-bottom and inline-block -->
+              <span class="whitespace-nowrap rounded-full border border-purple-500 px-2.5 py-0.5 text-sm text-purple-700 mr-1 mb-1 inline-block">
                 {{ . }}
               </span>
               {{ end }}
