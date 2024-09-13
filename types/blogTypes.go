@@ -5,7 +5,7 @@ import "html/template"
 type BlogPost struct {
 	Slug    string
 	Title   string
-	Content template.HTML // Change type from string to template.HTML
+	Content template.HTML
 	Date    string
 	Tags    []string
 }

@@ -1,14 +1,26 @@
 package models
 
 import (
+	"bytes"
+	"fmt"
 	"html/template"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 
-	"github.com/russross/blackfriday/v2"
+	"github.com/alecthomas/chroma/v2"
+	"github.com/alecthomas/chroma/v2/formatters/html"
+	"github.com/alecthomas/chroma/v2/lexers"
+	"github.com/alecthomas/chroma/v2/styles"
 	"github.com/vandit1604/site/types"
+	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/ast"
+	"github.com/yuin/goldmark/extension"
+	"github.com/yuin/goldmark/parser"
+	"github.com/yuin/goldmark/renderer"
+	goldmarkhtml "github.com/yuin/goldmark/renderer/html"
+	"github.com/yuin/goldmark/util"
 )
 
 func ReadBlogs() map[string]types.BlogPost {
@@ -40,33 +52,162 @@ func ReadBlogs() map[string]types.BlogPost {
 
 func transformDataToBlog(slug, data string) *types.BlogPost {
 	lines := strings.Split(data, "\n")
-	var title string
+	var title, date string
+	var tags []string
 	var contentLines []string
-	titleFound := false
+	inFrontMatter := false
+	contentStarted := false
 
 	for _, line := range lines {
-		if strings.HasPrefix(line, "# ") && !titleFound {
-			// Extract the title from the line starting with "# "
-			title = strings.TrimSpace(strings.TrimPrefix(line, "# "))
-			titleFound = true
+		if line == "---" {
+			if !inFrontMatter {
+				inFrontMatter = true
+			} else {
+				inFrontMatter = false
+				contentStarted = true
+			}
+			continue
 		}
-		// Add all lines to content, including title
-		contentLines = append(contentLines, line)
+
+		if inFrontMatter {
+			if strings.HasPrefix(line, "title:") {
+				title = strings.TrimSpace(strings.TrimPrefix(line, "title:"))
+				title = strings.Trim(title, "\"")
+			} else if strings.HasPrefix(line, "date:") {
+				date = strings.TrimSpace(strings.TrimPrefix(line, "date:"))
+				date = strings.Trim(date, "\"")
+			} else if strings.HasPrefix(line, "tags:") {
+				tagString := strings.TrimSpace(strings.TrimPrefix(line, "tags:"))
+				tagString = strings.Trim(tagString, "[]")
+				tags = strings.Split(tagString, ",")
+				for i, tag := range tags {
+					tags[i] = strings.TrimSpace(tag)
+					tags[i] = strings.Trim(tags[i], "\"")
+				}
+			}
+		} else if contentStarted {
+			contentLines = append(contentLines, line)
+		}
 	}
 
-	// Join all content lines into a single string
 	markdownContent := strings.Join(contentLines, "\n")
 
-	// Convert markdown content to HTML using Blackfriday
-	htmlContent := string(blackfriday.Run([]byte(markdownContent)))
+	log.Printf("Markdown content for %s:\n%s", slug, markdownContent)
 
-	// Convert the string HTML content to template.HTML
-	// to safely render it as HTML in the template
+	// Create a new Goldmark Markdown parser with extensions and custom renderer
+	md := goldmark.New(
+		goldmark.WithExtensions(
+			extension.GFM,
+			extension.Typographer,
+		),
+		goldmark.WithParserOptions(
+			parser.WithAutoHeadingID(),
+		),
+		goldmark.WithRendererOptions(
+			goldmarkhtml.WithUnsafe(),
+			goldmarkhtml.WithHardWraps(),
+		),
+		goldmark.WithRenderer(
+			renderer.NewRenderer(
+				renderer.WithNodeRenderers(
+					util.Prioritized(goldmarkhtml.NewRenderer(), 1000),
+					util.Prioritized(newCodeBlockRenderer(), 100),
+				),
+			),
+		),
+	)
+
+	// Convert Markdown to HTML
+	var buf bytes.Buffer
+	if err := md.Convert([]byte(markdownContent), &buf); err != nil {
+		log.Printf("Error converting Markdown to HTML for %s: %v", slug, err)
+		return nil
+	}
+
+	// Wrap the content in a div for styling purposes
+	wrappedContent := fmt.Sprintf("<div class=\"markdown-content blog-content\">%s</div>", buf.String())
+
 	blog := &types.BlogPost{
 		Slug:    slug,
 		Title:   title,
-		Content: template.HTML(htmlContent), // Convert string to template.HTML here
+		Date:    date,
+		Tags:    tags,
+		Content: template.HTML(wrappedContent), // Use template.HTML to prevent escaping
 	}
 
 	return blog
+}
+
+type codeBlockRenderer struct{}
+
+func newCodeBlockRenderer() renderer.NodeRenderer {
+	return &codeBlockRenderer{}
+}
+
+func (r *codeBlockRenderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
+	reg.Register(ast.KindFencedCodeBlock, r.renderCodeBlock)
+}
+
+func (r *codeBlockRenderer) renderCodeBlock(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+	if !entering {
+		return ast.WalkContinue, nil
+	}
+
+	n := node.(*ast.FencedCodeBlock)
+	language := string(n.Language(source))
+	if language == "" {
+		language = "text"
+	}
+
+	log.Printf("Rendering code block with language: %s", language)
+
+	// Get the code content
+	var code string
+	lines := n.Lines()
+	for i := 0; i < lines.Len(); i++ {
+		line := lines.At(i)
+		code += string(line.Value(source))
+	}
+
+	log.Printf("Code block content:\n%s", code)
+
+	lexer := lexers.Get(language)
+	if lexer == nil {
+		lexer = lexers.Fallback
+		log.Printf("Using fallback lexer for language: %s", language)
+	}
+	lexer = chroma.Coalesce(lexer)
+
+	style := styles.Get("github")
+	if style == nil {
+		style = styles.Fallback
+		log.Printf("Using fallback style")
+	}
+
+	formatter := html.New(html.WithClasses(true))
+
+	iterator, err := lexer.Tokenise(nil, code)
+	if err != nil {
+		log.Printf("Error tokenizing code: %v", err)
+		return ast.WalkContinue, err
+	}
+
+	w.WriteString("<pre class=\"chroma\"><code class=\"language-")
+	w.WriteString(language)
+	w.WriteString("\">")
+
+	var formattedCode bytes.Buffer
+	err = formatter.Format(&formattedCode, style, iterator)
+	if err != nil {
+		log.Printf("Error formatting code: %v", err)
+		return ast.WalkContinue, err
+	}
+
+	log.Printf("Formatted code:\n%s", formattedCode.String())
+
+	w.Write(formattedCode.Bytes())
+
+	w.WriteString("</code></pre>")
+
+	return ast.WalkSkipChildren, nil
 }

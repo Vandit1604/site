@@ -8,18 +8,24 @@
   {{ end }}
 
   <div class="flex flex-col justify-center sm:mb-4">
-    <h1 class="font-heading text-3xl font-bold text-gray-900 text-center mb-4">
-      <span class="font-serif italic">Blog.</span>
+    <h1 class="font-heading text-4xl font-bold text-black mb-12 mt-8">
+      <span class="font-serif italic">Blogs.</span>
     </h1>
 
     <section>
-      <div class="w-full px-4 grid gap-2">
+      <div class="w-full px-4 grid gap-6"> <!-- Increased gap from 2 to 6 -->
         {{ range .blogs }}
-        <a href="blog/{{.Slug}}" class="block border-b border-gray-200 py-2">
+        <a href="blogs/{{.Slug}}" class="block border-b border-gray-200 py-4 hover:bg-gray-50 transition duration-300"> <!-- Added padding and hover effect -->
           <div class="text-gray-700">
-            <div class="text-sm text-gray-500">date</div>
-            <h2 class="text-xl font-semibold text-black">{{.Title}}</h2>
-            <p class="text-sm text-gray-600">Summary</p>
+            <div class="text-sm text-gray-500 mb-1">{{ .Date }}</div> <!-- Added margin-bottom -->
+            <h2 class="text-xl font-semibold text-black mb-2">{{.Title}}</h2> <!-- Added margin-bottom -->
+            <div class="text-sm mt-2"> <!-- Increased top margin -->
+              {{ range .Tags }}
+              <span class="whitespace-nowrap rounded-full border border-purple-500 px-2.5 py-0.5 text-sm text-purple-700 mr-1 mb-1 inline-block"> <!-- Added margin-bottom and inline-block -->
+                {{ . }}
+              </span>
+              {{ end }}
+            </div>
           </div>
         </a>
         {{ end }}
