@@ -92,8 +92,6 @@ func transformDataToBlog(slug, data string) *types.BlogPost {
 
 	markdownContent := strings.Join(contentLines, "\n")
 
-	log.Printf("Markdown content for %s:\n%s", slug, markdownContent)
-
 	// Create a new Goldmark Markdown parser with extensions and custom renderer
 	md := goldmark.New(
 		goldmark.WithExtensions(
@@ -159,8 +157,6 @@ func (r *codeBlockRenderer) renderCodeBlock(w util.BufWriter, source []byte, nod
 		language = "text"
 	}
 
-	log.Printf("Rendering code block with language: %s", language)
-
 	// Get the code content
 	var code string
 	lines := n.Lines()
@@ -168,8 +164,6 @@ func (r *codeBlockRenderer) renderCodeBlock(w util.BufWriter, source []byte, nod
 		line := lines.At(i)
 		code += string(line.Value(source))
 	}
-
-	log.Printf("Code block content:\n%s", code)
 
 	lexer := lexers.Get(language)
 	if lexer == nil {
@@ -202,8 +196,6 @@ func (r *codeBlockRenderer) renderCodeBlock(w util.BufWriter, source []byte, nod
 		log.Printf("Error formatting code: %v", err)
 		return ast.WalkContinue, err
 	}
-
-	log.Printf("Formatted code:\n%s", formattedCode.String())
 
 	w.Write(formattedCode.Bytes())
 

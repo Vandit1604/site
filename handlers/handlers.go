@@ -16,6 +16,7 @@ func ShowIndexPage(c *gin.Context) {
 	blogs := models.ReadBlogs()
 	c.HTML(http.StatusOK, "index.html", gin.H{
 		"blogs": blogs,
+		// Add any other data you want to pass to the template
 	})
 }
 
