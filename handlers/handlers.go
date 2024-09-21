@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"net/http"
+	"sort"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/vandit1604/site/models"
@@ -14,9 +16,30 @@ func ShowNotFoundPage(c *gin.Context) {
 
 func ShowIndexPage(c *gin.Context) {
 	blogs := models.ReadBlogs()
+
+	// Convert map to slice for sorting
+	blogSlice := make([]types.BlogPost, 0, len(blogs))
+	for _, blog := range blogs {
+		blogSlice = append(blogSlice, blog)
+	}
+
+	// Sort blogs by date (most recent first)
+	sort.Slice(blogSlice, func(i, j int) bool {
+		dateI, _ := time.Parse("2006-01-02", blogSlice[i].Date)
+		dateJ, _ := time.Parse("2006-01-02", blogSlice[j].Date)
+		return dateI.After(dateJ)
+	})
+
+	// Get the two most recent blogs
+	var recentBlogs []types.BlogPost
+	if len(blogSlice) > 2 {
+		recentBlogs = blogSlice[:2]
+	} else {
+		recentBlogs = blogSlice
+	}
+
 	c.HTML(http.StatusOK, "index.html", gin.H{
-		"blogs": blogs,
-		// Add any other data you want to pass to the template
+		"recentBlogs": recentBlogs,
 	})
 }
 

@@ -1,7 +1,7 @@
 ---
 title: "How to Prepare for Google Summer of Code (GSoC)"
-date: "2023-09-10"
-tags: ["opensource","contributing"]
+date: "2024-01-03"
+tags: ["tech"]
 ---
 # Markdown syntax guide
 

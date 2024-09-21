@@ -29,4 +29,5 @@ func setUpRoutes(router *gin.Engine) {
 	router.GET("/projects", handlers.ShowProjectsPage)
 	router.GET("/blogs", handlers.ShowBlogPage)
 	router.GET("/blogs/:slug", handlers.ShowIndividualBlogPage)
+	router.GET("/talks", handlers.ShowTalksPage)
 }

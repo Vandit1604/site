@@ -23,5 +23,3 @@ func ShowIndividualBlogPage(c *gin.Context) {
 		gin.H{"blog": blog},
 	)
 }
-
-// Remove the BlogHandler function as it's not needed
