@@ -1,0 +1,6 @@
+categories:
+  - name: "How to Become a Good Engineer"
+    links:
+      - title: "The Twelve-Factor App"
+        url: "https://12factor.net/"
+        description: "methodology for building software-as-a-service apps"

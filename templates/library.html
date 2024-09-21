@@ -1,0 +1,32 @@
+{{ template "header.html" .}}
+
+<section class="lg:w-1/2 mx-auto pt-4">
+  {{ template "nav.html" .}}
+
+  <section class="mb-16">
+    <h1 class="font-heading text-4xl font-bold text-black mb-12 mt-8">
+      <span class="font-serif italic">Library.</span>
+    </h1>
+
+    <div class="space-y-8">
+      {{ range .Categories }}
+      <div class="bg-white px-6 py-8 rounded-lg border border-gray-200">
+        <h2 class="text-2xl font-bold mb-4">{{ .Name }}</h2>
+        <div class="grid gap-6 grid-cols-1 md:grid-cols-2">
+          {{ range .Links }}
+          <div class="border border-gray-300 p-4 rounded-lg hover:shadow-md transition-shadow duration-300">
+            <h3 class="text-lg font-medium text-gray-800 mb-2">{{ .Title }}</h3>
+            <p class="text-sm text-gray-600 mb-3">{{ .Description }}</p>
+            <a href="{{ .URL }}" target="_blank" rel="noopener noreferrer" class="text-purple-600 hover:text-purple-800 transition duration-300 text-sm">
+              Visit Link →
+            </a>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </section>
+</section>
+
+{{ template "footer.html" .}}
