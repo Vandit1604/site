@@ -58,7 +58,7 @@
 }
 
 .markdown-content blockquote {
-    @apply border-l-4 border-gray-300 pl-4 italic my-4;
+    @apply border-l-4 border-gray-300 pl-4 py-2 my-4 text-gray-600 italic;
 }
 
 .markdown-content pre {

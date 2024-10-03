@@ -91,3 +91,15 @@
     background-color: transparent;
     border: 0;
 }
+
+.markdown-content blockquote {
+    border-left: 4px solid #e5e7eb;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    color: #4b5563;
+    font-style: italic;
+}
+
+.markdown-content blockquote p {
+    margin-bottom: 0;
+}

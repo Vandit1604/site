@@ -57,6 +57,18 @@
     padding: 0;
 }
 
+.blog-content blockquote {
+    border-left: 4px solid #e5e7eb;
+    padding-left: 1rem;
+    margin: 1.5em 0;
+    color: #4b5563;
+    font-style: italic;
+}
+
+.blog-content blockquote p {
+    margin-bottom: 0;
+}
+
 .blog-header {
     display: flex;
     justify-content: space-between;
