@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"io/ioutil"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/vandit1604/site/types"
@@ -10,7 +10,7 @@ import (
 )
 
 func ShowTalksPage(c *gin.Context) {
-	yamlFile, err := ioutil.ReadFile("content/talks.yml")
+	yamlFile, err := os.ReadFile("content/talks.yml")
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "error.html", gin.H{"error": "Failed to read talks data"})
 		return

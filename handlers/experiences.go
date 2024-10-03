@@ -28,7 +28,7 @@ func readExperiencesYAML(filePath string) ([]types.Experience, error) {
 
 // ShowExperiencesPage renders the changelog page using the provided Gin context.
 func ShowExperiencesPage(c *gin.Context) {
-	experiences, err := readExperiencesYAML("/home/vandit/codes/site/content/experiences.yml")
+	experiences, err := readExperiencesYAML("content/experiences.yml")
 	if err != nil {
 		log.Printf("Error reading changelogs: %v", err)
 		c.String(http.StatusInternalServerError, "Unable to load changelogs")

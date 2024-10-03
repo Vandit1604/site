@@ -28,7 +28,7 @@ func readProjectYAML(filePath string) ([]types.Project, error) {
 
 // ShowChangelogPage renders the changelog page using the provided Gin context.
 func ShowProjectsPage(c *gin.Context) {
-	projects, err := readProjectYAML("/home/vandit/codes/site/content/projects.yml")
+	projects, err := readProjectYAML("content/projects.yml")
 	if err != nil {
 		log.Printf("Error reading projects: %v", err)
 		c.String(http.StatusInternalServerError, "Unable to load projects")

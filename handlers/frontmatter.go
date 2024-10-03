@@ -16,7 +16,7 @@ type FrontMatter struct {
 
 // ReadFileWithFrontMatter parses the front matter and content of a markdown file
 func ReadFileWithFrontMatter(slug string) (FrontMatter, string, error) {
-	filePath := "/home/vandit/codes/site/content/blogs/" + slug + ".md"
+	filePath := "content/blogs/" + slug + ".md"
 	f, err := os.Open(filePath)
 	if err != nil {
 		return FrontMatter{}, "", err
