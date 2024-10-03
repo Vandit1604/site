@@ -1,15 +1,115 @@
-<!-- navigation menu -->
-<nav aria-label="Breadcrumb" class="mx-12 mb-8">
+<nav aria-label="Breadcrumb" class="relative">
+  <!-- Hamburger Icon for small screens -->
+  <div class="block md:hidden p-4">
+    <button id="menu-toggle" class="text-gray-600 focus:outline-none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16m-7 6h7"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Drawer Menu for small screens -->
+  <div
+    id="drawer"
+    class="fixed inset-0 bg-gray-800 bg-opacity-75 z-50 transform -translate-x-full transition-transform md:hidden"
+  >
+    <div class="w-64 h-full bg-white shadow-xl">
+      <div class="p-4">
+        <button
+          id="close-drawer"
+          class="text-gray-600 hover:text-gray-700 focus:outline-none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+      <ol class="flex flex-col p-4 space-y-4 text-md text-gray-600 font-bold">
+        <li>
+          <a href="/" class="flex items-center hover:text-gray-700">
+            <span class="sr-only"> Home </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+            Home
+          </a>
+        </li>
+        <li><a href="/blogs" class="hover:text-gray-700">/blogs</a></li>
+        <li>
+          <a href="/experiences" class="hover:text-gray-700">/experiences</a>
+        </li>
+        <li><a href="/projects" class="hover:text-gray-700">/projects</a></li>
+        <li>
+          <a
+            href="https://drive.google.com/file/d/1R_-Z6QtSoUzylzK2LvIw13T4Z_U6T0Sg/view"
+            class="flex items-center hover:text-gray-700"
+          >
+            <span>/resume</span>
+            <svg
+              class="w-5 h-5 ml-1"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14 13.9633H16V7.96331H10V9.96331H12.5858L7.25623 15.2929L8.67044 16.7071L14 11.3775V13.9633Z"
+                fill="currentColor"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M23 19C23 21.2091 21.2091 23 19 23H5C2.79086 23 1 21.2091 1 19V5C1 2.79086 2.79086 1 5 1H19C20.1046 1 21 2.79086 21 5V19C21 20.1046 20.1046 21 19 21ZM19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21Z"
+                fill="currentColor"
+              />
+            </svg>
+          </a>
+        </li>
+        <li><a href="/talks" class="hover:text-gray-700">/talks</a></li>
+        <li><a href="/library" class="hover:text-gray-700">/library</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Normal breadcrumb for large screens -->
   <ol
-    class="flex items-center text-md text-gray-600 mt-4 font-bold justify-center border border-gray-200 p-4 rounded-full gap-6"
+    class="hidden md:flex items-center text-md text-gray-600 mt-4 font-bold justify-center border border-gray-200 p-4 rounded-full gap-6"
   >
     <li>
-      <a
-        href="/"
-        class="flex items-center transition hover:text-gray-700 hover:underline"
-      >
+      <a href="/" class="flex items-center hover:text-gray-700 hover:underline">
         <span class="sr-only"> Home </span>
-
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="w-5 h-5"
@@ -26,53 +126,33 @@
         </svg>
       </a>
     </li>
-
-    <li>
-      <a href="/blogs" class="transition hover:text-gray-700"> /blogs </a>
-    </li>
-
-    <li>
-      <a href="/experiences" class="transition hover:text-gray-700">
-        /experiences
-      </a>
-    </li>
-
-    <li>
-      <a href="/projects" class="transition hover:text-gray-700"> /projects </a>
-    </li>
-
+    <li><a href="/blogs" class="hover:text-gray-700">/blogs</a></li>
+    <li><a href="/experiences" class="hover:text-gray-700">/experiences</a></li>
+    <li><a href="/projects" class="hover:text-gray-700">/projects</a></li>
     <li>
       <a
         href="https://drive.google.com/file/d/1R_-Z6QtSoUzylzK2LvIw13T4Z_U6T0Sg/view"
-        class="flex items-center transition hover:text-gray-700"
+        class="flex items-center hover:text-gray-700"
       >
         <span>/resume</span>
-        <svg
-          class="size-5 ml-1"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M14 13.9633H16V7.96331H10V9.96331H12.5858L7.25623 15.2929L8.67044 16.7071L14 11.3775V13.9633Z"
-            fill="currentColor"
-          />
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M23 19C23 21.2091 21.2091 23 19 23H5C2.79086 23 1 21.2091 1 19V5C1 2.79086 2.79086 1 5 1H19C20.1046 1 21 2.79086 21 5V19C21 20.1046 20.1046 21 19 21ZM19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21Z"
-            fill="currentColor"
-          />
-        </svg>
       </a>
     </li>
-
-    <li>
-      <a href="/talks" class="transition hover:text-gray-700"> /talks </a>
-    </li>
-
-    <li>
-      <a href="/library" class="transition hover:text-gray-700"> /library </a>
-    </li>
+    <li><a href="/talks" class="hover:text-gray-700">/talks</a></li>
+    <li><a href="/library" class="hover:text-gray-700">/library</a></li>
   </ol>
 </nav>
+
+<!-- Add JavaScript to handle the drawer toggle -->
+<script>
+  const menuToggle = document.getElementById("menu-toggle");
+  const drawer = document.getElementById("drawer");
+  const closeDrawer = document.getElementById("close-drawer");
+
+  menuToggle.addEventListener("click", () => {
+    drawer.classList.toggle("-translate-x-full");
+  });
+
+  closeDrawer.addEventListener("click", () => {
+    drawer.classList.add("-translate-x-full");
+  });
+</script>
