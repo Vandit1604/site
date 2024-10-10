@@ -81,6 +81,8 @@ After getting comfortable with a language, explore different tech domains. Some 
 - **Artificial Intelligence**
 - **...etcetra etcetra**
 
+Role based roadmaps on https://roadmap.sh/ translate to job role. You can definitely use it as your syllabus/roadmap ;)
+
 ## 4. Learn from YouTube, Avoid Paid Courses
 
 YouTube is your best friend. Don’t waste money on paid courses, especially in your first year or beginner phase.
@@ -107,8 +109,9 @@ Spend **one week** exploring a domain by coding and building projects. If you're
 1. Pick a language and learn OOP.
 2. Practice on HackerRank.
 3. Explore a domain you're interested in.
-4. Use free resources like YouTube.
-5. Learn by building projects.
-6. Take advice only from people with real experience.
+4. Make sure whatever you're learning correlates to a job role. (This will save lots of time) 
+5. Use free resources like YouTube.
+6. Learn by building projects.
+7. Take advice only from people with real experience.
 
 
