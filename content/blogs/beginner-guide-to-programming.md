@@ -10,9 +10,14 @@ If you're in your first year or a beginner in tech and want to build a strong fo
 
 Choose one of the "big three" languages:
 
-- **Python**
-- **Java**
-- **C++**
+### **Python**
+> Great for Development and DSA.
+
+### **Java**
+> Great for Development and DSA.
+
+### **C++**
+> Great for DSA not so easy for Development but it is possible. You can do your own research here.
 
 ### What to Learn:
 

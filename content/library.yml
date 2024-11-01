@@ -4,3 +4,10 @@ categories:
       - title: "The Twelve-Factor App"
         url: "https://12factor.net/"
         description: "methodology for building software-as-a-service apps"
+      - title: "Cheat Sheets by OWASP (related to Backend)"
+        url: "https://cheatsheetseries.owasp.org/index.html"
+        description: "cheat sheets for everything related to backend concepts"
+      - title: "High Performance Go Workshop"
+        url: "https://dave.cheney.net/high-performance-go-workshop/gophercon-2019.html"
+        description: "Workshop to give you the tools you need to diagnose performance problems in your Go applications and fix them."
+      

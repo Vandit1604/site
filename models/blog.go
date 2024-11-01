@@ -23,119 +23,6 @@ import (
 	"github.com/yuin/goldmark/util"
 )
 
-func ReadBlogs() map[string]types.BlogPost {
-	blogs := make(map[string]types.BlogPost)
-	dir := "content/blogs/"
-	files, err := os.ReadDir(dir)
-	if err != nil {
-		log.Printf("Error reading directory: %v", err)
-		return blogs
-	}
-
-	for _, f := range files {
-		if !f.IsDir() && strings.HasSuffix(f.Name(), ".md") {
-			slug := strings.TrimSuffix(f.Name(), ".md")
-			filepath := filepath.Join(dir, f.Name())
-			data, err := os.ReadFile(filepath)
-			if err != nil {
-				log.Printf("Error reading file %s: %v", f.Name(), err)
-				continue
-			}
-
-			blogPost := transformDataToBlog(slug, string(data))
-			blogs[slug] = *blogPost
-		}
-	}
-
-	return blogs
-}
-
-func transformDataToBlog(slug, data string) *types.BlogPost {
-	lines := strings.Split(data, "\n")
-	var title, date string
-	var tags []string
-	var contentLines []string
-	inFrontMatter := false
-	contentStarted := false
-
-	for _, line := range lines {
-		if line == "---" {
-			if !inFrontMatter {
-				inFrontMatter = true
-			} else {
-				inFrontMatter = false
-				contentStarted = true
-			}
-			continue
-		}
-
-		if inFrontMatter {
-			if strings.HasPrefix(line, "title:") {
-				title = strings.TrimSpace(strings.TrimPrefix(line, "title:"))
-				title = strings.Trim(title, "\"")
-			} else if strings.HasPrefix(line, "date:") {
-				date = strings.TrimSpace(strings.TrimPrefix(line, "date:"))
-				date = strings.Trim(date, "\"")
-			} else if strings.HasPrefix(line, "tags:") {
-				tagString := strings.TrimSpace(strings.TrimPrefix(line, "tags:"))
-				tagString = strings.Trim(tagString, "[]")
-				tags = strings.Split(tagString, ",")
-				for i, tag := range tags {
-					tags[i] = strings.TrimSpace(tag)
-					tags[i] = strings.Trim(tags[i], "\"")
-				}
-			}
-		} else if contentStarted {
-			contentLines = append(contentLines, line)
-		}
-	}
-
-	markdownContent := strings.Join(contentLines, "\n")
-
-	// Create a new Goldmark Markdown parser with extensions and custom renderer
-	md := goldmark.New(
-		goldmark.WithExtensions(
-			extension.GFM,
-			extension.Typographer,
-		),
-		goldmark.WithParserOptions(
-			parser.WithAutoHeadingID(),
-		),
-		goldmark.WithRendererOptions(
-			goldmarkhtml.WithUnsafe(),
-			goldmarkhtml.WithHardWraps(),
-		),
-		goldmark.WithRenderer(
-			renderer.NewRenderer(
-				renderer.WithNodeRenderers(
-					util.Prioritized(goldmarkhtml.NewRenderer(), 1000),
-					util.Prioritized(newCodeBlockRenderer(), 100),
-				),
-			),
-		),
-	)
-
-	// Convert Markdown to HTML
-	var buf bytes.Buffer
-	if err := md.Convert([]byte(markdownContent), &buf); err != nil {
-		log.Printf("Error converting Markdown to HTML for %s: %v", slug, err)
-		return nil
-	}
-
-	// Wrap the content in a div for styling purposes
-	wrappedContent := fmt.Sprintf("<div class=\"markdown-content blog-content\">%s</div>", buf.String())
-
-	blog := &types.BlogPost{
-		Slug:    slug,
-		Title:   title,
-		Date:    date,
-		Tags:    tags,
-		Content: template.HTML(wrappedContent), // Use template.HTML to prevent escaping
-	}
-
-	return blog
-}
-
 type codeBlockRenderer struct{}
 
 func newCodeBlockRenderer() renderer.NodeRenderer {
@@ -202,4 +89,124 @@ func (r *codeBlockRenderer) renderCodeBlock(w util.BufWriter, source []byte, nod
 	w.WriteString("</code></pre>")
 
 	return ast.WalkSkipChildren, nil
+}
+
+func ReadBlogs() map[string]types.BlogPost {
+	blogs := make(map[string]types.BlogPost)
+	dir := "content/blogs/"
+	files, err := os.ReadDir(dir)
+	if err != nil {
+		log.Printf("Error reading directory: %v", err)
+		return blogs
+	}
+
+	for _, f := range files {
+		if !f.IsDir() && strings.HasSuffix(f.Name(), ".md") {
+			slug := strings.TrimSuffix(f.Name(), ".md")
+			filepath := filepath.Join(dir, f.Name())
+			data, err := os.ReadFile(filepath)
+			if err != nil {
+				log.Printf("Error reading file %s: %v", f.Name(), err)
+				continue
+			}
+
+			blogPost := transformDataToBlog(slug, string(data))
+			if blogPost.Draft == "true" {
+				continue
+			}
+			blogs[slug] = *blogPost
+		}
+	}
+
+	return blogs
+}
+
+func transformDataToBlog(slug, data string) *types.BlogPost {
+	lines := strings.Split(data, "\n")
+	var title, date, draft string
+	var tags []string
+	var contentLines []string
+	inFrontMatter := false
+	contentStarted := false
+
+	for _, line := range lines {
+		if line == "---" {
+			if !inFrontMatter {
+				inFrontMatter = true
+			} else {
+				inFrontMatter = false
+				contentStarted = true
+			}
+			continue
+		}
+
+		if inFrontMatter {
+			if strings.HasPrefix(line, "draft:") {
+				draft = strings.TrimSpace(strings.TrimPrefix(line, "draft:"))
+				draft = strings.Trim(draft, "\"")
+				return &types.BlogPost{Draft: draft}
+			} else if strings.HasPrefix(line, "title:") {
+				title = strings.TrimSpace(strings.TrimPrefix(line, "title:"))
+				title = strings.Trim(title, "\"")
+			} else if strings.HasPrefix(line, "date:") {
+				date = strings.TrimSpace(strings.TrimPrefix(line, "date:"))
+				date = strings.Trim(date, "\"")
+			} else if strings.HasPrefix(line, "tags:") {
+				tagString := strings.TrimSpace(strings.TrimPrefix(line, "tags:"))
+				tagString = strings.Trim(tagString, "[]")
+				tags = strings.Split(tagString, ",")
+				for i, tag := range tags {
+					tags[i] = strings.TrimSpace(tag)
+					tags[i] = strings.Trim(tags[i], "\"")
+				}
+			}
+		} else if contentStarted {
+			contentLines = append(contentLines, line)
+		}
+	}
+
+	markdownContent := strings.Join(contentLines, "\n")
+
+	// Create a new Goldmark Markdown parser with extensions and custom renderer
+	md := goldmark.New(
+		goldmark.WithExtensions(
+			extension.GFM,
+			extension.Typographer,
+		),
+		goldmark.WithParserOptions(
+			parser.WithAutoHeadingID(),
+		),
+		goldmark.WithRendererOptions(
+			goldmarkhtml.WithUnsafe(),
+			goldmarkhtml.WithHardWraps(),
+		),
+		goldmark.WithRenderer(
+			renderer.NewRenderer(
+				renderer.WithNodeRenderers(
+					util.Prioritized(goldmarkhtml.NewRenderer(), 1000),
+					util.Prioritized(newCodeBlockRenderer(), 100),
+				),
+			),
+		),
+	)
+
+	// Convert Markdown to HTML
+	var buf bytes.Buffer
+	if err := md.Convert([]byte(markdownContent), &buf); err != nil {
+		log.Printf("Error converting Markdown to HTML for %s: %v", slug, err)
+		return nil
+	}
+
+	// Wrap the content in a div for styling purposes
+	wrappedContent := fmt.Sprintf("<div class=\"markdown-content blog-content\">%s</div>", buf.String())
+
+	blog := &types.BlogPost{
+		Slug:    slug,
+		Title:   title,
+		Date:    date,
+		Tags:    tags,
+		Content: template.HTML(wrappedContent), // Use template.HTML to prevent escaping
+	}
+
+	return blog
 }
