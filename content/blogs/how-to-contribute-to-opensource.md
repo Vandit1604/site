@@ -52,5 +52,5 @@ git log --pretty=format: --name-only | sort | uniq -c | sort -rg | head -10
 - While debugging, simple print statements often work best for gaining insights quickly.
 - Create and utilize your debugging hacks as needed.
 
-### Conclusion
+## Conclusion
 Contributing to open source takes effort and time, but it’s a rewarding experience. Start with a project aligned with your skills, understand its structure and culture, and focus on delivering a meaningful first PR. Be patient, persistent, and open to learning—the process becomes easier as you grow. 🚀
