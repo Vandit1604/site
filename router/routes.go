@@ -31,4 +31,5 @@ func setUpRoutes(router *gin.Engine) {
 	router.GET("/blogs/:slug", handlers.ShowIndividualBlogPage)
 	router.GET("/talks", handlers.ShowTalksPage)
 	router.GET("/library", handlers.ShowLibraryPage)
+	router.GET("/resume", handlers.RedirectToResume)
 }

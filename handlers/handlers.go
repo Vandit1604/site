@@ -10,6 +10,8 @@ import (
 	"github.com/vandit1604/site/types"
 )
 
+var ResumeURL string = "https://drive.google.com/drive/u/0/folders/14PeLd2rs6EOKoeUjCvK6IqvLt8AVh4Y4"
+
 func ShowNotFoundPage(c *gin.Context) {
 	c.HTML(http.StatusNotFound, "404.html", nil)
 }
@@ -41,6 +43,10 @@ func ShowIndexPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", gin.H{
 		"recentBlogs": recentBlogs,
 	})
+}
+
+func RedirectToResume(c *gin.Context) {
+	c.Redirect(http.StatusPermanentRedirect, ResumeURL)
 }
 
 func ShowBlogPage(c *gin.Context) {
