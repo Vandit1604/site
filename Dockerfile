@@ -1,3 +1,4 @@
+
 # Build stage
 FROM golang:1.22-alpine AS builder
 
@@ -10,15 +11,21 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Copy the rest of the code and build
+# Copy the rest of the code and build the binary
 COPY . .
 RUN make build
 
 # Final minimal stage
 FROM scratch
 
-# Copy only the binary from the build stage
+# Copy the binary
 COPY --from=builder /app/bin/site /bin/site
+
+# Copy required static files and directories
+COPY --from=builder /app/assets /assets
+COPY --from=builder /app/content /content
+COPY --from=builder /app/static /static
+COPY --from=builder /app/templates /templates
 
 # Expose the necessary port
 EXPOSE 8080
