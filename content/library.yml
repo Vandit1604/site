@@ -1,7 +1,7 @@
 categories:
   - name: "How to Become a Good Engineer"
     links:
-      - title: "Patters of Enterprise Application Architecture"
+      - title: "Patterns of Enterprise Application Architecture"
         url: "martinfowler.com"
         description: "Experiences and lots of insight about software patterns written by Martin Fowler who was working in thoughtworks during his time"
       - title: "The Twelve-Factor App"
@@ -12,4 +12,7 @@ categories:
         description: "cheat sheets for everything related to backend concepts"
       - title: "High Performance Go Workshop"
         url: "https://dave.cheney.net/high-performance-go-workshop/gophercon-2019.html"
-        description: "Workshop to give you the tools you need to diagnose performance problems in your Go applications and fix them.
+        description: "Workshop to give you the tools you need to diagnose performance problems in your Go applications and fix them."
+      - title: "Curated Self Study Guide for Computer Science, DevOps, SRE, Platform Engineering & SysAdmin"
+        url: "https://raw.githubusercontent.com/sharjeelsayed/learn.sharjeelsayed.com/master/selfupgradeitprof.txt"
+        description: "Collection of links related to CSE curriculum"

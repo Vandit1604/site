@@ -1,5 +1,4 @@
 ---
-draft: "true"
 title: "Fail Forward"  
 date: "2024-11-01"  
 tags: ["ideology"]
