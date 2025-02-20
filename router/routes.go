@@ -25,7 +25,6 @@ func setUpRoutes(router *gin.Engine) {
 	router.NoRoute(handlers.ShowNotFoundPage)
 
 	router.GET("/", handlers.ShowIndexPage)
-	router.GET("/experiences", handlers.ShowExperiencesPage)
 	router.GET("/projects", handlers.ShowProjectsPage)
 	router.GET("/blogs", handlers.ShowBlogPage)
 	router.GET("/blogs/:slug", handlers.ShowIndividualBlogPage)
