@@ -10,7 +10,7 @@ import (
 	"github.com/vandit1604/site/types"
 )
 
-var ResumeURL string = "https://drive.google.com/drive/u/0/folders/14PeLd2rs6EOKoeUjCvK6IqvLt8AVh4Y4"
+var ResumeURL string = "https://drive.google.com/file/d/1PFmsMZC3fvg6W6GsCiglt2b2othhn7S6/view?usp=drive_link"
 
 func ShowNotFoundPage(c *gin.Context) {
 	c.HTML(http.StatusNotFound, "404.html", nil)
