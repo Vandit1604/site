@@ -23,7 +23,8 @@
   grid.hidden = true;
   stage.hidden = false;
   if (toggle) toggle.hidden = false;
-  if (hint) hint.textContent = "Move your cursor to reveal the moments — click anywhere for piano.";
+  if (hint) hint.textContent = "Click and hold, then drag — your photos trail the cursor and the piano plays.";
+  stage.style.cursor = "grab";
 
   // Warm the browser cache so the trail is smooth on first pass.
   photos.forEach(function (src) {
@@ -75,27 +76,55 @@
     playNote();
   }
 
-  stage.addEventListener("pointermove", function (e) {
+  // Photos (and piano notes) only appear while the pointer is held down, so
+  // the visitor actively "paints" the trail — which also gives the gesture
+  // the browser needs to start audio.
+  var pressed = false;
+
+  function pointerXY(e) {
     var rect = stage.getBoundingClientRect();
-    var x = e.clientX - rect.left;
-    var y = e.clientY - rect.top;
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  }
+
+  stage.addEventListener("pointerdown", function (e) {
+    pressed = true;
+    stage.style.cursor = "grabbing";
+    if (stage.setPointerCapture) {
+      try {
+        stage.setPointerCapture(e.pointerId);
+      } catch (err) {
+        /* ignore */
+      }
+    }
+    var p = pointerXY(e);
+    spawn(p.x, p.y); // immediate feedback on press
+    lastX = p.x;
+    lastY = p.y;
+  });
+
+  stage.addEventListener("pointermove", function (e) {
+    if (!pressed) return;
+    var p = pointerXY(e);
     if (lastX === null) {
-      lastX = x;
-      lastY = y;
+      lastX = p.x;
+      lastY = p.y;
       return;
     }
-    var dx = x - lastX;
-    var dy = y - lastY;
-    if (Math.hypot(dx, dy) >= SPAWN_DISTANCE) {
-      spawn(x, y);
-      lastX = x;
-      lastY = y;
+    if (Math.hypot(p.x - lastX, p.y - lastY) >= SPAWN_DISTANCE) {
+      spawn(p.x, p.y);
+      lastX = p.x;
+      lastY = p.y;
     }
   });
-  stage.addEventListener("pointerleave", function () {
+
+  function endPress() {
+    pressed = false;
     lastX = null;
     lastY = null;
-  });
+    stage.style.cursor = "grab";
+  }
+  stage.addEventListener("pointerup", endPress);
+  stage.addEventListener("pointercancel", endPress);
 
   // ---- ambient piano (Tone.js) ---------------------------------------------
   // On by default. Browsers won't let an AudioContext make sound until the
