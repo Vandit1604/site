@@ -26,6 +26,14 @@
   if (hint) hint.textContent = "Click and hold, then drag — your photos trail the cursor and the piano plays.";
   stage.style.cursor = "grab";
 
+  // Shuffle (Fisher–Yates) so the trail order differs every visit.
+  for (var i = photos.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = photos[i];
+    photos[i] = photos[j];
+    photos[j] = t;
+  }
+
   // Warm the browser cache so the trail is smooth on first pass.
   photos.forEach(function (src) {
     var img = new Image();
