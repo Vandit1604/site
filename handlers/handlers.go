@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 	"sort"
 	"time"
@@ -40,8 +41,20 @@ func ShowIndexPage(c *gin.Context) {
 		recentBlogs = blogSlice
 	}
 
+	// Surface the top projects as "featured work" on the homepage.
+	// projects.yml is ordered most-important-first, so we take the leading few.
+	featuredProjects, err := readProjectYAML("content/projects.yml")
+	if err != nil {
+		log.Printf("Error reading projects for homepage: %v", err)
+		featuredProjects = nil
+	}
+	if len(featuredProjects) > 3 {
+		featuredProjects = featuredProjects[:3]
+	}
+
 	c.HTML(http.StatusOK, "index.html", gin.H{
-		"recentBlogs": recentBlogs,
+		"recentBlogs":      recentBlogs,
+		"featuredProjects": featuredProjects,
 	})
 }
 

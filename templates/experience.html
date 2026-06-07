@@ -1,0 +1,41 @@
+<!-- experience section -->
+<section class="mt-12 p-4">
+  <h2 class="text-2xl font-bold mb-6">
+    <span class="font-serif italic">Experience</span>
+  </h2>
+
+  <div class="space-y-6">
+    <!-- FluidCloud -->
+    <div class="border border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow duration-300">
+      <div class="flex flex-wrap items-baseline justify-between gap-x-3">
+        <h3 class="text-lg font-semibold text-gray-900">
+          Member of Technical Staff
+          <span class="text-gray-500 font-normal">· FluidCloud</span>
+        </h3>
+        <span class="text-sm text-gray-400 whitespace-nowrap">Nov 2025 – Present</span>
+      </div>
+      <ul class="mt-3 space-y-2 text-sm text-gray-600 list-disc list-outside pl-5">
+        <li>Added Terraform resource support to a Go-based cloud scanner, extending live-AWS coverage to 10+ services (Glue, Kinesis, SageMaker).</li>
+        <li>Improved observability across 5+ microservices: OpenTelemetry traces/metrics to Prometheus/Grafana plus structured contextual logging (trace IDs).</li>
+        <li>Implemented service-to-service auth with Keycloak (OAuth2 client-credentials / OIDC), securing internal API traffic.</li>
+      </ul>
+    </div>
+
+    <!-- RapidFort -->
+    <div class="border border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow duration-300">
+      <div class="flex flex-wrap items-baseline justify-between gap-x-3">
+        <h3 class="text-lg font-semibold text-gray-900">
+          Software Development Engineer
+          <span class="text-gray-500 font-normal">· RapidFort Inc.</span>
+        </h3>
+        <span class="text-sm text-gray-400 whitespace-nowrap">Jun 2024 – Nov 2025</span>
+      </div>
+      <p class="mt-1 text-xs text-gray-400 italic">Community Images, then Security Scanner</p>
+      <ul class="mt-3 space-y-2 text-sm text-gray-600 list-disc list-outside pl-5">
+        <li>Authored 12+ hardened, minimal OSS images (Calico, PostgreSQL, Thanos, Prometheus + Operator, Airflow, JMX Exporter); shipped IronBank images used by the U.S. DoD. Runtime profiling cut CVEs ~80% and image size ~60%.</li>
+        <li>Built a multi-tenant Config Manager (Python, team RBAC) adopted across teams, and a "sister-CVE" detector (LLM + Exploit-DB) predicting correlated CVEs.</li>
+        <li>Wrote CVE scrapers (Ubuntu, Alpine, RPM) feeding an in-house vulnerability database.</li>
+      </ul>
+    </div>
+  </div>
+</section>
