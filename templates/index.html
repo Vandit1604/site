@@ -5,16 +5,23 @@
 
   {{ template "hero.html" .}}
 
-  {{ template "intro.html" .}} 
+  {{ template "intro.html" .}}
 
   {{ template "socials.html" .}}
 
-  <!-- Add the audio player here -->
-  {{ template "audio_player.html" .}}
+  {{ template "skills.html" .}}
+
+  {{ template "experience.html" .}}
+
+  {{ template "opensource.html" .}}
+
+  {{ template "featured.html" .}}
 
   <!-- Recent Blogs Section -->
-  <section class="mt-8">
-    <h2 class="text-2xl font-bold mb-4">Recent Blogs</h2>
+  <section class="mt-12">
+    <h2 class="text-2xl font-bold mb-4">
+      <span class="font-serif italic">Recent Blogs</span>
+    </h2>
     <div class="space-y-4">
         {{ if .recentBlogs }}
             {{ range .recentBlogs }}

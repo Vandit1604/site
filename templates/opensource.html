@@ -1,0 +1,53 @@
+<!-- open source contributions section -->
+<section class="mt-12 p-4">
+  <h2 class="text-2xl font-bold mb-6">
+    <span class="font-serif italic">Open Source</span>
+    <span class="text-sm font-normal text-gray-400">— merged contributions</span>
+  </h2>
+
+  {{ $icon := "https://cdn.jsdelivr.net/gh/devicons/devicon/icons" }}
+
+  <div class="space-y-5">
+    <!-- Kubernetes -->
+    <div class="flex items-start gap-4">
+      <img src="{{ $icon }}/kubernetes/kubernetes-plain.svg" alt="Kubernetes" class="h-8 w-8 flex-shrink-0 mt-1" loading="lazy" />
+      <div>
+        <h3 class="font-semibold text-gray-900">Kubernetes</h3>
+        <p class="text-sm text-gray-600 mt-1">
+          Merged a regression test into core <code class="text-xs bg-gray-100 px-1 py-0.5 rounded">kubernetes/kubernetes</code>; contributed 5+ PRs to <code class="text-xs bg-gray-100 px-1 py-0.5 rounded">test-infra</code> improving Prow job orchestration.
+        </p>
+      </div>
+    </div>
+
+    <!-- Prometheus -->
+    <div class="flex items-start gap-4">
+      <img src="{{ $icon }}/prometheus/prometheus-original.svg" alt="Prometheus" class="h-8 w-8 flex-shrink-0 mt-1" loading="lazy" />
+      <div>
+        <h3 class="font-semibold text-gray-900">Prometheus</h3>
+        <p class="text-sm text-gray-600 mt-1">
+          Added query result limiting to the <code class="text-xs bg-gray-100 px-1 py-0.5 rounded">/query</code> and <code class="text-xs bg-gray-100 px-1 py-0.5 rounded">/query_range</code> endpoints; exposed the <code class="text-xs bg-gray-100 px-1 py-0.5 rounded">direct_reclaims_total</code> metric in <code class="text-xs bg-gray-100 px-1 py-0.5 rounded">memcached_exporter</code>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Jenkins -->
+    <div class="flex items-start gap-4">
+      <img src="{{ $icon }}/jenkins/jenkins-original.svg" alt="Jenkins" class="h-8 w-8 flex-shrink-0 mt-1" loading="lazy" />
+      <div>
+        <h3 class="font-semibold text-gray-900">
+          Jenkins
+          <span class="text-xs font-normal text-purple-700 bg-purple-50 rounded-full px-2 py-0.5 ml-1">GSoC '23</span>
+        </h3>
+        <p class="text-sm text-gray-600 mt-1">
+          Migrated Jenkins docs (11M+ users) to a versioned architecture (GatsbyJS + Antora); contributed Helm charts &amp; CI/CD to <code class="text-xs bg-gray-100 px-1 py-0.5 rounded">jenkins-infra</code> and modernized Java CI plugins.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <a href="https://github.com/Vandit1604" class="text-purple-600 hover:text-purple-800 transition duration-300">
+      View all contributions on GitHub →
+    </a>
+  </div>
+</section>

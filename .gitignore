@@ -1,1 +1,7 @@
 bin/*
+.DS_Store
+
+# Raw gallery originals (HEIC/JPG) are the dev-time source for
+# scripts/optimize-gallery.sh. Only the optimized WebP in
+# static/images/gallery is committed and served.
+assets/gallery/
