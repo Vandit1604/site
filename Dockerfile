@@ -1,3 +1,15 @@
+# CSS stage: compile Tailwind from the templates into a static stylesheet so
+# the runtime CDN never ships to the browser (no FOUC, faster first paint).
+FROM node:20-alpine AS css
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+COPY tailwind.config.js ./
+COPY static/css/tailwind-input.css ./static/css/tailwind-input.css
+COPY templates/ ./templates/
+COPY static/js/ ./static/js/
+RUN npx tailwindcss -i ./static/css/tailwind-input.css -o ./static/css/tailwind.css --minify
+
 # Build stage
 FROM golang:1.22-alpine AS builder
 RUN apk add --no-cache make
@@ -25,6 +37,8 @@ COPY --from=builder /app/assets/ /app/assets/
 COPY --from=builder /app/content/ /app/content/
 COPY --from=builder /app/static/ /app/static/
 COPY --from=builder /app/templates/ /app/templates/
+# Freshly compiled Tailwind from the css stage wins over the committed copy.
+COPY --from=css /app/static/css/tailwind.css /app/static/css/tailwind.css
 
 WORKDIR /app
 EXPOSE 8080

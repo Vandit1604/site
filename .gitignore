@@ -1,5 +1,6 @@
 bin/*
 .DS_Store
+node_modules/
 
 # Raw gallery originals (HEIC/JPG) are the dev-time source for
 # scripts/optimize-gallery.sh. Only the optimized WebP in
