@@ -103,3 +103,13 @@
 .markdown-content blockquote p {
     margin-bottom: 0;
 }
+
+/* Dark mode (class-based, toggled from the nav) */
+.dark .markdown-content table th,
+.dark .markdown-content table td { border-color: #30363d; }
+.dark .markdown-content table tr { background-color: #0d1117; border-top-color: #30363d; }
+.dark .markdown-content table tr:nth-child(2n) { background-color: #161b22; }
+.dark .markdown-content pre,
+.dark .markdown-content code { background-color: #161b22; }
+.dark .markdown-content pre code { background-color: transparent; }
+.dark .markdown-content blockquote { border-left-color: #30363d; color: #9ca3af; }

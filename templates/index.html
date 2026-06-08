@@ -1,6 +1,6 @@
 {{ template "header.html" .}}
 
-<div class="lg:w-1/2 mx-auto p-4 ">
+<div class="max-w-4xl w-full mx-auto p-4 ">
   {{ template "nav.html" .}} 
 
   {{ template "hero.html" .}}
@@ -18,37 +18,36 @@
   {{ template "featured.html" .}}
 
   <!-- Recent Blogs Section -->
-  <section class="mt-12">
-    <h2 class="text-2xl font-bold mb-4">
-      <span class="font-serif italic">Recent Blogs</span>
-    </h2>
-    <div class="space-y-4">
+  <section data-reveal class="mt-12 p-4">
+    <div class="flex items-baseline justify-between mb-2">
+      <h2 class="text-2xl font-bold">Recent Blogs</h2>
+      <a href="/blogs" class="press text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
+        All blogs &rarr;
+      </a>
+    </div>
+    <div class="border-t border-gray-200 dark:border-neutral-800">
         {{ if .recentBlogs }}
             {{ range .recentBlogs }}
-            <a href="blogs/{{.Slug}}" class="block border-b border-gray-200 py-4 hover:bg-gray-50 transition duration-300">
-                <div class="text-gray-700">
-                    <div class="text-sm text-gray-500 mb-1">{{ .Date }}</div>
-                    <h3 class="text-xl font-semibold text-black mb-2">{{.Title}}</h3>
-                    <div class="text-sm mt-2">
-                        {{ range .Tags }}
-                        <span class="whitespace-nowrap rounded-full border border-purple-500 px-2.5 py-0.5 text-sm text-purple-700 mr-1 mb-1 inline-block">
-                            {{ . }}
-                        </span>
-                        {{ end }}
-                    </div>
+            <a href="blogs/{{.Slug}}"
+              class="press group block border-b border-gray-200 dark:border-neutral-800 py-5 -mx-4 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-900 transition-colors">
+                <time class="font-mono text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500">{{ .Date }}</time>
+                <h3 class="mt-1.5 text-xl font-semibold text-black dark:text-white">
+                  <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">{{ .Title }}</span>
+                </h3>
+                <div class="mt-2.5 flex flex-wrap gap-1.5">
+                    {{ range .Tags }}
+                    <span class="font-mono text-xs rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">{{ . }}</span>
+                    {{ end }}
                 </div>
             </a>
             {{ end }}
         {{ else }}
-            <p>No recent blogs found.</p>
+            <p class="py-4 text-gray-500 dark:text-gray-400">No recent blogs found.</p>
         {{ end }}
     </div>
-    <div class="mt-4">
-        <a href="/blogs" class="text-purple-600 hover:text-purple-800 transition duration-300">
-            View all blogs →
-        </a>
-    </div>
   </section>
+
+  {{ template "contact.html" .}}
 </div>
 
 {{ template "footer.html" .}}
