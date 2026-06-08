@@ -1,7 +1,7 @@
-<nav aria-label="Breadcrumb" class="relative">
+<nav aria-label="Main navigation" class="relative">
   <!-- Hamburger Icon for small screens -->
   <div class="block md:hidden p-4">
-    <button id="menu-toggle" class="text-gray-600 focus:outline-none">
+    <button id="menu-toggle" class="text-gray-600 dark:text-gray-400 focus:outline-none">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
       </svg>
@@ -10,17 +10,30 @@
 
   <!-- Drawer Menu for small screens -->
   <div id="drawer" class="fixed inset-0 bg-opacity-75 z-50 transform -translate-x-full transition-transform md:hidden">
-    <div class="w-64 h-full bg-white shadow-xl">
-      <div class="p-4">
-        <button id="close-drawer" class="text-gray-600 hover:text-gray-700 focus:outline-none">
+    <div class="w-64 h-full bg-white dark:bg-neutral-900 shadow-xl">
+      <div class="p-4 flex items-center justify-between">
+        <button
+          type="button"
+          class="theme-toggle text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none"
+          aria-label="Toggle dark mode"
+          title="Toggle theme"
+        >
+          <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <svg class="w-5 h-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+        <button id="close-drawer" class="text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
-      <ol class="flex flex-col p-4 space-y-4 text-md text-gray-600 font-bold">
+      <ol class="flex flex-col p-4 space-y-4 text-md text-gray-600 dark:text-gray-400 font-bold">
         <li>
-          <a href="/" class="flex items-center hover:text-gray-700">
+          <a href="/" class="flex items-center hover:text-gray-700 dark:hover:text-gray-200">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -29,11 +42,11 @@
             Home
           </a>
         </li>
-        <li><a href="/blogs" class="hover:text-gray-700">/blogs</a></li>
-        <li><a href="/projects" class="hover:text-gray-700">/projects</a></li>
+        <li><a href="/blogs" class="hover:text-gray-700 dark:hover:text-gray-200">/blogs</a></li>
+        <li><a href="/projects" class="hover:text-gray-700 dark:hover:text-gray-200">/projects</a></li>
         <li>
           <a target="_blank" href="https://drive.google.com/file/d/1PFmsMZC3fvg6W6GsCiglt2b2othhn7S6/view?usp=sharing"
-            class="flex items-center hover:text-gray-700">
+            class="flex items-center hover:text-gray-700 dark:hover:text-gray-200">
             <span>/resume</span>
             <svg class="w-5 h-5 ml-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14 13.9633H16V7.96331H10V9.96331H12.5858L7.25623 15.2929L8.67044 16.7071L14 11.3775V13.9633Z"
@@ -44,18 +57,18 @@
             </svg>
           </a>
         </li>
-        <li><a href="/talks" class="hover:text-gray-700">/talks</a></li>
-        <li><a href="/library" class="hover:text-gray-700">/library</a></li>
-        <li><a href="/gallery" class="hover:text-gray-700">/gallery</a></li>
+        <li><a href="/talks" class="hover:text-gray-700 dark:hover:text-gray-200">/talks</a></li>
+        <li><a href="/library" class="hover:text-gray-700 dark:hover:text-gray-200">/library</a></li>
+        <li><a href="/gallery" class="hover:text-gray-700 dark:hover:text-gray-200">/gallery</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Normal breadcrumb for large screens -->
   <ol
-    class="hidden md:flex items-center text-md text-gray-600 mt-4 font-bold justify-center border border-gray-200 p-4 rounded-full gap-6 whitespace-nowrap w-full">
+    class="hidden md:flex items-center text-md text-gray-600 dark:text-gray-400 mt-4 font-bold justify-center border border-gray-200 dark:border-neutral-800 p-4 rounded-full gap-6 whitespace-nowrap w-full">
     <li>
-      <a href="/" class="flex items-center hover:text-gray-700 hover:underline">
+      <a href="/" class="flex items-center hover:text-gray-700 dark:hover:text-gray-200 hover:underline">
         <span class="sr-only"> Home </span>
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -63,17 +76,32 @@
         </svg>
       </a>
     </li>
-    <li><a href="/blogs" class="hover:text-gray-700">/blogs</a></li>
-    <li><a href="/projects" class="hover:text-gray-700">/projects</a></li>
+    <li><a href="/blogs" class="hover:text-gray-700 dark:hover:text-gray-200">/blogs</a></li>
+    <li><a href="/projects" class="hover:text-gray-700 dark:hover:text-gray-200">/projects</a></li>
     <li>
       <a href="https://drive.google.com/file/d/1PFmsMZC3fvg6W6GsCiglt2b2othhn7S6/view?usp=sharing"
-        class="flex items-center hover:text-gray-700">
+        class="flex items-center hover:text-gray-700 dark:hover:text-gray-200">
         <span>/resume</span>
       </a>
     </li>
-    <li><a href="/talks" class="hover:text-gray-700">/talks</a></li>
-    <li><a href="/library" class="hover:text-gray-700">/library</a></li>
-    <li><a href="/gallery" class="hover:text-gray-700">/gallery</a></li>
+    <li><a href="/talks" class="hover:text-gray-700 dark:hover:text-gray-200">/talks</a></li>
+    <li><a href="/library" class="hover:text-gray-700 dark:hover:text-gray-200">/library</a></li>
+    <li><a href="/gallery" class="hover:text-gray-700 dark:hover:text-gray-200">/gallery</a></li>
+    <li class="flex items-center">
+      <button
+        type="button"
+        class="theme-toggle flex items-center hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none"
+        aria-label="Toggle dark mode"
+        title="Toggle theme"
+      >
+        <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <svg class="w-5 h-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      </button>
+    </li>
   </ol>
 </nav>
 
@@ -89,5 +117,15 @@
 
   closeDrawer.addEventListener("click", () => {
     drawer.classList.add("-translate-x-full");
+  });
+
+  // Dark-mode toggle: flip the `dark` class on <html> and remember the choice.
+  document.querySelectorAll(".theme-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
+      try {
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      } catch (e) {}
+    });
   });
 </script>

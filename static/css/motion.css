@@ -1,0 +1,74 @@
+/* Apple-ish micro-interactions: subtle, compositor-only (transform/opacity),
+   and fully disabled under prefers-reduced-motion. */
+
+:root {
+  /* gentle, slightly springy ease-out — the "iOS settle" */
+  --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-apple-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---- Scroll reveal ----
+   Only hide content when JS is present (.js added on boot), so no-JS users
+   and crawlers always see everything. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s var(--ease-apple),
+    transform 0.7s var(--ease-apple);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Hover lift (cards) ---- */
+.lift {
+  transition:
+    transform 0.3s var(--ease-apple-out),
+    box-shadow 0.3s var(--ease-apple-out),
+    border-color 0.3s var(--ease-apple-out);
+}
+.lift:hover {
+  transform: translateY(-3px);
+}
+
+/* ---- Press / tap feedback ---- */
+.press {
+  transition: transform 0.18s var(--ease-apple-out);
+}
+.press:active {
+  transform: scale(0.97);
+}
+
+/* ---- Theme toggle flourish ---- */
+.theme-toggle svg {
+  transition: transform 0.45s var(--ease-apple);
+}
+.theme-toggle:hover svg {
+  transform: rotate(12deg);
+}
+.theme-toggle:active svg {
+  transform: scale(0.8) rotate(-12deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .lift,
+  .press,
+  .theme-toggle svg {
+    transition: none !important;
+  }
+  .lift:hover,
+  .press:active,
+  .theme-toggle:active svg,
+  .theme-toggle:hover svg {
+    transform: none !important;
+  }
+}

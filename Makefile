@@ -43,7 +43,7 @@ health: build
 
 # Build the production Docker image locally.
 docker-build:
-	@docker build -t vandit1604/site:latest . -v
+	@docker build -t vandit1604/site:latest .
 
 push-to-docker: docker-buildx-push
 	@echo "Pushed multi-arch Docker image to registry."

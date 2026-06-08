@@ -6,6 +6,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <!-- Dark-mode boot: runs before paint to avoid a flash of the wrong theme.
+         Defaults to the visitor's OS preference, honors a saved choice. -->
+    <script>
+      // Mark JS as available so reveal-on-scroll can hide content safely
+      // (no-JS users and crawlers still see everything).
+      document.documentElement.classList.add("js");
+      (function () {
+        try {
+          var saved = localStorage.getItem("theme");
+          var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          if (saved === "dark" || (!saved && prefersDark)) {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     {{/* Per-page SEO with homepage fallbacks. Handlers pass MetaTitle,
          MetaDescription, Canonical, OGType, OGImage, Noindex, IsArticle. */}}
     {{ $title := or .MetaTitle "Vandit Singh · Golang Engineer | Distributed Systems & Observability" }}
@@ -23,7 +40,8 @@
     {{ else }}
     <meta name="robots" content="index, follow" />
     {{ end }}
-    <meta name="theme-color" content="#581c87" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
     <link rel="canonical" href="{{ $canonical }}" />
 
     <!-- Open Graph -->
@@ -37,8 +55,8 @@
 
     <!-- Twitter/X · needs its own tags, OG isn't enough for the big card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@vandittweets" />
-    <meta name="twitter:creator" content="@vandittweets" />
+    <meta name="twitter:site" content="@v4nd1t" />
+    <meta name="twitter:creator" content="@v4nd1t" />
     <meta name="twitter:title" content="{{ $title }}" />
     <meta name="twitter:description" content="{{ $desc }}" />
     <meta name="twitter:image" content="{{ $ogImage }}" />
@@ -71,7 +89,7 @@
         "worksFor": { "@type": "Organization", "name": "FluidCloud" },
         "sameAs": [
           "https://github.com/Vandit1604",
-          "https://twitter.com/vandittweets",
+          "https://x.com/v4nd1t",
           "https://www.linkedin.com/in/vandit-singh/"
         ],
         "knowsAbout": [
@@ -85,20 +103,28 @@
       }
     </script>
 
+    <!-- Compiled Tailwind, built from the templates at deploy time.
+         No runtime CDN => no flash of unstyled content, much faster paint. -->
+    <link rel="stylesheet" href="/static/css/tailwind.css" />
+
+    <!-- Micro-interaction layer (reveal, lift, press, easing tokens). -->
+    <link rel="stylesheet" href="/static/css/motion.css" />
+
+    <!-- Type system: Geist (sans, everything) + Geist Mono (code). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
       rel="stylesheet"
-      href="https://unpkg.com/franken-ui@1.0.0/dist/css/zinc.min.css"
     />
 
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <style>
-      .text-bright-green {
-        fill: #00ff00; /* Bright green color */
+      /* Smooth the light/dark hand-off without animating layout. */
+      html {
+        scroll-behavior: smooth;
       }
-
-      .glow-effect {
-        filter: drop-shadow(0px 0px 6px #00ff00); /* Glowing effect */
+      body {
+        transition: background-color 0.2s ease, color 0.2s ease;
       }
 
       /* Hide scrollbar for Webkit-based browsers */
@@ -114,4 +140,6 @@
     </style>
   </head>
 
-  <body>
+  <body
+    class="font-sans bg-white text-gray-900 antialiased dark:bg-black dark:text-gray-100"
+  >

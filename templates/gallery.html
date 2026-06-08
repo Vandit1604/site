@@ -1,26 +1,24 @@
 {{ template "header.html" .}}
 
-<div class="lg:w-3/5 mx-auto p-4">
+<div class="max-w-5xl w-full mx-auto p-4">
   {{ template "nav.html" .}}
 
-  <section class="mb-16">
-    <div class="flex items-baseline justify-between flex-wrap gap-2 mt-8 mb-2">
-      <h1 class="font-heading text-4xl font-bold text-black">
-        <span class="font-serif italic">Through My Lens.</span>
-      </h1>
+  <section data-reveal class="mb-16">
+    <div class="flex items-baseline justify-between flex-wrap gap-2 mt-10 mb-2">
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-white">Through My Lens.</h1>
       <!-- audio toggle (only shown when the interactive trail is active) -->
       <button
         id="audio-toggle"
         type="button"
         hidden
         aria-pressed="false"
-        class="inline-flex items-center gap-2 rounded-full border border-gray-300 px-3 py-1.5 text-sm text-gray-600 hover:border-gray-500 hover:text-gray-900 transition-colors"
+        class="press inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-neutral-700 px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:border-gray-500 dark:hover:border-neutral-500 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
       >
         <span id="audio-icon">♪</span>
         <span id="audio-label">Play piano</span>
       </button>
     </div>
-    <p id="gallery-hint" class="text-gray-500 mb-10">A few moments from my camera roll.</p>
+    <p id="gallery-hint" class="text-gray-500 dark:text-gray-400 mb-10">A few moments from my camera roll.</p>
 
     {{ if .galleryPhotos }}
     <!-- Interactive cursor image-trail stage (pointer devices, motion allowed) -->
@@ -58,7 +56,7 @@
     <script src="https://unpkg.com/tone@14.8.49/build/Tone.js"></script>
     <script src="/static/js/gallery-trail.js" defer></script>
     {{ else }}
-    <p class="text-gray-500">No photos yet.</p>
+    <p class="text-gray-500 dark:text-gray-400">No photos yet.</p>
     {{ end }}
   </section>
 </div>
