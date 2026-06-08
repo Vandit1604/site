@@ -22,9 +22,10 @@ func setUpRoutes(router *gin.Engine) {
 	router.Static("/static", "./static")
 	router.StaticFS("../assets/", http.Dir("assets"))
 
-	// SEO: serve robots.txt and sitemap.xml from the root
+	// SEO: serve robots.txt from disk; sitemap.xml is generated dynamically so
+	// newly published blog posts are always included.
 	router.StaticFile("/robots.txt", "./static/robots.txt")
-	router.StaticFile("/sitemap.xml", "./static/sitemap.xml")
+	router.GET("/sitemap.xml", handlers.ShowSitemap)
 
 	// Health check endpoint for container / platform probes.
 	router.GET("/healthz", handlers.ShowHealth)

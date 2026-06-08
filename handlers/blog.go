@@ -13,13 +13,26 @@ func ShowIndividualBlogPage(c *gin.Context) {
 
 	blog, exists := blogs[slug]
 	if !exists {
-		c.HTML(http.StatusNotFound, "404.html", nil)
+		ShowNotFoundPage(c)
 		return
 	}
+
+	// Concise, deterministic description derived from the title; the body is
+	// already-rendered HTML so we avoid stripping it for the meta tag.
+	description := blog.Title + " · a post by Vandit Singh on Go, distributed systems, and engineering."
 
 	c.HTML(
 		http.StatusOK,
 		"blogpost.html",
-		gin.H{"blog": blog},
+		merge(
+			pageMeta(blog.Title+" · Vandit Singh", description, "/blogs/"+slug),
+			gin.H{
+				"blog":         blog,
+				"OGType":       "article",
+				"IsArticle":    true,
+				"ArticleDate":  blog.Date,
+				"ArticleTitle": blog.Title,
+			},
+		),
 	)
 }

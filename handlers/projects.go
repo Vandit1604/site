@@ -36,7 +36,12 @@ func ShowProjectsPage(c *gin.Context) {
 	}
 
 	// Render the HTML page using the changelog data
-	c.HTML(http.StatusOK, "projects.html", gin.H{
-		"Projects": projects,
-	})
+	c.HTML(http.StatusOK, "projects.html", merge(
+		pageMeta(
+			"Projects · Vandit Singh",
+			"Selected engineering projects by Vandit Singh: container runtimes, distributed storage, p2p systems, and developer tooling in Go.",
+			"/projects",
+		),
+		gin.H{"Projects": projects},
+	))
 }
