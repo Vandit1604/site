@@ -1,9 +1,20 @@
-.PHONY: build deploy run gallery optimize-gallery health docker-build push-to-docker build-linux docker-build-linux docker-buildx-push
+.PHONY: build deploy run css gallery optimize-gallery health docker-build push-to-docker build-linux docker-build-linux docker-buildx-push
 
-# Build optimizes the gallery first (soft: skips cleanly if tools/sources are
-# absent, e.g. inside the Docker/alpine builder), then compiles the binary.
-build: optimize-gallery
+# Build compiles Tailwind (soft) and optimizes the gallery (soft) — both skip
+# cleanly if their tools are absent (e.g. inside the Go/alpine Docker builder,
+# where the dedicated Node stage handles CSS) — then compiles the binary.
+build: css optimize-gallery
 	@go build -o bin/site
+
+# Compile Tailwind from the templates into static/css/tailwind.css.
+# Soft: skips if npx is unavailable, relying on the committed tailwind.css
+# and/or the Node stage in the Dockerfile.
+css:
+	@if command -v npx >/dev/null 2>&1; then \
+		npx tailwindcss -i ./static/css/tailwind-input.css -o ./static/css/tailwind.css --minify; \
+	else \
+		echo "css: npx unavailable — skipping Tailwind build (committed tailwind.css kept)"; \
+	fi
 
 deploy: build
 	@./bin/site
@@ -32,7 +43,7 @@ health: build
 
 # Build the production Docker image locally.
 docker-build:
-	@docker build -t vandit1604/site:latest .
+	@docker build -t vandit1604/site:latest . -v
 
 push-to-docker: docker-buildx-push
 	@echo "Pushed multi-arch Docker image to registry."

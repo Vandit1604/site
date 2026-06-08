@@ -1,6 +1,8 @@
 .git
 .gitignore
 bin/
+# Node deps are reinstalled in the css build stage; never ship them in context.
+node_modules/
 # Raw gallery originals (HEIC/JPG) are dev-time source for the optimize script.
 # The served WebP live in static/images/gallery and ARE shipped.
 assets/gallery/
