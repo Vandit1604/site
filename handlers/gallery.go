@@ -58,7 +58,12 @@ func ReadGalleryPhotos() []string {
 
 // ShowGalleryPage renders the dedicated photo gallery page.
 func ShowGalleryPage(c *gin.Context) {
-	c.HTML(http.StatusOK, "gallery.html", gin.H{
-		"galleryPhotos": ReadGalleryPhotos(),
-	})
+	c.HTML(http.StatusOK, "gallery.html", merge(
+		pageMeta(
+			"Gallery · Vandit Singh",
+			"A photo gallery by Vandit Singh.",
+			"/gallery",
+		),
+		gin.H{"galleryPhotos": ReadGalleryPhotos()},
+	))
 }

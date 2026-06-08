@@ -14,7 +14,11 @@ import (
 var ResumeURL string = "https://drive.google.com/file/d/1PFmsMZC3fvg6W6GsCiglt2b2othhn7S6/view?usp=drive_link"
 
 func ShowNotFoundPage(c *gin.Context) {
-	c.HTML(http.StatusNotFound, "404.html", nil)
+	c.HTML(http.StatusNotFound, "404.html", gin.H{
+		"MetaTitle":       "Page not found · Vandit Singh",
+		"MetaDescription": "The page you were looking for doesn't exist.",
+		"Noindex":         true,
+	})
 }
 
 func ShowIndexPage(c *gin.Context) {
@@ -52,10 +56,17 @@ func ShowIndexPage(c *gin.Context) {
 		featuredProjects = featuredProjects[:3]
 	}
 
-	c.HTML(http.StatusOK, "index.html", gin.H{
-		"recentBlogs":      recentBlogs,
-		"featuredProjects": featuredProjects,
-	})
+	c.HTML(http.StatusOK, "index.html", merge(
+		pageMeta(
+			"Vandit Singh · Golang Engineer | Distributed Systems & Observability",
+			"Go/infra engineer. I build container runtimes and distributed storage, and I'm exploring blockchain node infrastructure. Merged contributor to Kubernetes, Prometheus, and Jenkins.",
+			"/",
+		),
+		gin.H{
+			"recentBlogs":      recentBlogs,
+			"featuredProjects": featuredProjects,
+		},
+	))
 }
 
 func RedirectToResume(c *gin.Context) {
@@ -83,15 +94,28 @@ func ShowBlogPage(c *gin.Context) {
 		blogs = filteredBlogs
 	}
 
+	title := "Blogs · Vandit Singh"
+	description := "Writing on Go, distributed systems, open source contribution, and engineering career notes by Vandit Singh."
+	if selectedTag != "" {
+		title = selectedTag + " · Blogs by Vandit Singh"
+	}
+
 	c.HTML(
 		http.StatusOK,
 		"allblogs.html",
-		gin.H{
-			"blogs":       blogs,
-			"Route":       "/blogs",
-			"selectedTag": selectedTag,
-			"allTags":     allTags,
-		},
+		merge(
+			// Tag-filtered views canonicalize to /blogs so thin near-duplicate
+			// tag pages don't compete with the main listing.
+			pageMeta(title, description, "/blogs"),
+			gin.H{
+				"blogs":       blogs,
+				"Route":       "/blogs",
+				"selectedTag": selectedTag,
+				"allTags":     allTags,
+				// Don't index tag-filtered permutations; they're thin slices.
+				"Noindex": selectedTag != "",
+			},
+		),
 	)
 }
 

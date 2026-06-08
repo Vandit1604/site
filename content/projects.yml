@@ -5,7 +5,7 @@ projects:
     github_link: "https://github.com/Vandit1604/dockerium"
 
   - name: Phile Storage
-    description: "Content-addressed P2P storage (CIDv1, sha2-256) over go-libp2p — Ed25519 PeerID identity, Kademlia DHT routing, and a custom block-transfer stream protocol for trustless, deduplicated retrieval."
+    description: "Content-addressed P2P storage (CIDv1, sha2-256) over go-libp2p, with Ed25519 PeerID identity, Kademlia DHT routing, and a custom block-transfer stream protocol for trustless, deduplicated retrieval."
     demo_link: ""
     github_link: "https://github.com/Vandit1604/phile-storage"
 
@@ -15,7 +15,7 @@ projects:
     github_link: "https://github.com/Vandit1604/go-lb"
 
   - name: EmailGuard
-    description: "Fast, practical Go package for filtering disposable or masked email domains — built for B2B SaaS signup validation."
+    description: "Fast, practical Go package for filtering disposable or masked email domains, built for B2B SaaS signup validation."
     demo_link: ""
     github_link: "https://github.com/Vandit1604/emailguard"
 

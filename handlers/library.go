@@ -33,7 +33,12 @@ func ShowLibraryPage(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "library.html", gin.H{
-		"Categories": library.Categories,
-	})
+	c.HTML(http.StatusOK, "library.html", merge(
+		pageMeta(
+			"Library · Vandit Singh",
+			"A curated library of engineering resources, books, tools, and references recommended by Vandit Singh.",
+			"/library",
+		),
+		gin.H{"Categories": library.Categories},
+	))
 }

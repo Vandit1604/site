@@ -26,7 +26,12 @@ func ShowTalksPage(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "talks.html", gin.H{
-		"Talks": talksData.Talks,
-	})
+	c.HTML(http.StatusOK, "talks.html", merge(
+		pageMeta(
+			"Talks · Vandit Singh",
+			"Conference talks and presentations by Vandit Singh on Go, open source, distributed systems, and observability.",
+			"/talks",
+		),
+		gin.H{"Talks": talksData.Talks},
+	))
 }
