@@ -1,0 +1,66 @@
+{{ template "header.html" .}}
+
+<div class="lg:w-3/5 mx-auto p-4">
+  {{ template "nav.html" .}}
+
+  <section class="mb-16">
+    <div class="flex items-baseline justify-between flex-wrap gap-2 mt-8 mb-2">
+      <h1 class="font-heading text-4xl font-bold text-black">
+        <span class="font-serif italic">Through My Lens.</span>
+      </h1>
+      <!-- audio toggle (only shown when the interactive trail is active) -->
+      <button
+        id="audio-toggle"
+        type="button"
+        hidden
+        aria-pressed="false"
+        class="inline-flex items-center gap-2 rounded-full border border-gray-300 px-3 py-1.5 text-sm text-gray-600 hover:border-gray-500 hover:text-gray-900 transition-colors"
+      >
+        <span id="audio-icon">♪</span>
+        <span id="audio-label">Play piano</span>
+      </button>
+    </div>
+    <p id="gallery-hint" class="text-gray-500 mb-10">A few moments from my camera roll.</p>
+
+    {{ if .galleryPhotos }}
+    <!-- Interactive cursor image-trail stage (pointer devices, motion allowed) -->
+    <div
+      id="trail-stage"
+      hidden
+      class="relative w-full h-[70vh] overflow-hidden rounded-xl cursor-grab select-none"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Fallback: browsable masonry grid (touch / reduced-motion / no-JS) -->
+    <div id="photo-grid" class="columns-2 md:columns-3 gap-3 [column-fill:_balance]">
+      {{ range .galleryPhotos }}
+      <a
+        href="{{ . }}"
+        target="_blank"
+        rel="noopener"
+        class="mb-3 block overflow-hidden rounded-lg break-inside-avoid group"
+      >
+        <img
+          src="{{ . }}"
+          alt="Photo by Vandit Singh"
+          loading="lazy"
+          class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      </a>
+      {{ end }}
+    </div>
+
+    <script>
+      window.GALLERY_PHOTOS = [
+        {{- range $i, $p := .galleryPhotos }}{{ if $i }},{{ end }}"{{ $p }}"{{ end -}}
+      ];
+    </script>
+    <script src="https://unpkg.com/tone@14.8.49/build/Tone.js"></script>
+    <script src="/static/js/gallery-trail.js" defer></script>
+    {{ else }}
+    <p class="text-gray-500">No photos yet.</p>
+    {{ end }}
+  </section>
+</div>
+
+{{ template "footer.html" .}}
