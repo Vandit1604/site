@@ -14,12 +14,12 @@ projects:
     demo_link: ""  # Use demo_link to match the struct field
     github_link: "https://github.com/Vandit1604/go-lb"
 
+  - name: EmailGuard
+    description: "Fast, practical Go package for filtering disposable or masked email domains — built for B2B SaaS signup validation."
+    demo_link: ""
+    github_link: "https://github.com/Vandit1604/emailguard"
+
   - name: Jenkins.io Alternative Tools
     description: "Developed a versioned documentation site as a drop-in replacement for Jenkins CI."
     demo_link: ""
     github_link: "https://github.com/Vandit1604/jenkins-docs"
-
-  - name: Realtime Chat Application
-    description: "A real-time chat app with authentication, clean architecture, and WebSockets for room management."
-    demo_link: ""
-    github_link: "https://github.com/Vandit1604/go-realtime-chat"
