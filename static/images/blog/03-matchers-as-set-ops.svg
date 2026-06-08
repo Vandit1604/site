@@ -1,0 +1,7 @@
+<svg width="100%" viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <title>PromQL matchers as set operations</title>
+  <desc>AND intersects to give 2 and 4, OR unions to give 1 2 3 4, NOT subtracts to give 1.</desc>
+  <g><rect x="40" y="16" width="600" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/><text x="60" y="40" font-size="14" font-weight="500" fill="#085041">AND  →  intersect  ∩</text><text x="60" y="58" font-size="12" fill="#0F6E56">{job="api", code="500"}   [1,2,4] ∩ [2,4]  =  [2, 4]</text></g>
+  <g><rect x="40" y="80" width="600" height="52" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/><text x="60" y="104" font-size="14" font-weight="500" fill="#0C447C">OR  →  union  ∪</text><text x="60" y="122" font-size="12" fill="#185FA5">job=~"api|worker"   [1,2,4] ∪ [3]  =  [1, 2, 3, 4]</text></g>
+  <g><rect x="40" y="144" width="600" height="52" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/><text x="60" y="168" font-size="14" font-weight="500" fill="#712B13">NOT  →  subtract  −</text><text x="60" y="186" font-size="12" fill="#993C1D">{job="api", code!="500"}   [1,2,4] − [2,4]  =  [1]</text></g>
+</svg>

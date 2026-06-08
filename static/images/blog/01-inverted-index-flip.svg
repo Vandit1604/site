@@ -1,0 +1,27 @@
+<svg width="100%" viewBox="0 0 680 310" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <title>Forward index flipped into inverted index</title>
+  <desc>The forward map from series to labels is inverted into a map from each label to the sorted list of series IDs that contain it.</desc>
+  <style>
+    .h{font-size:14px;font-weight:500;fill:#1a1a18}
+    .c{font-size:12px;fill:#5f5e5a}
+    @media (prefers-color-scheme:dark){.h{fill:#e8e6df}.c{fill:#b4b2a9}}
+  </style>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <text class="h" x="40" y="34">Forward: series → labels</text>
+  <text class="h" x="408" y="34">Inverted: label → series</text>
+  <g><rect x="40" y="50" width="250" height="38" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/><text x="56" y="73" font-size="12" fill="#2C2C2A">#1  {job=api, pod=web-1}</text></g>
+  <g><rect x="40" y="98" width="250" height="38" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/><text x="56" y="121" font-size="12" fill="#2C2C2A">#2  {job=api, code=500}</text></g>
+  <g><rect x="40" y="146" width="250" height="38" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/><text x="56" y="169" font-size="12" fill="#2C2C2A">#3  {job=worker}</text></g>
+  <g><rect x="40" y="194" width="250" height="38" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/><text x="56" y="217" font-size="12" fill="#2C2C2A">#4  {job=api, code=500}</text></g>
+  <line x1="300" y1="141" x2="396" y2="141" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text class="c" x="348" y="132" text-anchor="middle">flip</text>
+  <g><rect x="408" y="50" width="232" height="44" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/><text x="424" y="72" font-size="14" font-weight="500" fill="#0C447C">job="api"</text><text x="424" y="88" font-size="12" fill="#185FA5">→ [1, 2, 4]</text></g>
+  <g><rect x="408" y="104" width="232" height="44" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/><text x="424" y="126" font-size="14" font-weight="500" fill="#712B13">code="500"</text><text x="424" y="142" font-size="12" fill="#993C1D">→ [2, 4]</text></g>
+  <g><rect x="408" y="158" width="232" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/><text x="424" y="180" font-size="14" font-weight="500" fill="#633806">job="worker"</text><text x="424" y="196" font-size="12" fill="#854F0B">→ [3]</text></g>
+  <text class="c" x="408" y="232">each sorted list of IDs = a "postings list"</text>
+  <text class="c" x="40" y="270">Never scan series. Look up labels, combine their ID lists. That is the inversion.</text>
+</svg>
