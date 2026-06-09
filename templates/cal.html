@@ -1,0 +1,37 @@
+<!-- Book-a-call section: Cal.com inline embed -->
+<section data-reveal class="mt-12 p-4" aria-labelledby="cal-heading">
+  <h2 id="cal-heading" class="text-2xl font-bold mb-2">
+    <span>Book a call</span>
+  </h2>
+  <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-xl">
+    Grab a 30-minute slot directly on my calendar — distributed systems,
+    infrastructure, open source, or just to say hi.
+  </p>
+
+  <div
+    class="overflow-hidden rounded-lg border border-gray-200 dark:border-neutral-800"
+  >
+    <!-- Cal inline embed -->
+    <div style="width:100%;height:640px;overflow:auto" id="my-cal-inline-30min"></div>
+  </div>
+</section>
+
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  Cal("init", "30min", { origin: "https://app.cal.com" });
+
+  // Match the site's theme (honors the saved choice / OS preference set in header.html).
+  var calTheme = document.documentElement.classList.contains("dark") ? "dark" : "light";
+
+  Cal.ns["30min"]("inline", {
+    elementOrSelector: "#my-cal-inline-30min",
+    config: { layout: "month_view", useSlotsViewOnSmallScreen: "true" },
+    calLink: "v4nd1t/30min",
+  });
+
+  Cal.ns["30min"]("ui", {
+    hideEventTypeDetails: false,
+    layout: "month_view",
+    theme: calTheme,
+  });
+</script>
