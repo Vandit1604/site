@@ -72,6 +72,13 @@ func ShowIndexPage(c *gin.Context) {
 	))
 }
 
+// ShowSpotifyDebug reports, without leaking secret values, whether the Spotify
+// env vars are visible to this process and what a live fetch returns. Temporary
+// diagnostic route — remove once the widget is confirmed working in prod.
+func ShowSpotifyDebug(c *gin.Context) {
+	c.JSON(http.StatusOK, spotify.Diagnose())
+}
+
 func RedirectToResume(c *gin.Context) {
 	c.Redirect(http.StatusPermanentRedirect, ResumeURL)
 }

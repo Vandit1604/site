@@ -41,4 +41,5 @@ func setUpRoutes(router *gin.Engine) {
 	router.GET("/library", handlers.ShowLibraryPage)
 	router.GET("/gallery", handlers.ShowGalleryPage)
 	router.GET("/resume", handlers.RedirectToResume)
+	router.GET("/api/spotify-debug", handlers.ShowSpotifyDebug)
 }
