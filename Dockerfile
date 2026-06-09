@@ -12,7 +12,10 @@ RUN npx tailwindcss -i ./static/css/tailwind-input.css -o ./static/css/tailwind.
 
 # Build stage
 FROM golang:1.22-alpine AS builder
-RUN apk add --no-cache make
+# ca-certificates provides a CA bundle to copy into the scratch image so the
+# server can make outbound HTTPS calls (e.g. the Spotify API). Without it a
+# scratch container fails TLS verification with "unknown authority".
+RUN apk add --no-cache make ca-certificates
 
 WORKDIR /app
 COPY go.mod go.sum ./
@@ -37,6 +40,8 @@ COPY --from=builder /app/assets/ /app/assets/
 COPY --from=builder /app/content/ /app/content/
 COPY --from=builder /app/static/ /app/static/
 COPY --from=builder /app/templates/ /app/templates/
+# CA bundle so outbound HTTPS (Spotify API) can verify certificates on scratch.
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 # Freshly compiled Tailwind from the css stage wins over the committed copy.
 COPY --from=css /app/static/css/tailwind.css /app/static/css/tailwind.css
 
