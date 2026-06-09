@@ -89,49 +89,6 @@ func RecentlyPlayed() *Track {
 	return cachedTrack
 }
 
-// Diag is a non-secret snapshot of why the widget may be hidden. It reports
-// presence and length of each env var (never the values) plus the live fetch
-// result. Intended for a temporary debug endpoint.
-type Diag struct {
-	Configured      bool   `json:"configured"`
-	HasClientID     bool   `json:"has_client_id"`
-	HasClientSecret bool   `json:"has_client_secret"`
-	HasRefreshToken bool   `json:"has_refresh_token"`
-	ClientIDLen     int    `json:"client_id_len"`
-	RefreshLen      int    `json:"refresh_token_len"`
-	Track           *Track `json:"track"`
-	Error           string `json:"error,omitempty"`
-}
-
-// Diagnose performs a live, uncached fetch and reports the outcome with no
-// secret values. Safe to expose on a throwaway debug route.
-func Diagnose() Diag {
-	d := Diag{
-		Configured:      configured(),
-		HasClientID:     clientID() != "",
-		HasClientSecret: clientSecret() != "",
-		HasRefreshToken: refreshToken() != "",
-		ClientIDLen:     len(clientID()),
-		RefreshLen:      len(refreshToken()),
-	}
-	if !d.Configured {
-		d.Error = "one or more SPOTIFY_* env vars are missing in this process"
-		return d
-	}
-
-	mu.Lock()
-	defer mu.Unlock()
-	// Force a fresh token + fetch so the diagnosis reflects the current state.
-	accessToken = ""
-	track, err := fetchRecentlyPlayed()
-	if err != nil {
-		d.Error = err.Error()
-		return d
-	}
-	d.Track = track
-	return d
-}
-
 // fetchRecentlyPlayed assumes mu is held.
 func fetchRecentlyPlayed() (*Track, error) {
 	token, err := ensureAccessToken()
