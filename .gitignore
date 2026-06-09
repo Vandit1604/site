@@ -6,3 +6,6 @@ node_modules/
 # scripts/optimize-gallery.sh. Only the optimized WebP in
 # static/images/gallery is committed and served.
 assets/gallery/
+
+# Local secrets (Spotify, etc.)
+.env

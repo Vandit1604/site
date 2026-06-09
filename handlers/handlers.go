@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/vandit1604/site/models"
+	"github.com/vandit1604/site/spotify"
 	"github.com/vandit1604/site/types"
 )
 
@@ -65,6 +66,8 @@ func ShowIndexPage(c *gin.Context) {
 		gin.H{
 			"recentBlogs":      recentBlogs,
 			"featuredProjects": featuredProjects,
+			// nil when Spotify isn't configured; the template hides the widget.
+			"nowPlaying": spotify.RecentlyPlayed(),
 		},
 	))
 }
