@@ -1,4 +1,4 @@
-.PHONY: build deploy run css gallery optimize-gallery health docker-build push-to-docker build-linux docker-build-linux docker-buildx-push
+.PHONY: build deploy run css gallery optimize-gallery indexnow health docker-build push-to-docker build-linux docker-build-linux docker-buildx-push
 
 # Build compiles Tailwind (soft) and optimizes the gallery (soft) — both skip
 # cleanly if their tools are absent (e.g. inside the Go/alpine Docker builder,
@@ -37,6 +37,11 @@ optimize-gallery:
 gallery:
 	@./scripts/optimize-gallery.sh
 
+# Notify IndexNow (Bing, Yandex, Seznam, Naver, …) of every sitemap URL.
+# Run AFTER deploying so the key file at /<key>.txt is publicly reachable.
+indexnow: build
+	@./bin/site -indexnow
+
 # Probe a locally running server's health endpoint.
 health: build
 	@./bin/site -health && echo "healthy"
@@ -47,6 +52,9 @@ docker-build:
 
 push-to-docker: docker-buildx-push
 	@echo "Pushed multi-arch Docker image to registry."
+	@echo "Notifying IndexNow once the new key file is live on vandit.dev…"
+	@$(MAKE) --no-print-directory indexnow || \
+		echo "indexnow: skipped (key file not live yet) — run 'make indexnow' after the host pulls the new image."
 
 # Build a Linux binary (useful when building images for Linux hosts)
 build-linux:
