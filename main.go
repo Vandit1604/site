@@ -37,6 +37,23 @@ func main() {
 	}
 
 	models.ReadBlogs()
+
+	// Coolify rebuilds and restarts the container on every push to main, so a
+	// startup submission is effectively an on-deploy submission with no manual
+	// step. Gated by INDEXNOW_ON_START (set only in production) so local runs
+	// never push production URLs to IndexNow. Runs in the background because
+	// SubmitToIndexNow blocks while it waits for the public key file to become
+	// routable, and the HTTP server must come up regardless.
+	if os.Getenv("INDEXNOW_ON_START") != "" {
+		go func() {
+			if err := handlers.SubmitToIndexNow(); err != nil {
+				fmt.Fprintln(os.Stderr, "indexnow: startup submission skipped:", err)
+				return
+			}
+			fmt.Println("indexnow: submitted sitemap URLs on startup")
+		}()
+	}
+
 	router.Run()
 }
 
