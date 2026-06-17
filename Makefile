@@ -37,8 +37,9 @@ optimize-gallery:
 gallery:
 	@./scripts/optimize-gallery.sh
 
-# Notify IndexNow (Bing, Yandex, Seznam, Naver, …) of every sitemap URL.
-# Run AFTER deploying so the key file at /<key>.txt is publicly reachable.
+# Manually notify IndexNow (Bing, Yandex, Seznam, Naver, …) of every sitemap
+# URL. Normally automatic: production runs this on startup via INDEXNOW_ON_START
+# (Coolify restarts the container on each deploy). Use this for ad-hoc re-submits.
 indexnow: build
 	@./bin/site -indexnow
 
@@ -52,9 +53,6 @@ docker-build:
 
 push-to-docker: docker-buildx-push
 	@echo "Pushed multi-arch Docker image to registry."
-	@echo "Notifying IndexNow once the new key file is live on vandit.dev…"
-	@$(MAKE) --no-print-directory indexnow || \
-		echo "indexnow: skipped (key file not live yet) — run 'make indexnow' after the host pulls the new image."
 
 # Build a Linux binary (useful when building images for Linux hosts)
 build-linux:

@@ -32,13 +32,13 @@ func ShowIndexNowKey(c *gin.Context) {
 func keyFileURL() string { return SiteURL + "/" + IndexNowKey + ".txt" }
 
 // waitForKeyFileLive polls the public key file until it serves our key, so a
-// deploy-time submission never fires before the new image is live on the host
-// (IndexNow silently rejects submissions whose key file 404s). It gives up
-// after ~30s and returns an error rather than submitting into a void.
+// deploy-time submission never fires before the new image is routable (IndexNow
+// silently rejects submissions whose key file 404s). It allows ~60s for Coolify
+// to finish health-checking and routing the fresh container before giving up.
 func waitForKeyFileLive() error {
 	client := &http.Client{Timeout: 5 * time.Second}
 	var last error
-	for attempt := range 6 {
+	for attempt := range 12 {
 		if attempt > 0 {
 			time.Sleep(5 * time.Second)
 		}
