@@ -27,6 +27,10 @@ func setUpRoutes(router *gin.Engine) {
 	router.StaticFile("/robots.txt", "./static/robots.txt")
 	router.GET("/sitemap.xml", handlers.ShowSitemap)
 
+	// IndexNow: serve the ownership key file so Bing/Yandex/etc. can validate
+	// the URL submissions made by `site -indexnow` on deploy.
+	router.GET("/"+handlers.IndexNowKey+".txt", handlers.ShowIndexNowKey)
+
 	// Health check endpoint for container / platform probes.
 	router.GET("/healthz", handlers.ShowHealth)
 

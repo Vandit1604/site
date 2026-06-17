@@ -26,10 +26,11 @@ var staticRoutes = []sitemapEntry{
 	{Loc: "/gallery", ChangeFreq: "monthly", Priority: "0.5"},
 }
 
-// ShowSitemap renders the XML sitemap dynamically so newly published blog posts
-// are discoverable without hand-editing a static file. Drafts are excluded
-// because ReadBlogs already filters them out.
-func ShowSitemap(c *gin.Context) {
+// sitemapEntries returns the full ordered list of sitemap entries: the fixed
+// static pages followed by every published blog post. Drafts are excluded
+// because ReadBlogs already filters them out. Shared by the XML sitemap and
+// IndexNow submission so the two can never drift.
+func sitemapEntries() []sitemapEntry {
 	entries := make([]sitemapEntry, 0, len(staticRoutes)+8)
 	entries = append(entries, staticRoutes...)
 
@@ -46,6 +47,24 @@ func ShowSitemap(c *gin.Context) {
 			Priority:   "0.7",
 		})
 	}
+	return entries
+}
+
+// AllURLs returns every public absolute URL in the sitemap, used by IndexNow
+// submission to notify Bing and other participating engines of the full page set.
+func AllURLs() []string {
+	entries := sitemapEntries()
+	urls := make([]string, len(entries))
+	for i, e := range entries {
+		urls[i] = SiteURL + e.Loc
+	}
+	return urls
+}
+
+// ShowSitemap renders the XML sitemap dynamically so newly published blog posts
+// are discoverable without hand-editing a static file.
+func ShowSitemap(c *gin.Context) {
+	entries := sitemapEntries()
 
 	var b strings.Builder
 	b.WriteString(`<?xml version="1.0" encoding="UTF-8"?>` + "\n")
