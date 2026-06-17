@@ -48,6 +48,11 @@ COPY --from=css /app/static/css/tailwind.css /app/static/css/tailwind.css
 WORKDIR /app
 EXPOSE 8080
 
+# Production-only, non-sensitive feature flag: notify IndexNow on startup. Lives
+# here (committed) rather than in the Coolify UI so deploys need no manual env
+# setup; local `make run` never sets it, so dev never submits production URLs.
+ENV INDEXNOW_ON_START=1
+
 # Container health check — uses the binary's own -health probe since scratch
 # has no shell or curl/wget.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
