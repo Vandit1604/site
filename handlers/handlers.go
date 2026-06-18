@@ -14,6 +14,32 @@ import (
 
 var ResumeURL string = "https://drive.google.com/file/d/1PFmsMZC3fvg6W6GsCiglt2b2othhn7S6/view?usp=drive_link"
 
+// blogDateLayouts tolerates loose front-matter dates (zero-padded or not), so a
+// post dated "2024-9-26" sorts correctly alongside "2024-11-01".
+var blogDateLayouts = []string{"2006-01-02", "2006-1-2", "2006-01-2", "2006-1-02"}
+
+func parseBlogDate(s string) time.Time {
+	for _, layout := range blogDateLayouts {
+		if t, err := time.Parse(layout, s); err == nil {
+			return t
+		}
+	}
+	return time.Time{}
+}
+
+// sortedBlogs flattens the blog map into a slice ordered newest-first. Ranging a
+// Go map is randomized, so templates must be handed an explicitly sorted slice.
+func sortedBlogs(blogs map[string]types.BlogPost) []types.BlogPost {
+	out := make([]types.BlogPost, 0, len(blogs))
+	for _, blog := range blogs {
+		out = append(out, blog)
+	}
+	sort.Slice(out, func(i, j int) bool {
+		return parseBlogDate(out[i].Date).After(parseBlogDate(out[j].Date))
+	})
+	return out
+}
+
 func ShowNotFoundPage(c *gin.Context) {
 	c.HTML(http.StatusNotFound, "404.html", gin.H{
 		"MetaTitle":       "Page not found · Vandit Singh",
@@ -25,18 +51,8 @@ func ShowNotFoundPage(c *gin.Context) {
 func ShowIndexPage(c *gin.Context) {
 	blogs := models.ReadBlogs()
 
-	// Convert map to slice for sorting
-	blogSlice := make([]types.BlogPost, 0, len(blogs))
-	for _, blog := range blogs {
-		blogSlice = append(blogSlice, blog)
-	}
-
-	// Sort blogs by date (most recent first)
-	sort.Slice(blogSlice, func(i, j int) bool {
-		dateI, _ := time.Parse("2006-01-02", blogSlice[i].Date)
-		dateJ, _ := time.Parse("2006-01-02", blogSlice[j].Date)
-		return dateI.After(dateJ)
-	})
+	// Newest-first, tolerant of loose date formats in post front-matter.
+	blogSlice := sortedBlogs(blogs)
 
 	// Get the two most recent blogs
 	var recentBlogs []types.BlogPost
@@ -111,7 +127,7 @@ func ShowBlogPage(c *gin.Context) {
 			// tag pages don't compete with the main listing.
 			pageMeta(title, description, "/blogs"),
 			gin.H{
-				"blogs":       blogs,
+				"blogs":       sortedBlogs(blogs),
 				"Route":       "/blogs",
 				"selectedTag": selectedTag,
 				"allTags":     allTags,
