@@ -28,7 +28,7 @@
       });
       idx = sibs.indexOf(el);
     }
-    el.style.setProperty("--reveal-delay", Math.min(idx, 6) * 70 + "ms");
+    el.style.setProperty("--reveal-delay", Math.min(idx, 8) * 40 + "ms");
   });
 
   var io = new IntersectionObserver(
@@ -40,7 +40,9 @@
         }
       });
     },
-    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    // Eager: reveal as soon as a sliver approaches the viewport (15% below the
+    // fold counts), so content never sits invisible waiting to be scrolled to.
+    { threshold: 0.01, rootMargin: "0px 0px 15% 0px" }
   );
 
   els.forEach(function (el) {
