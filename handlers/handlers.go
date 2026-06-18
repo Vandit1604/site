@@ -3,6 +3,7 @@ package handlers
 import (
 	"log"
 	"net/http"
+	"slices"
 	"sort"
 	"time"
 
@@ -103,11 +104,8 @@ func ShowBlogPage(c *gin.Context) {
 	if selectedTag != "" {
 		filteredBlogs := make(map[string]types.BlogPost)
 		for slug, blog := range blogs {
-			for _, tag := range blog.Tags {
-				if tag == selectedTag {
-					filteredBlogs[slug] = blog
-					break
-				}
+			if slices.Contains(blog.Tags, selectedTag) {
+				filteredBlogs[slug] = blog
 			}
 		}
 		blogs = filteredBlogs
