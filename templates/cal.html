@@ -11,11 +11,32 @@
   <div class="grid gap-4 lg:grid-cols-5">
     <!-- Left: booking calendar -->
     <div
-      class="lg:col-span-3 overflow-hidden rounded-lg border border-gray-200 dark:border-neutral-800"
+      class="relative lg:col-span-3 overflow-hidden rounded-lg border border-gray-200 dark:border-neutral-800"
     >
+      <!-- Shown until the Cal.com embed mounts, and stays if it never loads,
+           so this panel is never just an empty box. -->
+      <div
+        id="cal-fallback"
+        class="absolute inset-0 z-0 flex flex-col items-center justify-center gap-3 p-6 text-center"
+      >
+        <svg class="h-6 w-6 animate-spin text-gray-400 motion-reduce:animate-none" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" />
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v3a5 5 0 00-5 5H4z" />
+        </svg>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Loading the booking calendar…</p>
+        <a
+          href="https://cal.com/v4nd1t/30min"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm font-medium text-gray-900 dark:text-gray-100 underline underline-offset-4 hover:opacity-80"
+        >
+          Or book directly on Cal.com →
+        </a>
+      </div>
       <div
         style="width:100%;height:560px;overflow:auto"
         id="my-cal-inline-30min"
+        class="relative z-10"
       ></div>
     </div>
 
@@ -129,6 +150,21 @@
   });
 
   applyCalTheme();
+
+  // Hide the loading fallback once Cal injects its iframe; if it never loads,
+  // the fallback (with a direct booking link) stays visible.
+  (function () {
+    var target = document.getElementById("my-cal-inline-30min");
+    var fb = document.getElementById("cal-fallback");
+    if (!target || !fb) return;
+    var mo = new MutationObserver(function () {
+      if (target.children.length) {
+        fb.style.display = "none";
+        mo.disconnect();
+      }
+    });
+    mo.observe(target, { childList: true });
+  })();
 
   // Re-theme the embed when the user toggles light/dark after load.
   new MutationObserver(applyCalTheme).observe(document.documentElement, {

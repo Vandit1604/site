@@ -1,16 +1,33 @@
 <nav aria-label="Main navigation" class="relative">
   <!-- Hamburger Icon for small screens -->
   <div class="block md:hidden p-4">
-    <button id="menu-toggle" class="text-gray-600 dark:text-gray-400 focus:outline-none">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <button
+      id="menu-toggle"
+      type="button"
+      aria-label="Open navigation menu"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-controls="drawer"
+      class="rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 dark:focus-visible:ring-gray-100"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
       </svg>
     </button>
   </div>
 
   <!-- Drawer Menu for small screens -->
-  <div id="drawer" class="fixed inset-0 bg-opacity-75 z-50 transform -translate-x-full transition-transform md:hidden">
-    <div class="w-64 h-full bg-white dark:bg-neutral-900 shadow-xl">
+  <div
+    id="drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Site navigation"
+    inert
+    class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 ease-out md:hidden"
+  >
+    <!-- Backdrop: dims the page and closes the drawer on click. -->
+    <div id="drawer-backdrop" class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-300"></div>
+    <div class="relative w-64 h-full bg-white dark:bg-neutral-900 shadow-xl">
       <div class="p-4 flex items-center justify-between">
         <button
           type="button"
@@ -110,14 +127,49 @@
   const menuToggle = document.getElementById("menu-toggle");
   const drawer = document.getElementById("drawer");
   const closeDrawer = document.getElementById("close-drawer");
+  const backdrop = document.getElementById("drawer-backdrop");
 
-  menuToggle.addEventListener("click", () => {
-    drawer.classList.toggle("-translate-x-full");
-  });
+  function openDrawer() {
+    drawer.classList.remove("-translate-x-full");
+    drawer.removeAttribute("inert");
+    backdrop.classList.remove("opacity-0");
+    menuToggle.setAttribute("aria-expanded", "true");
+    closeDrawer.focus();
+    document.addEventListener("keydown", onKeydown);
+  }
 
-  closeDrawer.addEventListener("click", () => {
+  function closeDrawerFn() {
     drawer.classList.add("-translate-x-full");
-  });
+    drawer.setAttribute("inert", "");
+    backdrop.classList.add("opacity-0");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.focus();
+    document.removeEventListener("keydown", onKeydown);
+  }
+
+  function onKeydown(e) {
+    if (e.key === "Escape") closeDrawerFn();
+  }
+
+  menuToggle.addEventListener("click", openDrawer);
+  closeDrawer.addEventListener("click", closeDrawerFn);
+  backdrop.addEventListener("click", closeDrawerFn);
+  // Close after following an in-page link so the drawer doesn't linger.
+  drawer.querySelectorAll("a[href]").forEach((a) =>
+    a.addEventListener("click", closeDrawerFn)
+  );
+
+  // Mark the current page in both the drawer and the desktop bar for orientation.
+  (function markActive() {
+    const here = location.pathname.replace(/\/$/, "") || "/";
+    document.querySelectorAll('nav a[href^="/"]').forEach((a) => {
+      const path = a.getAttribute("href").replace(/\/$/, "") || "/";
+      if (path === here) {
+        a.setAttribute("aria-current", "page");
+        a.classList.add("text-gray-900", "dark:text-gray-100", "underline");
+      }
+    });
+  })();
 
   // Dark-mode toggle: flip the `dark` class on <html> and remember the choice.
   document.querySelectorAll(".theme-toggle").forEach((btn) => {

@@ -46,4 +46,16 @@
   els.forEach(function (el) {
     io.observe(el);
   });
+
+  // Failsafe: if nothing revealed shortly after load, the observer never fired
+  // (a dead/headless renderer, a scripting quirk). Reveal everything so a
+  // section can never ship blank. Real users get the hero revealed on first
+  // paint, so this no-ops for them and scroll reveal stays fully intact.
+  setTimeout(function () {
+    if (!document.querySelector("[data-reveal].is-visible")) {
+      els.forEach(function (el) {
+        el.classList.add("is-visible");
+      });
+    }
+  }, 1200);
 })();
