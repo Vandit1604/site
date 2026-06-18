@@ -25,8 +25,10 @@
 
     {{/* Per-page SEO with homepage fallbacks. Handlers pass MetaTitle,
          MetaDescription, Canonical, OGType, OGImage, Noindex, IsArticle. */}}
-    {{ $title := or .MetaTitle "Vandit Singh · Golang Engineer | Distributed Systems & Observability" }}
-    {{ $desc := or .MetaDescription "Go/infra engineer. I build container runtimes and distributed storage, and I'm exploring blockchain node infrastructure. Merged contributor to Kubernetes, Prometheus, and Jenkins." }}
+    {{/* Keep $title under ~60 chars and $desc under ~125 so neither Google nor
+         the social cards (X, LinkedIn) truncate them. */}}
+    {{ $title := or .MetaTitle "Vandit Singh — Golang & Distributed Systems Engineer" }}
+    {{ $desc := or .MetaDescription "Golang engineer for distributed systems, storage & p2p. Merged contributor to Kubernetes, Prometheus & Jenkins." }}
     {{ $canonical := or .Canonical "https://vandit.dev/" }}
     {{ $ogType := or .OGType "website" }}
     {{ $ogImage := or .OGImage "https://vandit.dev/static/images/og.png" }}
