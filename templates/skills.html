@@ -4,118 +4,77 @@
     <span>Stack & Tooling</span>
   </h2>
 
-  {{ $icon := "https://cdn.jsdelivr.net/gh/devicons/devicon/icons" }}
 
   <div class="space-y-6">
     <!-- DevOps & Infrastructure -->
     <div>
-      <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+      <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-500 mb-3">
         DevOps &amp; Infrastructure
       </h3>
       <div class="flex flex-wrap gap-2">
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/docker/docker-original.svg" alt="Docker" width="16" height="16" class="h-4 w-4" loading="lazy" /> Docker
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/kubernetes/kubernetes-plain.svg" alt="Kubernetes" width="16" height="16" class="h-4 w-4" loading="lazy" /> Kubernetes
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/terraform/terraform-original.svg" alt="Terraform" width="16" height="16" class="h-4 w-4" loading="lazy" /> Terraform
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/helm/helm-original.svg" alt="Helm" width="16" height="16" class="h-4 w-4" loading="lazy" /> Helm
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/jenkins/jenkins-original.svg" alt="Jenkins" width="16" height="16" class="h-4 w-4" loading="lazy" /> Jenkins
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/gitlab/gitlab-original.svg" alt="GitLab CI" width="16" height="16" class="h-4 w-4" loading="lazy" /> GitLab CI
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/linux/linux-original.svg" alt="Linux" width="16" height="16" class="h-4 w-4" loading="lazy" /> Linux
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/nginx/nginx-original.svg" alt="Nginx" width="16" height="16" class="h-4 w-4" loading="lazy" /> Nginx
-        </span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Docker</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Kubernetes</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Terraform</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Helm</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Jenkins</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">GitLab CI</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Linux</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Nginx</span>
       </div>
     </div>
 
     <!-- Observability -->
     <div>
-      <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+      <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-500 mb-3">
         Monitoring &amp; Observability
       </h3>
       <div class="flex flex-wrap gap-2">
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/prometheus/prometheus-original.svg" alt="Prometheus" width="16" height="16" class="h-4 w-4" loading="lazy" /> Prometheus
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/grafana/grafana-original.svg" alt="Grafana" width="16" height="16" class="h-4 w-4" loading="lazy" /> Grafana
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/opentelemetry/opentelemetry-original.svg" alt="OpenTelemetry" width="16" height="16" class="h-4 w-4" loading="lazy" /> OpenTelemetry
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Loki</span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Alertmanager</span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">ELK Stack</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Prometheus</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Grafana</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">OpenTelemetry</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Loki</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Alertmanager</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">ELK Stack</span>
       </div>
     </div>
 
     <!-- Distributed Systems & Web3 -->
     <div>
-      <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+      <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-500 mb-3">
         Distributed Systems &amp; P2P
       </h3>
       <div class="flex flex-wrap gap-2">
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">go-libp2p</span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Kademlia DHT</span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Content Addressing</span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">libp2p streams</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">go-libp2p</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Kademlia DHT</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Content Addressing</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">libp2p streams</span>
       </div>
     </div>
 
     <!-- Languages -->
     <div>
-      <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+      <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-500 mb-3">
         Languages
       </h3>
       <div class="flex flex-wrap gap-2">
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/go/go-original.svg" alt="Go" width="16" height="16" class="h-4 w-4" loading="lazy" /> Golang
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/javascript/javascript-original.svg" alt="JavaScript" width="16" height="16" class="h-4 w-4" loading="lazy" /> JavaScript
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/python/python-original.svg" alt="Python" width="16" height="16" class="h-4 w-4" loading="lazy" /> Python
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/java/java-original.svg" alt="Java" width="16" height="16" class="h-4 w-4" loading="lazy" /> Java
-        </span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Golang</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">JavaScript</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Python</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Java</span>
       </div>
     </div>
 
     <!-- Databases & Tools -->
     <div>
-      <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+      <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-500 mb-3">
         Databases &amp; Tools
       </h3>
       <div class="flex flex-wrap gap-2">
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/postgresql/postgresql-original.svg" alt="PostgreSQL" width="16" height="16" class="h-4 w-4" loading="lazy" /> PostgreSQL
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/mongodb/mongodb-original.svg" alt="MongoDB" width="16" height="16" class="h-4 w-4" loading="lazy" /> MongoDB
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/mysql/mysql-original.svg" alt="MySQL" width="16" height="16" class="h-4 w-4" loading="lazy" /> MySQL
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/redis/redis-original.svg" alt="Redis" width="16" height="16" class="h-4 w-4" loading="lazy" /> Redis
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
-          <img src="{{ $icon }}/git/git-original.svg" alt="Git" width="16" height="16" class="h-4 w-4" loading="lazy" /> Git
-        </span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">PostgreSQL</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">MongoDB</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">MySQL</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Redis</span>
+        <span class="inline-flex items-center rounded-full border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Git</span>
       </div>
     </div>
   </div>

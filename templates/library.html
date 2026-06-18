@@ -13,7 +13,7 @@
   <section class="mb-16 space-y-12">
     {{ range .Categories }}
     <div>
-      <h2 class="font-mono text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 pb-2 border-b border-gray-200 dark:border-neutral-800">{{ .Name }}</h2>
+      <h2 class="font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-500 mb-4 pb-2 border-b border-gray-200 dark:border-neutral-800">{{ .Name }}</h2>
       <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
         {{ range .Links }}
         <a href="{{ .URL }}" target="_blank" rel="noopener noreferrer"
@@ -28,6 +28,8 @@
         {{ end }}
       </div>
     </div>
+    {{ else }}
+    <p class="text-gray-500 dark:text-gray-400">Nothing here yet.</p>
     {{ end }}
   </section>
 </section>
