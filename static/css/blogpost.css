@@ -66,35 +66,37 @@
 .blog-content li { margin-bottom: 0.4em; }
 .blog-content li::marker { color: #9b9b9b; }
 
-/* ---- Inline code + code blocks ---- */
+/* ---- Inline code + code blocks (boxy: hard 1px borders, square) ---- */
 .blog-content code {
     font-family: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
     font-size: 0.875em;
     background-color: #f3f3f1;
-    padding: 0.15em 0.4em;
-    border-radius: 5px;
+    border: 1px solid #e5e7eb;
+    padding: 0.1em 0.4em;
 }
 
 .blog-content pre {
     background-color: #f6f8fa;
+    border: 1px solid #e5e7eb;
     padding: 1rem 1.15rem;
     margin: 1.6em 0;
     overflow-x: auto;
     line-height: 1.6;
     font-size: 0.9em;
-    border-radius: 10px;
 }
 
 .blog-content pre code {
     background-color: transparent;
+    border: 0;
     padding: 0;
     font-size: inherit;
 }
 
-/* ---- Blockquote (no italic — site is all upright) ---- */
+/* ---- Blockquote: bordered box with a hard left rule (no italic) ---- */
 .blog-content blockquote {
-    border-left: 3px solid #d4d4d4;
-    padding-left: 1.1rem;
+    border: 1px solid #e5e7eb;
+    border-left: 3px solid #9ca3af;
+    padding: 0.8rem 1.1rem;
     margin: 1.6em 0;
     color: #555;
 }
@@ -107,7 +109,7 @@
     max-width: 100%;
     height: auto;
     margin: 2em auto;
-    border-radius: 10px;
+    border: 1px solid #e7e7e7;
 }
 
 /* ---- Divider ---- */
@@ -130,7 +132,10 @@
 .dark .blog-content strong { color: #f4f4f4; }
 .dark .blog-content a { text-decoration-color: #4b4b4b; }
 .dark .blog-content li::marker { color: #6b6b6b; }
-.dark .blog-content code { background-color: #1c1c1f; }
-.dark .blog-content pre { background-color: #0d1117; }
-.dark .blog-content blockquote { border-left-color: #3a3a3a; color: #9a9a9a; }
+.dark .blog-content code { background-color: #1c1c1f; border-color: #262626; }
+.dark .blog-content pre { background-color: #0d1117; border-color: #262626; }
+.dark .blog-content pre code { border-color: transparent; }
+.dark .blog-content blockquote { border-color: #262626; border-left-color: #525252; color: #9a9a9a; }
+.dark .blog-content img,
+.dark .blog-content svg { border-color: #262626; }
 .dark .blog-content hr { border-top-color: #2a2a2a; }

@@ -1,22 +1,25 @@
 <footer class="mt-16 border-t border-gray-200 dark:border-neutral-800">
-  <div class="max-w-4xl w-full mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <p class="text-sm text-gray-500 dark:text-gray-400">
-      &copy; <span id="footer-year">2026</span> Vandit Singh
+  <div class="max-w-4xl w-full mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="coord text-gray-500 dark:text-gray-500">
+      &copy; <span id="footer-year">2026</span> · VANDIT SINGH
     </p>
-    <nav aria-label="Footer" class="flex items-center gap-5 text-sm text-gray-600 dark:text-gray-400">
-      <a href="https://github.com/Vandit1604" target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">GitHub</a>
-      <a href="https://x.com/v4nd1t" target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">X</a>
-      <a href="https://www.linkedin.com/in/vandit-singh/" target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">LinkedIn</a>
-      <a href="/resume" target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">Résumé</a>
+    <nav aria-label="Footer" class="coord flex items-center gap-4 text-gray-600 dark:text-gray-400">
+      <a href="https://github.com/Vandit1604" target="_blank" rel="noopener noreferrer" class="border border-gray-200 dark:border-neutral-800 px-2 py-1 boxy-hover hover:text-gray-900 dark:hover:text-gray-100">GitHub</a>
+      <a href="https://x.com/v4nd1t" target="_blank" rel="noopener noreferrer" class="border border-gray-200 dark:border-neutral-800 px-2 py-1 boxy-hover hover:text-gray-900 dark:hover:text-gray-100">X</a>
+      <a href="https://www.linkedin.com/in/vandit-singh/" target="_blank" rel="noopener noreferrer" class="border border-gray-200 dark:border-neutral-800 px-2 py-1 boxy-hover hover:text-gray-900 dark:hover:text-gray-100">LinkedIn</a>
+      <a href="/resume" target="_blank" rel="noopener noreferrer" class="border border-gray-200 dark:border-neutral-800 px-2 py-1 boxy-hover hover:text-gray-900 dark:hover:text-gray-100">Résumé</a>
     </nav>
   </div>
 </footer>
+<!-- close .site-frame opened in header.html -->
+</div>
 
 <script>
   // Keep the footer year current without a build step.
   document.getElementById("footer-year").textContent = new Date().getFullYear();
 </script>
 <script src="/static/js/interactions.js" defer></script>
+<script src="/static/js/matrix.js" defer></script>
 </body>
 
 </html>

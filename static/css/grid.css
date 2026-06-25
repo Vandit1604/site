@@ -1,0 +1,155 @@
+/* ============================================================
+   Boxy grid layout.
+   The whole site is one column framed by two full-height side
+   rails, divided into stacked full-width boxes by horizontal
+   rules. No graph-paper background, no ticks — just structure.
+   Zero radius everywhere. Dark-mode aware (class-based .dark).
+   ============================================================ */
+
+:root {
+  --frame-line: #e5e7eb; /* gray-200 — rails + dividers */
+  --frame-strong: #d1d5db; /* gray-300 — hover emphasis */
+  --surface: #ffffff;
+  --surface-2: #fafafa; /* hover fill */
+}
+
+.dark {
+  --frame-line: #262626; /* neutral-800 */
+  --frame-strong: #404040; /* neutral-700 */
+  --surface: #0a0a0a;
+  --surface-2: #171717; /* neutral-900 */
+}
+
+/* Boxy everywhere: square every corner site-wide. */
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
+
+/* ============================================================
+   Frame: one centred column with two full-height side rails.
+   Opened in header.html, closed in footer.html.
+   ============================================================ */
+/* Binary side columns: rows of 0101… in the gutters beside the frame.
+   Hidden when there's no real gutter (tablet/mobile). */
+.binary-gutter {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: calc((100vw - 56rem) / 2 - 1px);
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: 0.18em;
+  word-break: break-all; /* wrap the binary string into rows */
+  color: rgba(96, 165, 250, 0.22); /* faint base — unlit digits */
+  padding: 0 0.75rem;
+  user-select: none;
+}
+
+/* Random digits flash brighter blue, then fade back to the faint base. */
+.binary-gutter span.lit {
+  animation: digit-flash 2.8s ease-in-out forwards;
+}
+@keyframes digit-flash {
+  0% {
+    color: rgba(96, 165, 250, 1);
+    text-shadow: 0 0 6px rgba(96, 165, 250, 0.7);
+  }
+  100% {
+    color: inherit;
+    text-shadow: none;
+  }
+}
+.dark .binary-gutter span.lit {
+  animation: digit-flash-dark 2.8s ease-in-out forwards;
+}
+@keyframes digit-flash-dark {
+  0% {
+    color: rgba(96, 165, 250, 1);
+    text-shadow: 0 0 7px rgba(59, 130, 246, 0.85);
+  }
+  100% {
+    color: inherit;
+    text-shadow: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .binary-gutter span.lit {
+    animation: none;
+  }
+}
+.binary-gutter--left {
+  left: 0;
+  text-align: right;
+}
+.binary-gutter--right {
+  right: 0;
+  text-align: left;
+}
+.dark .binary-gutter {
+  color: rgba(59, 130, 246, 0.28); /* faint base — unlit digits */
+}
+@media (max-width: 960px) {
+  .binary-gutter {
+    display: none;
+  }
+}
+
+.site-frame {
+  position: relative; /* sit above the binary gutters */
+  z-index: 1;
+  max-width: 56rem; /* == Tailwind max-w-4xl */
+  margin-inline: auto;
+  border-inline: 1px solid var(--frame-line);
+}
+
+/* Soft-media exception to the global zero-radius: faces shouldn't
+   feel harsh, so the profile photo (and any .soft-media) keeps a
+   small radius while every box/card/button stays hard square. */
+.soft-media,
+.soft-media img {
+  border-radius: 0.625rem !important;
+}
+
+/* ============================================================
+   Box: a full-width section divided from the one above by a
+   single rule that spans rail-to-rail. Inner padding gives the
+   content breathing room; the rule itself is full-bleed.
+   ============================================================ */
+.box {
+  border-top: 1px solid var(--frame-line);
+  padding: 2.5rem 1.5rem;
+}
+.box:first-child {
+  border-top: 0;
+}
+
+/* Cell: a plain framed box (e.g. the profile photo, blog masthead). */
+.cell {
+  border: 1px solid var(--frame-line);
+  background: var(--surface);
+}
+
+/* ============================================================
+   Boxy hover: surfaces shift fill + border instead of floating.
+   ============================================================ */
+.boxy-hover {
+  transition:
+    background-color 0.25s var(--ease-apple-out),
+    border-color 0.25s var(--ease-apple-out);
+}
+.boxy-hover:hover {
+  background: var(--surface-2);
+  border-color: var(--frame-strong);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boxy-hover {
+    transition: none;
+  }
+}

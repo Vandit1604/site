@@ -1,7 +1,7 @@
 <!-- Recently played on Spotify. Renders only when .nowPlaying is set
      (i.e. Spotify is configured and the API call succeeded). -->
 {{ if .nowPlaying }}
-<section data-reveal class="mt-8 px-4">
+<section data-reveal class="box">
   <a
     href="{{ .nowPlaying.URL }}"
     target="_blank"

@@ -71,7 +71,7 @@
 .markdown-content code {
     font-size: 85%;
     background-color: #f6f8fa;
-    border-radius: 3px;
+    border: 1px solid #e5e7eb;
 }
 
 .markdown-content pre {
@@ -93,11 +93,11 @@
 }
 
 .markdown-content blockquote {
-    border-left: 4px solid #e5e7eb;
-    padding-left: 1rem;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid #9ca3af;
+    padding: 0.8rem 1rem;
     margin: 1.5rem 0;
     color: #4b5563;
-    font-style: italic;
 }
 
 .markdown-content blockquote p {
@@ -110,6 +110,6 @@
 .dark .markdown-content table tr { background-color: #0d1117; border-top-color: #30363d; }
 .dark .markdown-content table tr:nth-child(2n) { background-color: #161b22; }
 .dark .markdown-content pre,
-.dark .markdown-content code { background-color: #161b22; }
-.dark .markdown-content pre code { background-color: transparent; }
-.dark .markdown-content blockquote { border-left-color: #30363d; color: #9ca3af; }
+.dark .markdown-content code { background-color: #161b22; border-color: #262626; }
+.dark .markdown-content pre code { background-color: transparent; border-color: transparent; }
+.dark .markdown-content blockquote { border-color: #262626; border-left-color: #525252; color: #9ca3af; }
