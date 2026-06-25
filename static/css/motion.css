@@ -7,32 +7,21 @@
   --ease-apple-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ---- Scroll reveal ----
-   Only hide content when JS is present (.js added on boot), so no-JS users
-   and crawlers always see everything. */
-.js [data-reveal] {
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    opacity 0.4s var(--ease-apple-out),
-    transform 0.4s var(--ease-apple-out);
-  transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
-}
-.js [data-reveal].is-visible {
-  opacity: 1;
-  transform: none;
-}
+/* ---- Scroll reveal: REMOVED ----
+   Content is never hidden — every box paints on load, no JS gating.
+   The [data-reveal] attributes are left inert in the markup; the
+   observer in interactions.js simply has nothing to un-hide. */
 
-/* ---- Hover lift (cards) ---- */
+/* ---- Hover (cards): boxy surfaces don't float — shift fill + border
+        instead of lifting/shadowing (see grid.css tokens). ---- */
 .lift {
   transition:
-    transform 0.3s var(--ease-apple-out),
-    box-shadow 0.3s var(--ease-apple-out),
+    background-color 0.3s var(--ease-apple-out),
     border-color 0.3s var(--ease-apple-out);
 }
 .lift:hover {
-  transform: translateY(-3px);
+  background-color: var(--surface-2);
+  border-color: var(--frame-strong);
 }
 
 /* ---- Press / tap feedback ---- */
@@ -55,11 +44,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .js [data-reveal] {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
   .lift,
   .press,
   .theme-toggle svg {

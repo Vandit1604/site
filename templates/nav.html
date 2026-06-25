@@ -1,4 +1,4 @@
-<nav aria-label="Main navigation" class="relative">
+<nav aria-label="Main navigation" class="relative border-b border-gray-200 dark:border-neutral-800">
   <!-- Hamburger Icon for small screens -->
   <div class="block md:hidden p-4">
     <button
@@ -27,7 +27,7 @@
   >
     <!-- Backdrop: dims the page and closes the drawer on click. -->
     <div id="drawer-backdrop" class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-300"></div>
-    <div class="relative w-64 h-full bg-white dark:bg-neutral-900 shadow-xl">
+    <div class="relative w-64 h-full bg-white dark:bg-neutral-900 border-r border-gray-200 dark:border-neutral-800">
       <div class="p-4 flex items-center justify-between">
         <button
           type="button"
@@ -48,7 +48,7 @@
           </svg>
         </button>
       </div>
-      <ol class="flex flex-col p-4 space-y-4 text-md text-gray-600 dark:text-gray-400 font-bold">
+      <ol class="flex flex-col p-4 space-y-1 font-mono text-sm text-gray-600 dark:text-gray-400 [&>li>a]:block [&>li>a]:border-b [&>li>a]:border-gray-200 dark:[&>li>a]:border-neutral-800 [&>li>a]:py-2.5">
         <li>
           <a href="/" class="flex items-center hover:text-gray-700 dark:hover:text-gray-200">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
@@ -83,7 +83,7 @@
 
   <!-- Normal breadcrumb for large screens -->
   <ol
-    class="hidden md:flex items-center text-md text-gray-600 dark:text-gray-400 mt-4 font-bold justify-center border border-gray-200 dark:border-neutral-800 p-4 rounded-full gap-6 whitespace-nowrap w-full">
+    class="hidden md:flex items-center font-mono text-sm text-gray-600 dark:text-gray-400 justify-center px-6 py-4 gap-6 whitespace-nowrap w-full">
     <li>
       <a href="/" class="flex items-center hover:text-gray-700 dark:hover:text-gray-200 hover:underline">
         <span class="sr-only"> Home </span>

@@ -112,6 +112,10 @@
     <!-- Micro-interaction layer (reveal, lift, press, easing tokens). -->
     <link rel="stylesheet" href="/static/css/motion.css" />
 
+    <!-- Blueprint-grid system: graph-paper bg, boxy reset, frame rails,
+         cells, coordinate labels. Loaded last so its tokens/overrides win. -->
+    <link rel="stylesheet" href="/static/css/grid.css" />
+
     <!-- Type system: Geist (sans, everything) + Geist Mono (code). -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -145,3 +149,11 @@
   <body
     class="font-sans bg-white text-gray-900 antialiased dark:bg-black dark:text-gray-100"
   >
+    <!-- Binary side columns: rows of 0101… filling the gutters beside the
+         content frame (desktop only). Filled by matrix.js, sized to fit. -->
+    <div class="binary-gutter binary-gutter--left" aria-hidden="true"></div>
+    <div class="binary-gutter binary-gutter--right" aria-hidden="true"></div>
+
+    <!-- One boxed content column; the .site-frame rails run the full document
+         height and close in footer.html. -->
+    <div class="site-frame">
