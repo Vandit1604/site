@@ -16,9 +16,17 @@ import (
 // so it persists across deploys when that path is on a mounted volume.
 var viewCounter = views.New()
 
-// ShowViews increments the counter and returns the new total as JSON. The nav
-// widget calls this once per page load, then animates the number into place.
+// ShowViews returns the current total WITHOUT incrementing. Used for returning
+// visitors (the browser already counted once) so the tally stays unique-per-
+// visitor rather than per page load.
 func ShowViews(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"count": viewCounter.Count()})
+}
+
+// CountView increments the tally by one and returns the new total. The nav
+// widget POSTs here exactly once per browser (gated by localStorage) so a
+// visitor is only counted the first time they arrive.
+func CountView(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"count": viewCounter.Increment()})
 }
 
