@@ -11,6 +11,10 @@
   --frame-strong: #d1d5db; /* gray-300 — hover emphasis */
   --surface: #ffffff;
   --surface-2: #fafafa; /* hover fill */
+  /* One soft-corner scale (shape-consistency lock): cells/media use --r,
+     every other bordered control/box uses --r-sm, pills stay pills. */
+  --r: 14px;
+  --r-sm: 10px;
 }
 
 .dark {
@@ -20,11 +24,62 @@
   --surface-2: #171717; /* neutral-900 */
 }
 
-/* Boxy everywhere: square every corner site-wide. */
-*,
-*::before,
-*::after {
-  border-radius: 0 !important;
+/* Soft corners, applied consistently without editing every template. Elements
+   carrying Tailwind's full-box `border` token get the control radius; elements
+   that already declare a `rounded-*` utility (pills, tags) keep their own. */
+.site-frame [class~="border"]:not([class*="rounded"]) {
+  border-radius: var(--r-sm);
+}
+button:not([class*="rounded"]),
+input,
+textarea,
+select {
+  border-radius: var(--r-sm);
+}
+.cell {
+  border-radius: var(--r);
+}
+.cmdk-panel {
+  border-radius: var(--r);
+}
+.cmdk-trigger,
+.cmdk-item,
+.ai-btn {
+  border-radius: var(--r-sm);
+}
+
+/* ---- "Read with" AI buttons on blog posts. Monochrome; the brand mark is
+        carried in currentColor and darkens to ink on hover. ---- */
+.ai-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--frame-line);
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #374151; /* gray-700 */
+  background: var(--surface);
+  transition:
+    color 0.2s var(--ease-apple-out),
+    border-color 0.2s var(--ease-apple-out),
+    background-color 0.2s var(--ease-apple-out);
+}
+.ai-btn svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex: none;
+}
+.ai-btn:hover {
+  color: #000;
+  border-color: var(--frame-strong);
+  background: var(--surface-2);
+}
+.dark .ai-btn {
+  color: #d1d5db;
+}
+.dark .ai-btn:hover {
+  color: #fff;
 }
 
 /* ============================================================
@@ -87,7 +142,7 @@
    small radius while every box/card/button stays hard square. */
 .soft-media,
 .soft-media img {
-  border-radius: 0.625rem !important;
+  border-radius: var(--r) !important;
 }
 
 /* ============================================================
@@ -128,48 +183,3 @@
   }
 }
 
-/* ============================================================
-   Equalizer bars for the Spotify card — a small monochrome music
-   motif (not a literal now-playing claim; the API is recently-played).
-   ============================================================ */
-.eq {
-  display: inline-flex;
-  align-items: flex-end;
-  gap: 2px;
-  height: 11px;
-}
-.eq i {
-  width: 2px;
-  height: 100%;
-  background: currentColor;
-  transform: scaleY(0.4);
-  transform-origin: bottom;
-  animation: eq-bar 1.1s ease-in-out infinite;
-}
-.eq i:nth-child(2) {
-  animation-delay: 0.18s;
-}
-.eq i:nth-child(3) {
-  animation-delay: 0.36s;
-}
-.eq i:nth-child(4) {
-  animation-delay: 0.5s;
-}
-@keyframes eq-bar {
-  0%,
-  100% {
-    transform: scaleY(0.35);
-  }
-  50% {
-    transform: scaleY(1);
-  }
-}
-.group:hover .eq i {
-  animation-duration: 0.7s;
-}
-@media (prefers-reduced-motion: reduce) {
-  .eq i {
-    animation: none;
-    transform: scaleY(0.7);
-  }
-}
