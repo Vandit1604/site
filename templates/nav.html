@@ -1,6 +1,6 @@
 <nav aria-label="Main navigation" class="relative border-b border-gray-200 dark:border-neutral-800">
-  <!-- Hamburger Icon for small screens -->
-  <div class="block md:hidden p-4">
+  <!-- Hamburger + search + view counter for small screens -->
+  <div class="flex md:hidden items-center justify-between p-4">
     <button
       id="menu-toggle"
       type="button"
@@ -14,6 +14,15 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
       </svg>
     </button>
+    <div class="flex items-center gap-4">
+      <span class="site-views inline-flex items-center gap-1.5 text-gray-500 dark:text-gray-500 text-sm tabular-nums" title="Total page views" aria-label="Total page views">
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="2.6"/></svg>
+        <span data-views aria-hidden="true">·</span>
+      </span>
+      <button type="button" data-cmdk-open aria-label="Search" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none">
+        <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+    </div>
   </div>
 
   <!-- Drawer Menu for small screens -->
@@ -104,6 +113,19 @@
     <li><a href="/talks" class="hover:text-gray-700 dark:hover:text-gray-200">/talks</a></li>
     <li><a href="/library" class="hover:text-gray-700 dark:hover:text-gray-200">/library</a></li>
     <li><a href="/gallery" class="hover:text-gray-700 dark:hover:text-gray-200">/gallery</a></li>
+    <li>
+      <button type="button" data-cmdk-open class="cmdk-trigger" aria-label="Search (press Command K)" title="Search  ⌘K">
+        <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        Search
+        <kbd>⌘K</kbd>
+      </button>
+    </li>
+    <li class="flex items-center">
+      <span class="site-views inline-flex items-center gap-1.5 text-gray-500 dark:text-gray-500 tabular-nums" title="Total page views" aria-label="Total page views">
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="2.6"/></svg>
+        <span data-views aria-hidden="true">·</span>
+      </span>
+    </li>
     <li class="flex items-center">
       <button
         type="button"

@@ -37,6 +37,11 @@ func setUpRoutes(router *gin.Engine) {
 	// 404 page
 	router.NoRoute(handlers.ShowNotFoundPage)
 
+	// JSON APIs consumed by the frontend: the ⌘K palette index and the
+	// persistent page-view counter shown in the nav.
+	router.GET("/api/search-index.json", handlers.ShowSearchIndex)
+	router.GET("/api/views", handlers.ShowViews)
+
 	router.GET("/", handlers.ShowIndexPage)
 	router.GET("/projects", handlers.ShowProjectsPage)
 	router.GET("/blogs", handlers.ShowBlogPage)

@@ -1,29 +1,33 @@
 <!-- Recently played on Spotify. Renders only when .nowPlaying is set
-     (i.e. Spotify is configured and the API call succeeded). -->
+     (i.e. Spotify is configured and the API call succeeded). Boxy blueprint
+     card: square art, mono coordinate caption, monochrome equalizer motif. -->
 {{ if .nowPlaying }}
 <section data-reveal class="box">
   <a
     href="{{ .nowPlaying.URL }}"
     target="_blank"
     rel="noopener noreferrer"
-    class="group inline-flex items-center gap-3 rounded-full border border-gray-200 dark:border-neutral-800 py-1.5 pl-1.5 pr-4 hover:border-gray-900 dark:hover:border-gray-100 hover:bg-gray-50 dark:hover:bg-neutral-900 lift press"
+    class="group inline-flex max-w-md items-center gap-4 border border-gray-200 dark:border-neutral-800 p-2.5 pr-5 boxy-hover press"
   >
     {{ if .nowPlaying.AlbumArt }}
     <img
       src="{{ .nowPlaying.AlbumArt }}"
       alt=""
-      width="36"
-      height="36"
+      width="56"
+      height="56"
       loading="lazy"
-      class="h-9 w-9 flex-shrink-0 rounded-full object-cover"
+      class="h-14 w-14 flex-shrink-0 object-cover border border-gray-200 dark:border-neutral-800"
     />
     {{ end }}
-    <svg class="h-4 w-4 flex-shrink-0 text-[#1DB954]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.52 17.34c-.24.36-.66.48-1.02.24-2.82-1.74-6.36-2.1-10.56-1.14-.42.12-.78-.18-.9-.54-.12-.42.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.3 1.02zm1.44-3.3c-.3.42-.84.6-1.26.3-3.24-1.98-8.16-2.58-11.94-1.38-.48.12-1.02-.12-1.14-.6-.12-.48.12-1.02.6-1.14 4.38-1.32 9.78-.66 13.5 1.62.36.18.54.78.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.1 9.3c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.32-1.32 11.4-1.02 15.9 1.62.54.3.72 1.02.42 1.56-.3.48-1.02.66-1.56.36z"/>
-    </svg>
-    <span class="flex flex-col leading-tight">
-      <span class="font-mono text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-500">Recently played</span>
-      <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+    <span class="flex min-w-0 flex-col gap-1.5">
+      <span class="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-gray-500 dark:text-gray-500">
+        <span class="eq text-gray-400 dark:text-gray-500" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        Recently&nbsp;played
+        <svg class="h-3 w-3 flex-shrink-0 text-[#1DB954]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.52 17.34c-.24.36-.66.48-1.02.24-2.82-1.74-6.36-2.1-10.56-1.14-.42.12-.78-.18-.9-.54-.12-.42.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.3 1.02zm1.44-3.3c-.3.42-.84.6-1.26.3-3.24-1.98-8.16-2.58-11.94-1.38-.48.12-1.02-.12-1.14-.6-.12-.48.12-1.02.6-1.14 4.38-1.32 9.78-.66 13.5 1.62.36.18.54.78.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.1 9.3c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.32-1.32 11.4-1.02 15.9 1.62.54.3.72 1.02.42 1.56-.3.48-1.02.66-1.56.36z"/>
+        </svg>
+      </span>
+      <span class="truncate text-sm font-semibold text-black dark:text-white">
         {{ .nowPlaying.Title }}
         <span class="font-normal text-gray-500 dark:text-gray-400">— {{ .nowPlaying.Artist }}</span>
       </span>
