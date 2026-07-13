@@ -402,6 +402,133 @@ footer {
 }
 
 /* ============================================================
+   Experience timeline: a rail with nodes down the left, cards on
+   the right. Items reveal on scroll (via data-reveal + is-visible);
+   the current role gets a pulsing "live" node. Content is fully
+   visible without JS — the entrance is a .js-gated enhancement.
+   ============================================================ */
+.tl {
+  position: relative;
+  display: grid;
+  gap: 1.25rem;
+}
+/* Rail track. */
+.tl::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: var(--frame-line);
+}
+/* Rail is "drawn" as you scroll past the section (progressive enhancement). */
+@supports (animation-timeline: view()) {
+  .tl::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    width: 2px;
+    height: calc(100% - 24px);
+    background: var(--frame-strong);
+    transform-origin: top;
+    transform: scaleY(0);
+    animation: tl-draw linear both;
+    animation-timeline: view();
+    animation-range: cover 8% cover 68%;
+  }
+  @keyframes tl-draw {
+    to {
+      transform: scaleY(1);
+    }
+  }
+}
+.tl-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 0.9rem;
+  align-items: start;
+}
+.tl-marker {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+.tl-dot {
+  position: relative;
+  z-index: 1;
+  width: 11px;
+  height: 11px;
+  border-radius: 9999px;
+  background: var(--surface);
+  border: 2px solid var(--frame-strong);
+}
+/* Current role: a filled ink node with a slow pulsing ring. */
+.tl-dot--live {
+  background: currentColor;
+  border-color: currentColor;
+}
+.tl-dot--live::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  border: 2px solid currentColor;
+  animation: tl-ping 2.2s ease-out infinite;
+}
+@keyframes tl-ping {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+/* Entrance (enhancement): cards rise + fade, nodes pop, staggered by the
+   observer's --reveal-delay. Gated on .js so no-JS/crawlers see full content. */
+.js .tl-item {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.55s var(--ease-apple-out),
+    transform 0.55s var(--ease-apple-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js .tl-item.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.js .tl-dot {
+  transform: scale(0);
+  transition: transform 0.45s var(--ease-apple-out) 0.12s;
+}
+.js .tl-item.is-visible .tl-dot {
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .tl-item,
+  .js .tl-dot {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .tl-dot--live::after {
+    animation: none;
+    opacity: 0;
+  }
+  .tl::after {
+    animation: none;
+    transform: scaleY(1);
+  }
+}
+
+/* ============================================================
    Boxy hover: surfaces shift fill + border instead of floating.
    ============================================================ */
 .boxy-hover {

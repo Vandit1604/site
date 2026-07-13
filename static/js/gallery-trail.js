@@ -166,7 +166,7 @@
         samplerReady = true;
       },
     });
-    sampler.volume.value = -9;
+    sampler.volume.value = -3;
     sampler.connect(reverb);
   }
 
@@ -178,7 +178,7 @@
     var note = scale[noteIndex % scale.length];
     noteIndex++;
     try {
-      sampler.triggerAttackRelease(note, "8n", undefined, 0.22 + Math.random() * 0.15);
+      sampler.triggerAttackRelease(note, "8n", undefined, 0.55 + Math.random() * 0.2);
     } catch (err) {
       /* ignore transient timing errors */
     }
