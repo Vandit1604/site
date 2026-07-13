@@ -168,17 +168,20 @@ footer {
   position: absolute;
   width: 54px;
   z-index: 2;
-  color: #9ca3af; /* body silhouette — gray-400 */
-  --cat-ear: #d79aa4;
-  --cat-nose: #d47f8d;
-  --cat-stripe: rgba(0, 0, 0, 0.16);
-  --cat-whisker: rgba(0, 0, 0, 0.3);
-  cursor: pointer;
+  color: #f7f6f3; /* white cat */
+  --cat-ear: #e2a7b1;
+  --cat-nose: #d9808f;
+  --cat-stripe: rgba(0, 0, 0, 0.13); /* stripes on white fur */
+  --cat-whisker: rgba(0, 0, 0, 0.42); /* dark whiskers over light bg */
+  cursor: grab;
+  touch-action: none; /* let the cat be dragged without scrolling */
 }
 .dark .cat {
-  color: #5a5a5a;
-  --cat-stripe: rgba(0, 0, 0, 0.32);
-  --cat-whisker: rgba(255, 255, 255, 0.28);
+  --cat-whisker: rgba(255, 255, 255, 0.5); /* light whiskers over dark bg */
+}
+.cat.is-dragging {
+  cursor: grabbing;
+  z-index: 80;
 }
 /* Footer: tucked in the bottom-right corner below the footer row. */
 .cat--footer {
@@ -201,6 +204,9 @@ footer {
   width: 100%;
   height: auto;
   overflow: visible;
+  /* Soft shadow + tight edge so the white cat reads on light backgrounds. */
+  filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.22))
+    drop-shadow(0 0 0.6px rgba(0, 0, 0, 0.4));
 }
 .cat__svg * {
   transform-box: view-box;

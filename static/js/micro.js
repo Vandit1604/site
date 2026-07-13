@@ -145,9 +145,63 @@
       { passive: true }
     );
 
-    // Hovering a cat delights it; clicking replays the happy burst.
+    // Pin a cat to a fixed viewport position (used by drag + restore).
+    function placeFixed(cat, left, top) {
+      cat.style.position = "fixed";
+      cat.style.left = left + "px";
+      cat.style.top = top + "px";
+      cat.style.right = "auto";
+      cat.style.bottom = "auto";
+      cat.style.margin = "0";
+    }
+
     cats.forEach(function (cat) {
+      var key = "catpos:" + (cat.classList.contains("cat--hero") ? "hero" : "footer");
+
+      // Restore a previously dropped spot, clamped back into view.
+      try {
+        var saved = JSON.parse(localStorage.getItem(key) || "null");
+        if (saved) {
+          placeFixed(
+            cat,
+            Math.min(Math.max(0, saved.x), window.innerWidth - 44),
+            Math.min(Math.max(0, saved.y), window.innerHeight - 44)
+          );
+        }
+      } catch (e) {}
+
+      var dragging = false, moved = false, ox = 0, oy = 0;
+
+      cat.addEventListener("pointerdown", function (e) {
+        dragging = true;
+        moved = false;
+        var r = cat.getBoundingClientRect();
+        ox = e.clientX - r.left;
+        oy = e.clientY - r.top;
+        try { cat.setPointerCapture(e.pointerId); } catch (_) {}
+        cat.classList.add("is-dragging", "is-awake");
+        cat.classList.remove("is-sleeping");
+        e.preventDefault();
+      });
+      cat.addEventListener("pointermove", function (e) {
+        if (!dragging) return;
+        moved = true;
+        placeFixed(cat, e.clientX - ox, e.clientY - oy);
+      });
+      function drop(e) {
+        if (!dragging) return;
+        dragging = false;
+        cat.classList.remove("is-dragging");
+        try { cat.releasePointerCapture(e.pointerId); } catch (_) {}
+        var r = cat.getBoundingClientRect();
+        try { localStorage.setItem(key, JSON.stringify({ x: r.left, y: r.top })); } catch (_) {}
+      }
+      cat.addEventListener("pointerup", drop);
+      cat.addEventListener("pointercancel", drop);
+
+      // Hovering delights the cat; a real tap (no drag) replays the heart.
       cat.addEventListener("pointerenter", function () {
+        if (dragging) return;
         cat.classList.remove("is-sleeping");
         cat.classList.add("is-awake", "is-happy");
       });
@@ -156,6 +210,7 @@
         updateCat(cat);
       });
       cat.addEventListener("click", function () {
+        if (moved) { moved = false; return; } // that was a drag, not a tap
         cat.classList.remove("is-happy");
         void cat.offsetWidth; // reflow so the heart animation restarts
         cat.classList.add("is-happy");
