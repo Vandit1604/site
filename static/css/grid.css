@@ -156,34 +156,125 @@ select {
 }
 
 /* ============================================================
-   Sleepy pixel cat easter egg in the footer corner.
+   Interactive cat easter egg in the footer corner. Sleeps by
+   default; micro.js adds .is-awake / .is-happy and sets --px/--py
+   so the eyes track the cursor as it approaches.
    ============================================================ */
 footer {
   position: relative;
-  padding-bottom: 3.25rem; /* room for the cat below the footer row */
+  padding-bottom: 3.75rem; /* room for the cat below the footer row */
 }
-.pixel-cat {
+.cat {
   position: absolute;
-  right: 1.5rem;
-  bottom: 0.6rem;
-  width: 40px;
-  color: #9ca3af; /* gray-400 */
-  pointer-events: none;
+  right: 1.25rem;
+  bottom: 0.3rem;
+  width: 54px;
+  color: #9ca3af; /* body silhouette — gray-400 */
+  --cat-ear: #d79aa4;
+  --cat-nose: #d47f8d;
+  --cat-stripe: rgba(0, 0, 0, 0.16);
+  --cat-whisker: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.dark .cat {
+  color: #5a5a5a;
+  --cat-stripe: rgba(0, 0, 0, 0.32);
+  --cat-whisker: rgba(255, 255, 255, 0.28);
 }
 @media (max-width: 640px) {
-  .pixel-cat {
+  .cat {
     display: none;
   }
 }
-.dark .pixel-cat {
-  color: #525252; /* neutral-600 */
-}
-.pixel-cat__body {
+.cat__svg {
   display: block;
   width: 100%;
   height: auto;
-  transform-origin: bottom center;
+  overflow: visible;
+}
+.cat__svg * {
+  transform-box: view-box;
+}
+.cat__body {
+  transform-origin: 24px 45px;
+}
+.cat__tail {
+  transform-origin: 38px 33px;
+}
+.cat__ear {
+  transition: transform 0.3s var(--ease-apple-out);
+}
+.cat__ear--l {
+  transform-origin: 15px 11px;
+}
+.cat__ear--r {
+  transform-origin: 33px 11px;
+}
+.cat__pupils {
+  transition: transform 0.12s ease-out;
+  transform: translate(calc(var(--px, 0) * 1.7px), calc(var(--py, 0) * 1.4px));
+}
+.cat__eyes,
+.cat__eyes-closed {
+  transition: opacity 0.2s ease;
+}
+.cat__heart {
+  transform-origin: 24px 7px;
+  opacity: 0;
+  transform: scale(0);
+}
+
+/* ---- Sleeping (default): eyes closed, z's rise, gentle breathing ---- */
+.cat.is-sleeping .cat__eyes {
+  opacity: 0;
+}
+.cat:not(.is-sleeping) .cat__eyes-closed {
+  opacity: 0;
+}
+.cat.is-sleeping .cat__body {
   animation: cat-breathe 3.8s ease-in-out infinite;
+}
+.cat__z {
+  position: absolute;
+  bottom: 68%;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-weight: 600;
+  line-height: 1;
+  color: currentColor;
+  opacity: 0;
+  animation: cat-z 3s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.cat.is-sleeping .cat__z {
+  animation-play-state: running;
+}
+.cat__z--1 {
+  right: 2px;
+  font-size: 8px;
+  animation-delay: 0s;
+}
+.cat__z--2 {
+  right: 7px;
+  font-size: 10px;
+  animation-delay: 1s;
+}
+.cat__z--3 {
+  right: 13px;
+  font-size: 13px;
+  animation-delay: 2s;
+}
+@keyframes cat-z {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  30% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(6px, -14px);
+  }
 }
 @keyframes cat-breathe {
   0%,
@@ -191,54 +282,71 @@ footer {
     transform: scaleY(1);
   }
   50% {
-    transform: scaleY(0.95);
+    transform: scaleY(0.955);
   }
 }
-.pixel-cat__z {
-  position: absolute;
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-weight: 600;
-  line-height: 1;
-  opacity: 0;
+
+/* ---- Awake: ears perk, tail flicks lazily ---- */
+.cat.is-awake .cat__ear--l {
+  transform: rotate(-7deg);
 }
-.pixel-cat__z--1 {
-  right: -4px;
-  bottom: 62%;
-  font-size: 8px;
-  animation: cat-z 3s ease-in-out infinite;
+.cat.is-awake .cat__ear--r {
+  transform: rotate(7deg);
 }
-.pixel-cat__z--2 {
-  right: 0;
-  bottom: 74%;
-  font-size: 10px;
-  animation: cat-z 3s ease-in-out 1s infinite;
+.cat.is-awake .cat__tail {
+  animation: cat-tail 2.6s ease-in-out infinite;
 }
-.pixel-cat__z--3 {
-  right: 5px;
-  bottom: 86%;
-  font-size: 13px;
-  animation: cat-z 3s ease-in-out 2s infinite;
+
+/* ---- Happy (hover): tail wags fast, a heart pops, ears flick ---- */
+.cat.is-happy .cat__ear--l {
+  transform: rotate(-13deg);
 }
-@keyframes cat-z {
+.cat.is-happy .cat__ear--r {
+  transform: rotate(13deg);
+}
+.cat.is-happy .cat__tail {
+  animation: cat-tail 0.5s ease-in-out infinite;
+}
+.cat.is-happy .cat__heart {
+  animation: cat-heart 0.9s ease-out;
+}
+@keyframes cat-tail {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-17deg);
+  }
+}
+@keyframes cat-heart {
   0% {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(2px) scale(0);
   }
-  35% {
-    opacity: 0.85;
+  25% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.15);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-6px) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(-12px);
+    transform: translateY(-13px) scale(0.9);
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .pixel-cat__body {
-    animation: none;
+  .cat__body,
+  .cat__tail,
+  .cat__z,
+  .cat__heart {
+    animation: none !important;
   }
-  .pixel-cat__z {
-    animation: none;
-    opacity: 0;
+  .cat__pupils {
+    transition: none;
   }
 }
 
