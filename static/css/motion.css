@@ -87,6 +87,34 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* ---- Theme toggle: 45° slash wipe via the View Transitions API. The new
+        theme grows from the top-left corner behind a diagonal leading edge that
+        matches the gutter slash-hatch. vmax legs keep the edge a true 45°
+        regardless of aspect ratio. No-op where the API is unsupported. ---- */
+::view-transition-old(root) {
+  animation: none;
+  z-index: 0;
+}
+::view-transition-new(root) {
+  animation: slash-wipe 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  z-index: 1;
+}
+@keyframes slash-wipe {
+  from {
+    clip-path: polygon(0 0, 0 0, 0 0);
+  }
+  to {
+    clip-path: polygon(0 0, 200vmax 0, 0 200vmax);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lift,
   .press,
