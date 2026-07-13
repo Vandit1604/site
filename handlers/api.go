@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin"
+	"github.com/vandit1604/site/github"
 	"github.com/vandit1604/site/models"
 	"github.com/vandit1604/site/types"
 	"github.com/vandit1604/site/views"
@@ -28,6 +29,13 @@ func ShowViews(c *gin.Context) {
 // visitor is only counted the first time they arrive.
 func CountView(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"count": viewCounter.Increment()})
+}
+
+// ShowGitHub returns the cached GitHub activity snapshot (contribution
+// calendar + top repos) rendered by the homepage widget.
+func ShowGitHub(c *gin.Context) {
+	c.Header("Cache-Control", "public, max-age=1800")
+	c.JSON(http.StatusOK, github.Get())
 }
 
 // searchDoc is one entry in the command-palette index.

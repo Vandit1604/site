@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/vandit1604/site/github"
 	"github.com/vandit1604/site/handlers"
 	"github.com/vandit1604/site/models"
 	"github.com/vandit1604/site/router"
@@ -37,6 +38,10 @@ func main() {
 	}
 
 	models.ReadBlogs()
+
+	// Warm the GitHub activity cache in the background so the first visitor
+	// gets it instantly rather than waiting on the API round-trip.
+	go github.Get()
 
 	// Coolify rebuilds and restarts the container on every push to main, so a
 	// startup submission is effectively an on-deploy submission with no manual

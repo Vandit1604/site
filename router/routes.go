@@ -44,6 +44,8 @@ func setUpRoutes(router *gin.Engine) {
 	// is unique visitors rather than page loads).
 	router.GET("/api/views", handlers.ShowViews)
 	router.POST("/api/views", handlers.CountView)
+	// Live GitHub activity (contribution calendar + top repos), cached.
+	router.GET("/api/github", handlers.ShowGitHub)
 
 	router.GET("/", handlers.ShowIndexPage)
 	router.GET("/projects", handlers.ShowProjectsPage)
