@@ -156,20 +156,8 @@
     }
 
     cats.forEach(function (cat) {
-      var key = "catpos:" + (cat.classList.contains("cat--hero") ? "hero" : "footer");
-
-      // Restore a previously dropped spot, clamped back into view.
-      try {
-        var saved = JSON.parse(localStorage.getItem(key) || "null");
-        if (saved) {
-          placeFixed(
-            cat,
-            Math.min(Math.max(0, saved.x), window.innerWidth - 44),
-            Math.min(Math.max(0, saved.y), window.innerHeight - 44)
-          );
-        }
-      } catch (e) {}
-
+      // Drag is session-only: a refresh returns the cat to its default anchor
+      // (no persisted position).
       var dragging = false, moved = false, ox = 0, oy = 0;
 
       cat.addEventListener("pointerdown", function (e) {
@@ -193,8 +181,6 @@
         dragging = false;
         cat.classList.remove("is-dragging");
         try { cat.releasePointerCapture(e.pointerId); } catch (_) {}
-        var r = cat.getBoundingClientRect();
-        try { localStorage.setItem(key, JSON.stringify({ x: r.left, y: r.top })); } catch (_) {}
       }
       cat.addEventListener("pointerup", drop);
       cat.addEventListener("pointercancel", drop);
