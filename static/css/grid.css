@@ -100,6 +100,7 @@ select {
   pointer-events: none;
   user-select: none;
   --dot: rgba(17, 17, 17, 0.14); /* graphite dots on light */
+  --dot-bright: rgba(17, 17, 17, 0.5); /* dots lit under the cursor */
   --slash: rgba(17, 17, 17, 0.04);
   background-image:
     repeating-linear-gradient(-45deg, var(--slash) 0 1px, transparent 1px 22px),
@@ -115,6 +116,7 @@ select {
 }
 .dark .binary-gutter {
   --dot: rgba(255, 255, 255, 0.12); /* light dots on near-black */
+  --dot-bright: rgba(255, 255, 255, 0.55);
   --slash: rgba(255, 255, 255, 0.035);
 }
 .binary-gutter--left {
@@ -123,9 +125,120 @@ select {
 .binary-gutter--right {
   right: 0;
 }
+
+/* Cursor-reactive dots: a brighter dot layer revealed in a soft circle that
+   follows the pointer. --mx/--my (viewport px, set by micro.js) drive the mask;
+   the right gutter offsets the x into its own box. When the cursor is away from
+   an edge the mask sits off that gutter, so the base field stays calm. */
+.binary-gutter::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--dot-bright) 1.4px, transparent 1.5px);
+  background-size: 18px 18px;
+  background-position: center;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle 150px at var(--gx, -9999px) var(--gy, -9999px), #000 0%, transparent 72%);
+  mask-image: radial-gradient(circle 150px at var(--gx, -9999px) var(--gy, -9999px), #000 0%, transparent 72%);
+}
+.binary-gutter--left::after {
+  --gx: calc(var(--mx, -9999) * 1px);
+  --gy: calc(var(--my, -9999) * 1px);
+}
+.binary-gutter--right::after {
+  --gx: calc(var(--mx, -9999) * 1px - (100vw + 56rem) / 2 - 1px);
+  --gy: calc(var(--my, -9999) * 1px);
+}
 @media (max-width: 960px) {
   .binary-gutter {
     display: none;
+  }
+}
+
+/* ============================================================
+   Sleepy pixel cat easter egg in the footer corner.
+   ============================================================ */
+footer {
+  position: relative;
+  padding-bottom: 3.25rem; /* room for the cat below the footer row */
+}
+.pixel-cat {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 0.6rem;
+  width: 40px;
+  color: #9ca3af; /* gray-400 */
+  pointer-events: none;
+}
+@media (max-width: 640px) {
+  .pixel-cat {
+    display: none;
+  }
+}
+.dark .pixel-cat {
+  color: #525252; /* neutral-600 */
+}
+.pixel-cat__body {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform-origin: bottom center;
+  animation: cat-breathe 3.8s ease-in-out infinite;
+}
+@keyframes cat-breathe {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.95);
+  }
+}
+.pixel-cat__z {
+  position: absolute;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-weight: 600;
+  line-height: 1;
+  opacity: 0;
+}
+.pixel-cat__z--1 {
+  right: -4px;
+  bottom: 62%;
+  font-size: 8px;
+  animation: cat-z 3s ease-in-out infinite;
+}
+.pixel-cat__z--2 {
+  right: 0;
+  bottom: 74%;
+  font-size: 10px;
+  animation: cat-z 3s ease-in-out 1s infinite;
+}
+.pixel-cat__z--3 {
+  right: 5px;
+  bottom: 86%;
+  font-size: 13px;
+  animation: cat-z 3s ease-in-out 2s infinite;
+}
+@keyframes cat-z {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  35% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pixel-cat__body {
+    animation: none;
+  }
+  .pixel-cat__z {
+    animation: none;
+    opacity: 0;
   }
 }
 

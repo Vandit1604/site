@@ -13,7 +13,13 @@
     var targets = document.querySelectorAll("[data-views]");
     if (!targets.length) return;
 
-    fetch("/api/views")
+    // Count each browser once: POST (increment) on a first-ever visit, GET
+    // (read-only) on return. Keeps the tally unique-per-visitor, not per load.
+    var seen = false;
+    try { seen = localStorage.getItem("vs_seen") === "1"; } catch (e) {}
+    if (!seen) { try { localStorage.setItem("vs_seen", "1"); } catch (e) {} }
+
+    fetch("/api/views", seen ? undefined : { method: "POST" })
       .then(function (r) { return r.json(); })
       .then(function (data) {
         var n = typeof data.count === "number" ? data.count : 0;
@@ -92,5 +98,28 @@
 
     // Let the hero entrance play first, then start typing.
     schedule(2200);
+  })();
+
+  /* ---- Cursor-reactive gutter dots -------------------------------------- */
+  (function dotGlow() {
+    // Pointer position (viewport px) feeds the spotlight mask in grid.css.
+    // Skip touch devices, which have no hovering cursor.
+    if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) return;
+    var root = document.documentElement, x = 0, y = 0, queued = false;
+    window.addEventListener(
+      "pointermove",
+      function (e) {
+        x = e.clientX;
+        y = e.clientY;
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(function () {
+          root.style.setProperty("--mx", x);
+          root.style.setProperty("--my", y);
+          queued = false;
+        });
+      },
+      { passive: true }
+    );
   })();
 })();

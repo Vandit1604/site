@@ -40,7 +40,10 @@ func setUpRoutes(router *gin.Engine) {
 	// JSON APIs consumed by the frontend: the ⌘K palette index and the
 	// persistent page-view counter shown in the nav.
 	router.GET("/api/search-index.json", handlers.ShowSearchIndex)
+	// GET reads the total; POST increments it (once per browser, so the count
+	// is unique visitors rather than page loads).
 	router.GET("/api/views", handlers.ShowViews)
+	router.POST("/api/views", handlers.CountView)
 
 	router.GET("/", handlers.ShowIndexPage)
 	router.GET("/projects", handlers.ShowProjectsPage)
