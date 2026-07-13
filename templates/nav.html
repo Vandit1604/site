@@ -194,12 +194,23 @@
   })();
 
   // Dark-mode toggle: flip the `dark` class on <html> and remember the choice.
+  // Wrapped in a View Transition so the swap plays as a 45° slash wipe (styled
+  // in motion.css). Falls back to an instant swap where the API is unsupported
+  // or the visitor prefers reduced motion.
+  function setTheme() {
+    const isDark = document.documentElement.classList.toggle("dark");
+    try {
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    } catch (e) {}
+  }
   document.querySelectorAll(".theme-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const isDark = document.documentElement.classList.toggle("dark");
-      try {
-        localStorage.setItem("theme", isDark ? "dark" : "light");
-      } catch (e) {}
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce || !document.startViewTransition) {
+        setTheme();
+        return;
+      }
+      document.startViewTransition(setTheme);
     });
   });
 </script>
