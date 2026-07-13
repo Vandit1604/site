@@ -24,6 +24,15 @@
   --surface-2: #171717; /* neutral-900 */
 }
 
+/* Signature micro-label: small mono "coordinate" text used for dates, footer,
+   and section metadata. Kept sentence-case so full phrases don't shout; add
+   `uppercase` at the call site for short labels that want it. */
+.coord {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+}
+
 /* Soft corners, applied consistently without editing every template. Elements
    carrying Tailwind's full-box `border` token get the control radius; elements
    that already declare a `rounded-*` utility (pills, tags) keep their own. */
@@ -531,9 +540,12 @@ footer {
 /* ============================================================
    GitHub activity: monochrome contribution calendar + repo cards.
    ============================================================ */
+.gh-panel {
+  padding: 1rem 1.1rem;
+}
 .gh-cal-wrap {
   overflow-x: auto;
-  padding-bottom: 4px;
+  padding-bottom: 2px;
 }
 .gh-cal {
   display: grid;
@@ -544,27 +556,47 @@ footer {
   width: max-content;
 }
 .gh-day {
+  display: inline-block;
+  vertical-align: middle;
   width: 11px;
   height: 11px;
   border-radius: 2px;
   background: rgba(0, 0, 0, 0.06);
 }
-.gh-day[data-empty] {
-  background: transparent;
-}
-.gh-day[data-level="1"] { background: rgba(0, 0, 0, 0.22); }
-.gh-day[data-level="2"] { background: rgba(0, 0, 0, 0.44); }
-.gh-day[data-level="3"] { background: rgba(0, 0, 0, 0.68); }
-.gh-day[data-level="4"] { background: rgba(0, 0, 0, 0.9); }
+.gh-day[data-empty] { background: transparent; }
+.gh-day[data-level="1"] { background: rgba(0, 0, 0, 0.24); }
+.gh-day[data-level="2"] { background: rgba(0, 0, 0, 0.46); }
+.gh-day[data-level="3"] { background: rgba(0, 0, 0, 0.7); }
+.gh-day[data-level="4"] { background: rgba(0, 0, 0, 0.92); }
 .dark .gh-day { background: rgba(255, 255, 255, 0.08); }
 .dark .gh-day[data-empty] { background: transparent; }
-.dark .gh-day[data-level="1"] { background: rgba(255, 255, 255, 0.24); }
-.dark .gh-day[data-level="2"] { background: rgba(255, 255, 255, 0.46); }
-.dark .gh-day[data-level="3"] { background: rgba(255, 255, 255, 0.7); }
-.dark .gh-day[data-level="4"] { background: rgba(255, 255, 255, 0.95); }
+.dark .gh-day[data-level="1"] { background: rgba(255, 255, 255, 0.26); }
+.dark .gh-day[data-level="2"] { background: rgba(255, 255, 255, 0.48); }
+.dark .gh-day[data-level="3"] { background: rgba(255, 255, 255, 0.72); }
+.dark .gh-day[data-level="4"] { background: rgba(255, 255, 255, 0.96); }
 
+.gh-cal-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-top: 0.85rem;
+}
+.gh-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.gh-legend .gh-day {
+  width: 10px;
+  height: 10px;
+}
+
+/* Repo cards */
 .gh-repo {
-  display: block;
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--frame-line);
   background: var(--surface);
   border-radius: var(--r-sm);
@@ -588,33 +620,69 @@ footer {
   font-size: 0.9rem;
   color: #000;
 }
-.dark .gh-repo-name {
-  color: #fff;
-}
+.dark .gh-repo-name { color: #fff; }
 .gh-repo-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
   flex: none;
   font-family: "Geist Mono", ui-monospace, monospace;
   font-size: 0.72rem;
   color: #6b7280;
 }
+.gh-star {
+  width: 11px;
+  height: 11px;
+  color: #9ca3af;
+}
 .gh-repo-desc {
   margin-top: 0.35rem;
   font-size: 0.8rem;
   line-height: 1.45;
-  color: #6b7280;
+  color: #52525b; /* zinc-600 — readable secondary, not washed out */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.dark .gh-repo-desc { color: #a1a1aa; }
+.gh-repo-desc--empty { font-style: italic; opacity: 0.7; }
+.gh-repo-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.7rem;
+}
 .gh-repo-lang {
-  margin-top: 0.55rem;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   font-family: "Geist Mono", ui-monospace, monospace;
   font-size: 0.68rem;
   letter-spacing: 0.02em;
   color: #6b7280;
 }
+.gh-lang-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.55;
+}
+.gh-repo-arrow {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  transform: translate(0, 0);
+  transition:
+    transform 0.25s var(--ease-apple-out),
+    color 0.25s var(--ease-apple-out);
+}
+.gh-repo:hover .gh-repo-arrow {
+  color: #000;
+  transform: translate(2px, -2px);
+}
+.dark .gh-repo:hover .gh-repo-arrow { color: #fff; }
 
 /* ============================================================
    Boxy hover: surfaces shift fill + border instead of floating.

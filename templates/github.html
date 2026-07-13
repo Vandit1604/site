@@ -9,12 +9,27 @@
     </a>
   </div>
 
-  <!-- Contribution calendar -->
-  <div class="gh-cal-wrap">
-    <div class="gh-cal" data-gh-cal aria-hidden="true"></div>
+  <!-- Contribution calendar, framed. -->
+  <div class="gh-panel cell">
+    <div class="gh-cal-wrap">
+      <div class="gh-cal" data-gh-cal aria-hidden="true"></div>
+    </div>
+    <div class="gh-cal-foot">
+      <span class="coord text-gray-500 dark:text-gray-500">
+        <span class="font-semibold text-black dark:text-white" data-gh-total>—</span> contributions in the last year
+      </span>
+      <span class="gh-legend coord text-gray-500 dark:text-gray-500" aria-hidden="true">
+        Less
+        <i class="gh-day" data-level="0"></i>
+        <i class="gh-day" data-level="1"></i>
+        <i class="gh-day" data-level="2"></i>
+        <i class="gh-day" data-level="3"></i>
+        <i class="gh-day" data-level="4"></i>
+        More
+      </span>
+    </div>
   </div>
-  <p class="mt-3 coord text-gray-500 dark:text-gray-500"><span data-gh-total>—</span> contributions in the last year</p>
 
   <!-- Top repositories -->
-  <div class="mt-6 grid gap-3 sm:grid-cols-2" data-gh-repos></div>
+  <div class="mt-4 grid gap-3 sm:grid-cols-2" data-gh-repos></div>
 </section>

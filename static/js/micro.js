@@ -243,12 +243,18 @@
 
         var wrap = section.querySelector("[data-gh-repos]");
         if (wrap && hasRepos) {
+          var star = '<svg class="gh-star" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 6 6.5.9-4.7 4.6 1.1 6.5L12 18.5 6.2 21.6l1.1-6.5L2.6 9.5l6.5-.9z"/></svg>';
           wrap.innerHTML = d.repos.map(function (r) {
             return '<a href="' + esc(r.url) + '" target="_blank" rel="noopener noreferrer" class="gh-repo press">' +
-              '<span class="gh-repo-top"><span class="gh-repo-name">' + esc(r.name) + '</span>' +
-              '<span class="gh-repo-stars">★ ' + (r.stars || 0) + '</span></span>' +
-              (r.description ? '<span class="gh-repo-desc">' + esc(r.description) + '</span>' : '') +
-              (r.language ? '<span class="gh-repo-lang">' + esc(r.language) + '</span>' : '') +
+              '<span class="gh-repo-top">' +
+                '<span class="gh-repo-name">' + esc(r.name) + '</span>' +
+                '<span class="gh-repo-stars">' + star + (r.stars || 0) + '</span>' +
+              '</span>' +
+              (r.description ? '<span class="gh-repo-desc">' + esc(r.description) + '</span>' : '<span class="gh-repo-desc gh-repo-desc--empty">No description</span>') +
+              '<span class="gh-repo-foot">' +
+                (r.language ? '<span class="gh-repo-lang"><i class="gh-lang-dot"></i>' + esc(r.language) + '</span>' : '<span></span>') +
+                '<span class="gh-repo-arrow" aria-hidden="true">&#8599;</span>' +
+              '</span>' +
               '</a>';
           }).join("");
         }
