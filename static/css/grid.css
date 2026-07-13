@@ -166,9 +166,8 @@ footer {
 }
 .cat {
   position: absolute;
-  right: 1.25rem;
-  bottom: 0.3rem;
   width: 54px;
+  z-index: 2;
   color: #9ca3af; /* body silhouette — gray-400 */
   --cat-ear: #d79aa4;
   --cat-nose: #d47f8d;
@@ -180,6 +179,17 @@ footer {
   color: #5a5a5a;
   --cat-stripe: rgba(0, 0, 0, 0.32);
   --cat-whisker: rgba(255, 255, 255, 0.28);
+}
+/* Footer: tucked in the bottom-right corner below the footer row. */
+.cat--footer {
+  right: 1.25rem;
+  bottom: 0.3rem;
+}
+/* Hero: perched at the bottom-right corner of the profile photo. */
+.cat--hero {
+  width: 46px;
+  right: -14px;
+  bottom: -16px;
 }
 @media (max-width: 640px) {
   .cat {

@@ -43,10 +43,14 @@
   </div>
 
   <div class="md:flex-shrink-0">
-    <img
-      src="../assets/images/vandit-singh.png"
-      alt="Vandit Singh"
-      width="144" height="144" class="soft-media h-36 w-36 sm:h-44 sm:w-44 object-cover border border-gray-200 dark:border-neutral-800"
-    />
+    <div class="relative inline-block">
+      <img
+        src="../assets/images/vandit-singh.png"
+        alt="Vandit Singh"
+        width="144" height="144" class="soft-media h-36 w-36 sm:h-44 sm:w-44 object-cover border border-gray-200 dark:border-neutral-800"
+      />
+      <!-- A cat perched at the corner of the photo (shared partial). -->
+      <div class="cat cat--hero is-sleeping" title="hi :)">{{ template "catInner" . }}</div>
+    </div>
   </div>
 </section>
