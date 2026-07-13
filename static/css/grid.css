@@ -31,68 +31,42 @@
    Frame: one centred column with two full-height side rails.
    Opened in header.html, closed in footer.html.
    ============================================================ */
-/* Binary side columns: rows of 0101… in the gutters beside the frame.
-   Hidden when there's no real gutter (tablet/mobile). */
+/* Side gutters beside the frame: a calm, static perforated dot field — the
+   margin of engineering graph paper. Monochrome, no motion, no JS; the blue
+   binary rain is gone (color is not the brand's voice). Hidden when there's no
+   real gutter (tablet/mobile). A faint slash hatch overlays the dots at low
+   opacity for a touch of blueprint texture. */
 .binary-gutter {
   position: fixed;
   top: 0;
   bottom: 0;
   width: calc((100vw - 56rem) / 2 - 1px);
-  overflow: hidden;
   z-index: 0;
   pointer-events: none;
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
-  font-size: 13px;
-  line-height: 1.6;
-  letter-spacing: 0.18em;
-  word-break: break-all; /* wrap the binary string into rows */
-  color: rgba(96, 165, 250, 0.22); /* faint base — unlit digits */
-  padding: 0 0.75rem;
   user-select: none;
+  --dot: rgba(17, 17, 17, 0.14); /* graphite dots on light */
+  --slash: rgba(17, 17, 17, 0.04);
+  background-image:
+    repeating-linear-gradient(-45deg, var(--slash) 0 1px, transparent 1px 22px),
+    radial-gradient(var(--dot) 1.1px, transparent 1.2px);
+  background-size:
+    auto,
+    18px 18px;
+  background-position:
+    0 0,
+    center;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
 }
-
-/* Random digits flash brighter blue, then fade back to the faint base. */
-.binary-gutter span.lit {
-  animation: digit-flash 2.8s ease-in-out forwards;
-}
-@keyframes digit-flash {
-  0% {
-    color: rgba(96, 165, 250, 1);
-    text-shadow: 0 0 6px rgba(96, 165, 250, 0.7);
-  }
-  100% {
-    color: inherit;
-    text-shadow: none;
-  }
-}
-.dark .binary-gutter span.lit {
-  animation: digit-flash-dark 2.8s ease-in-out forwards;
-}
-@keyframes digit-flash-dark {
-  0% {
-    color: rgba(96, 165, 250, 1);
-    text-shadow: 0 0 7px rgba(59, 130, 246, 0.85);
-  }
-  100% {
-    color: inherit;
-    text-shadow: none;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .binary-gutter span.lit {
-    animation: none;
-  }
+.dark .binary-gutter {
+  --dot: rgba(255, 255, 255, 0.12); /* light dots on near-black */
+  --slash: rgba(255, 255, 255, 0.035);
 }
 .binary-gutter--left {
   left: 0;
-  text-align: right;
 }
 .binary-gutter--right {
   right: 0;
-  text-align: left;
-}
-.dark .binary-gutter {
-  color: rgba(59, 130, 246, 0.28); /* faint base — unlit digits */
 }
 @media (max-width: 960px) {
   .binary-gutter {
@@ -151,5 +125,51 @@
 @media (prefers-reduced-motion: reduce) {
   .boxy-hover {
     transition: none;
+  }
+}
+
+/* ============================================================
+   Equalizer bars for the Spotify card — a small monochrome music
+   motif (not a literal now-playing claim; the API is recently-played).
+   ============================================================ */
+.eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 11px;
+}
+.eq i {
+  width: 2px;
+  height: 100%;
+  background: currentColor;
+  transform: scaleY(0.4);
+  transform-origin: bottom;
+  animation: eq-bar 1.1s ease-in-out infinite;
+}
+.eq i:nth-child(2) {
+  animation-delay: 0.18s;
+}
+.eq i:nth-child(3) {
+  animation-delay: 0.36s;
+}
+.eq i:nth-child(4) {
+  animation-delay: 0.5s;
+}
+@keyframes eq-bar {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+.group:hover .eq i {
+  animation-duration: 0.7s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .eq i {
+    animation: none;
+    transform: scaleY(0.7);
   }
 }

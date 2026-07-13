@@ -46,6 +46,10 @@
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
     <link rel="canonical" href="{{ $canonical }}" />
 
+    <!-- Pixel "VS" monogram favicon; the SVG recolors itself for light/dark. -->
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/static/favicon.svg" />
+
     <!-- Open Graph -->
     <meta property="og:title" content="{{ $title }}" />
     <meta property="og:description" content="{{ $desc }}" />
@@ -116,6 +120,9 @@
          cells, coordinate labels. Loaded last so its tokens/overrides win. -->
     <link rel="stylesheet" href="/static/css/grid.css" />
 
+    <!-- Command palette (⌘K) styling. -->
+    <link rel="stylesheet" href="/static/css/cmdk.css" />
+
     <!-- Type system: Geist (sans, everything) + Geist Mono (code). -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -147,7 +154,7 @@
   </head>
 
   <body
-    class="font-sans bg-white text-gray-900 antialiased dark:bg-black dark:text-gray-100"
+    class="font-sans bg-white text-black antialiased dark:bg-black dark:text-white"
   >
     <!-- Binary side columns: rows of 0101… filling the gutters beside the
          content frame (desktop only). Filled by matrix.js, sized to fit. -->

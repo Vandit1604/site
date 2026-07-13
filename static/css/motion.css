@@ -43,6 +43,50 @@
   transform: scale(0.8) rotate(-12deg);
 }
 
+/* ---- Hero entrance: the single orchestrated page-load beat. The name's
+        words rise in sequence, then the mono role-line + caret take over.
+        Progressive enhancement — micro.js adds .hero-anim only when motion is
+        allowed; without it the hero is fully visible and static. ---- */
+.hero-anim .hero-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.5em);
+  animation: hero-word-in 0.6s var(--ease-apple-out) forwards;
+  animation-delay: calc(var(--i, 0) * 70ms + 80ms);
+}
+@keyframes hero-word-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- Typewriter role line + blinking block caret. ---- */
+.type-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 0.1em;
+  transform: translateY(0.15em);
+  background: currentColor;
+  animation: caret-blink 1.05s steps(1) infinite;
+}
+@keyframes caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---- View counter: settle the number in as it counts up. ---- */
+.site-views [data-views] {
+  font-variant-numeric: tabular-nums;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lift,
   .press,
@@ -54,5 +98,14 @@
   .theme-toggle:active svg,
   .theme-toggle:hover svg {
     transform: none !important;
+  }
+  .hero-anim .hero-word {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .type-caret {
+    animation: none;
+    opacity: 1;
   }
 }
