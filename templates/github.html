@@ -1,0 +1,20 @@
+<!-- Live GitHub activity: contribution calendar + top repos. Populated by
+     micro.js from /api/github (cached server-side). Hidden until data loads. -->
+<section data-reveal class="box" data-github hidden>
+  <div class="flex items-end justify-between mb-5">
+    <h2 class="text-2xl font-bold tracking-tight">GitHub</h2>
+    <a href="https://github.com/Vandit1604" target="_blank" rel="noopener noreferrer"
+       class="press coord text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
+      @Vandit1604 &rarr;
+    </a>
+  </div>
+
+  <!-- Contribution calendar -->
+  <div class="gh-cal-wrap">
+    <div class="gh-cal" data-gh-cal aria-hidden="true"></div>
+  </div>
+  <p class="mt-3 coord text-gray-500 dark:text-gray-500"><span data-gh-total>—</span> contributions in the last year</p>
+
+  <!-- Top repositories -->
+  <div class="mt-6 grid gap-3 sm:grid-cols-2" data-gh-repos></div>
+</section>

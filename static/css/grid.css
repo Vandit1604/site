@@ -529,6 +529,94 @@ footer {
 }
 
 /* ============================================================
+   GitHub activity: monochrome contribution calendar + repo cards.
+   ============================================================ */
+.gh-cal-wrap {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.gh-cal {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 11px);
+  grid-auto-columns: 11px;
+  gap: 3px;
+  width: max-content;
+}
+.gh-day {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.06);
+}
+.gh-day[data-empty] {
+  background: transparent;
+}
+.gh-day[data-level="1"] { background: rgba(0, 0, 0, 0.22); }
+.gh-day[data-level="2"] { background: rgba(0, 0, 0, 0.44); }
+.gh-day[data-level="3"] { background: rgba(0, 0, 0, 0.68); }
+.gh-day[data-level="4"] { background: rgba(0, 0, 0, 0.9); }
+.dark .gh-day { background: rgba(255, 255, 255, 0.08); }
+.dark .gh-day[data-empty] { background: transparent; }
+.dark .gh-day[data-level="1"] { background: rgba(255, 255, 255, 0.24); }
+.dark .gh-day[data-level="2"] { background: rgba(255, 255, 255, 0.46); }
+.dark .gh-day[data-level="3"] { background: rgba(255, 255, 255, 0.7); }
+.dark .gh-day[data-level="4"] { background: rgba(255, 255, 255, 0.95); }
+
+.gh-repo {
+  display: block;
+  border: 1px solid var(--frame-line);
+  background: var(--surface);
+  border-radius: var(--r-sm);
+  padding: 0.85rem 0.95rem;
+  transition:
+    background-color 0.25s var(--ease-apple-out),
+    border-color 0.25s var(--ease-apple-out);
+}
+.gh-repo:hover {
+  background: var(--surface-2);
+  border-color: var(--frame-strong);
+}
+.gh-repo-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.gh-repo-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #000;
+}
+.dark .gh-repo-name {
+  color: #fff;
+}
+.gh-repo-stars {
+  flex: none;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  color: #6b7280;
+}
+.gh-repo-desc {
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #6b7280;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.gh-repo-lang {
+  margin-top: 0.55rem;
+  display: inline-block;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+  color: #6b7280;
+}
+
+/* ============================================================
    Boxy hover: surfaces shift fill + border instead of floating.
    ============================================================ */
 .boxy-hover {

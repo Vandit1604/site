@@ -203,4 +203,58 @@
       });
     });
   })();
+
+  /* ---- Live GitHub activity ------------------------------------------- */
+  (function github() {
+    var section = document.querySelector("[data-github]");
+    if (!section) return;
+
+    function esc(s) {
+      return String(s).replace(/[&<>"]/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+      });
+    }
+
+    fetch("/api/github")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d) return;
+        var hasDays = d.days && d.days.length;
+        var hasRepos = d.repos && d.repos.length;
+        if (!hasDays && !hasRepos) return; // nothing to show; stay hidden
+
+        var totalEl = section.querySelector("[data-gh-total]");
+        if (totalEl && typeof d.total === "number") {
+          totalEl.textContent = d.total.toLocaleString("en-US");
+        }
+
+        var cal = section.querySelector("[data-gh-cal]");
+        if (cal && hasDays) {
+          var html = "";
+          var first = new Date(d.days[0].date + "T00:00:00");
+          for (var p = 0; p < first.getDay(); p++) html += '<i class="gh-day" data-empty></i>';
+          for (var i = 0; i < d.days.length; i++) {
+            var day = d.days[i];
+            html += '<i class="gh-day" data-level="' + (day.level || 0) +
+              '" title="' + day.count + ' on ' + day.date + '"></i>';
+          }
+          cal.innerHTML = html;
+        }
+
+        var wrap = section.querySelector("[data-gh-repos]");
+        if (wrap && hasRepos) {
+          wrap.innerHTML = d.repos.map(function (r) {
+            return '<a href="' + esc(r.url) + '" target="_blank" rel="noopener noreferrer" class="gh-repo press">' +
+              '<span class="gh-repo-top"><span class="gh-repo-name">' + esc(r.name) + '</span>' +
+              '<span class="gh-repo-stars">★ ' + (r.stars || 0) + '</span></span>' +
+              (r.description ? '<span class="gh-repo-desc">' + esc(r.description) + '</span>' : '') +
+              (r.language ? '<span class="gh-repo-lang">' + esc(r.language) + '</span>' : '') +
+              '</a>';
+          }).join("");
+        }
+
+        section.removeAttribute("hidden");
+      })
+      .catch(function () { /* leave the section hidden on error */ });
+  })();
 })();
