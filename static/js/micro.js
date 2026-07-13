@@ -105,14 +105,13 @@
     // Skip touch devices (no hovering cursor, no hover states).
     if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) return;
     var root = document.documentElement;
-    var cat = document.querySelector(".cat");
-    var WAKE = 240; // px: how close the cursor must get before the cat wakes
+    var cats = Array.prototype.slice.call(document.querySelectorAll(".cat"));
+    var WAKE = 240; // px: how close the cursor must get before a cat wakes
     var x = 0, y = 0, queued = false;
 
     function clamp(v) { return v < -1 ? -1 : v > 1 ? 1 : v; }
 
-    function updateCat() {
-      if (!cat) return;
+    function updateCat(cat) {
       var r = cat.getBoundingClientRect();
       if (!r.width) return; // hidden (mobile)
       var dx = x - (r.left + r.width / 2);
@@ -139,28 +138,28 @@
         requestAnimationFrame(function () {
           root.style.setProperty("--mx", x);
           root.style.setProperty("--my", y);
-          updateCat();
+          for (var i = 0; i < cats.length; i++) updateCat(cats[i]);
           queued = false;
         });
       },
       { passive: true }
     );
 
-    if (cat) {
-      // Hovering the cat delights it; clicking replays the happy burst.
+    // Hovering a cat delights it; clicking replays the happy burst.
+    cats.forEach(function (cat) {
       cat.addEventListener("pointerenter", function () {
         cat.classList.remove("is-sleeping");
         cat.classList.add("is-awake", "is-happy");
       });
       cat.addEventListener("pointerleave", function () {
         cat.classList.remove("is-happy");
-        updateCat();
+        updateCat(cat);
       });
       cat.addEventListener("click", function () {
         cat.classList.remove("is-happy");
         void cat.offsetWidth; // reflow so the heart animation restarts
         cat.classList.add("is-happy");
       });
-    }
+    });
   })();
 })();
