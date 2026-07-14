@@ -1,6 +1,6 @@
-<nav aria-label="Main navigation" class="relative border-b border-gray-200 dark:border-neutral-800">
+<nav aria-label="Main navigation">
   <!-- Hamburger + search + view counter for small screens -->
-  <div class="flex md:hidden items-center justify-between p-4">
+  <div class="nav-dock nav-dock--mobile flex md:hidden items-center gap-4">
     <button
       id="menu-toggle"
       type="button"
@@ -92,7 +92,7 @@
 
   <!-- Normal breadcrumb for large screens -->
   <ol
-    class="hidden md:flex items-center font-sans text-sm font-medium text-gray-700 dark:text-gray-300 justify-center px-6 py-4 gap-6 whitespace-nowrap w-full">
+    class="nav-dock hidden md:flex items-center font-sans text-sm font-medium text-gray-700 dark:text-gray-300 gap-5 whitespace-nowrap">
     <li>
       <a href="/" class="flex items-center hover:text-gray-700 dark:hover:text-gray-200 hover:underline">
         <span class="sr-only"> Home </span>
