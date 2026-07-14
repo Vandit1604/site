@@ -544,6 +544,11 @@ footer {
   padding: 1rem 1.1rem;
 }
 .gh-cal-wrap {
+  /* A max-content grid otherwise expands its whole ancestor chain. The
+     minmax(0,1fr) track hard-caps the calendar to the available width so it
+     scrolls inside instead of widening the page. */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   overflow-x: auto;
   padding-bottom: 2px;
 }
