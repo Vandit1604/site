@@ -38,27 +38,32 @@
    of the viewport, replacing the top nav bar.
    ============================================================ */
 .nav-dock {
-  position: sticky;
-  top: 0.85rem;
+  position: fixed;
+  bottom: 1.1rem;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 40;
   width: fit-content;
-  max-width: calc(100% - 1rem);
-  margin: 0.85rem auto 1.75rem;
+  max-width: calc(100vw - 1.5rem);
   padding: 0.4rem 0.7rem;
   border-radius: 9999px;
   border: 1px solid var(--frame-line);
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(14px) saturate(1.4);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4);
-  box-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.28);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  box-shadow: 0 12px 34px -12px rgba(0, 0, 0, 0.35);
 }
 .dark .nav-dock {
-  background: rgba(12, 12, 12, 0.62);
+  background: rgba(12, 12, 12, 0.68);
   border-color: var(--frame-strong);
-  box-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 12px 34px -12px rgba(0, 0, 0, 0.6);
 }
 .nav-dock--mobile {
   padding: 0.45rem 0.85rem;
+}
+/* Leave room so page content (and the footer) clears the fixed dock. */
+.site-frame {
+  padding-bottom: 5.5rem;
 }
 @media (prefers-reduced-transparency: reduce) {
   .nav-dock {
