@@ -2,6 +2,7 @@
 title: "I Turned a Crypto Price Chart Into a Dirt Bike Racetrack"
 date: "2026-06-14"
 tags: ["tech", "typescript"]
+draft: "true"
 ---
 
 Every crypto chart is basically already a set of hills. Green candles going up, red candles crashing down, that one all-time-high peak everyone's still crying about. So one weekend I asked a dumb question: what if you could *ride* it? What if Bitcoin's last 30 days was a Hill Climb Racing level, and a pump was a launch ramp, and a dump was a cliff you have to survive?
