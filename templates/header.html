@@ -154,13 +154,17 @@
   </head>
 
   <body
-    class="font-sans bg-white text-black antialiased dark:bg-black dark:text-white"
+    class="app-shell font-sans bg-white text-black antialiased dark:bg-black dark:text-white"
   >
     <!-- Binary side columns: rows of 0101… filling the gutters beside the
          content frame (desktop only). Filled by matrix.js, sized to fit. -->
     <div class="binary-gutter binary-gutter--left" aria-hidden="true"></div>
     <div class="binary-gutter binary-gutter--right" aria-hidden="true"></div>
 
+    <!-- App shell: the content scrolls inside .app-scroll while the nav sits in
+         its own bottom container (.app-nav in footer.html), so the nav never
+         overlaps content. -->
+    <div class="app-scroll">
     <!-- One boxed content column; the .site-frame rails run the full document
          height and close in footer.html. -->
     <div class="site-frame">
