@@ -273,11 +273,13 @@
     }
     .blog-layout:has(.blog-toc.is-visible) > article {
         grid-column: 1;
+        grid-row: 1;
         min-width: 0;
     }
     .blog-toc.is-visible {
         display: block;
         grid-column: 2;
+        grid-row: 1;
         position: sticky;
         top: 6.5rem;
         align-self: start;
