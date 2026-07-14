@@ -1,4 +1,11 @@
 projects:
+  - name: Aquanode
+    description: "GPU cloud platform for ML/AI teams: deploy on H100/A100-class GPUs across many providers and pay only while in use. Built the core Go backend, Mjolnir (a control-plane API tracking GPU deployment state across DataCrunch, Hyperstack, Nebius and more) and Ogre (a distributed daemon on the GPUs for backups, health checks, and better GPU utilization)."
+    demo_link: "https://aquanode.io"
+    github_link: ""
+    collab_name: "Ansh"
+    collab_link: "https://x.com/anshstwt/"
+
   - name: Dockerium
     description: "Minimal rootless container runtime built on Linux namespaces and the Docker API; Xontainer adds rootless user/mount/PID-namespace sandboxing for OCI-style isolation."
     demo_link: ""
