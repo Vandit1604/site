@@ -46,9 +46,10 @@
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
     <link rel="canonical" href="{{ $canonical }}" />
 
-    <!-- Pixel "VS" monogram favicon; the SVG recolors itself for light/dark. -->
+    <!-- Favicon: SVG for modern browsers, PNG fallbacks for the rest + iOS. -->
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/static/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 
     <!-- Open Graph -->
     <meta property="og:title" content="{{ $title }}" />
