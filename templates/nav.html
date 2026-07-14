@@ -1,205 +1,102 @@
-<nav aria-label="Main navigation">
-  <!-- Hamburger + search + view counter for small screens -->
-  <div class="nav-dock nav-dock--mobile flex md:hidden items-center gap-4">
-    <button
-      id="menu-toggle"
-      type="button"
-      aria-label="Open navigation menu"
-      aria-haspopup="true"
-      aria-expanded="false"
-      aria-controls="drawer"
-      class="rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 dark:focus-visible:ring-gray-100"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+<nav aria-label="Main navigation" class="nav-inner font-sans text-sm font-medium text-gray-700 dark:text-gray-300">
+  <div class="flex items-center gap-1">
+    <a href="/" class="nav-link" aria-label="Home">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      </svg>
+      <span class="sr-only">Home</span>
+    </a>
+    <a href="/projects" class="nav-link">Projects</a>
+    <div class="nav-more">
+      <button type="button" class="nav-link nav-more__btn" aria-haspopup="true" aria-expanded="false" aria-controls="nav-more-menu">
+        More
+        <svg class="nav-more__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div id="nav-more-menu" class="nav-more__menu" role="menu" hidden>
+        <a href="/blogs" class="nav-more__item" role="menuitem">Blogs</a>
+        <a href="/talks" class="nav-more__item" role="menuitem">Talks</a>
+        <a href="/library" class="nav-more__item" role="menuitem">Library</a>
+        <a href="/gallery" class="nav-more__item" role="menuitem">Gallery</a>
+        <a href="/resume" target="_blank" rel="noopener noreferrer" class="nav-more__item" role="menuitem">Résumé <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-1.5">
+    <button type="button" data-cmdk-open class="cmdk-trigger" aria-label="Search (press Command K)" title="Search  ⌘K">
+      <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <span class="hidden sm:inline">Search</span>
+      <kbd class="hidden sm:inline-block">⌘K</kbd>
+    </button>
+    <button type="button" class="theme-toggle nav-icon-btn" aria-label="Toggle dark mode" title="Toggle theme">
+      <svg class="w-[18px] h-[18px] hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+      <svg class="w-[18px] h-[18px] dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
       </svg>
     </button>
-    <div class="flex items-center gap-4">
-      <button type="button" data-cmdk-open aria-label="Search" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none">
-        <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      </button>
-    </div>
   </div>
-
-  <!-- Drawer Menu for small screens -->
-  <div
-    id="drawer"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Site navigation"
-    inert
-    class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 ease-out md:hidden"
-  >
-    <!-- Backdrop: dims the page and closes the drawer on click. -->
-    <div id="drawer-backdrop" class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-300"></div>
-    <div class="relative w-64 h-full bg-white dark:bg-neutral-900 border-r border-gray-200 dark:border-neutral-800">
-      <div class="p-4 flex items-center justify-between">
-        <button
-          type="button"
-          class="theme-toggle text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none"
-          aria-label="Toggle dark mode"
-          title="Toggle theme"
-        >
-          <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
-          <svg class="w-5 h-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-          </svg>
-        </button>
-        <button id="close-drawer" class="text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <ol class="flex flex-col p-4 space-y-1 font-sans text-sm font-medium text-gray-700 dark:text-gray-300 [&>li>a]:block [&>li>a]:border-b [&>li>a]:border-gray-200 dark:[&>li>a]:border-neutral-800 [&>li>a]:py-2.5">
-        <li>
-          <a href="/" class="flex items-center hover:text-gray-700 dark:hover:text-gray-200">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            Home
-          </a>
-        </li>
-        <li><a href="/blogs" class="hover:text-gray-700 dark:hover:text-gray-200">/blogs</a></li>
-        <li><a href="/projects" class="hover:text-gray-700 dark:hover:text-gray-200">/projects</a></li>
-        <li>
-          <a target="_blank" href="https://drive.google.com/file/d/1PFmsMZC3fvg6W6GsCiglt2b2othhn7S6/view?usp=sharing"
-            class="flex items-center hover:text-gray-700 dark:hover:text-gray-200">
-            <span>/resume</span>
-            <svg class="w-5 h-5 ml-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 13.9633H16V7.96331H10V9.96331H12.5858L7.25623 15.2929L8.67044 16.7071L14 11.3775V13.9633Z"
-                fill="currentColor" />
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M23 19C23 21.2091 21.2091 23 19 23H5C2.79086 23 1 21.2091 1 19V5C1 2.79086 2.79086 1 5 1H19C20.1046 1 21 2.79086 21 5V19C21 20.1046 20.1046 21 19 21ZM19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21Z"
-                fill="currentColor" />
-            </svg>
-          </a>
-        </li>
-        <li><a href="/talks" class="hover:text-gray-700 dark:hover:text-gray-200">/talks</a></li>
-        <li><a href="/library" class="hover:text-gray-700 dark:hover:text-gray-200">/library</a></li>
-        <li><a href="/gallery" class="hover:text-gray-700 dark:hover:text-gray-200">/gallery</a></li>
-      </ol>
-    </div>
-  </div>
-
-  <!-- Normal breadcrumb for large screens -->
-  <ol
-    class="nav-dock hidden md:flex items-center font-sans text-sm font-medium text-gray-700 dark:text-gray-300 gap-5 whitespace-nowrap">
-    <li>
-      <a href="/" class="flex items-center hover:text-gray-700 dark:hover:text-gray-200 hover:underline">
-        <span class="sr-only"> Home </span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-      </a>
-    </li>
-    <li><a href="/blogs" class="hover:text-gray-700 dark:hover:text-gray-200">/blogs</a></li>
-    <li><a href="/projects" class="hover:text-gray-700 dark:hover:text-gray-200">/projects</a></li>
-    <li>
-      <a href="https://drive.google.com/file/d/1PFmsMZC3fvg6W6GsCiglt2b2othhn7S6/view?usp=sharing"
-        class="flex items-center hover:text-gray-700 dark:hover:text-gray-200">
-        <span>/resume</span>
-      </a>
-    </li>
-    <li><a href="/talks" class="hover:text-gray-700 dark:hover:text-gray-200">/talks</a></li>
-    <li><a href="/library" class="hover:text-gray-700 dark:hover:text-gray-200">/library</a></li>
-    <li><a href="/gallery" class="hover:text-gray-700 dark:hover:text-gray-200">/gallery</a></li>
-    <li>
-      <button type="button" data-cmdk-open class="cmdk-trigger" aria-label="Search (press Command K)" title="Search  ⌘K">
-        <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        Search
-        <kbd>⌘K</kbd>
-      </button>
-    </li>
-    <li class="flex items-center">
-      <button
-        type="button"
-        class="theme-toggle flex items-center hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none"
-        aria-label="Toggle dark mode"
-        title="Toggle theme"
-      >
-        <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-        <svg class="w-5 h-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-      </button>
-    </li>
-  </ol>
 </nav>
 
-<!-- Add JavaScript to handle the drawer toggle -->
 <script>
-  const menuToggle = document.getElementById("menu-toggle");
-  const drawer = document.getElementById("drawer");
-  const closeDrawer = document.getElementById("close-drawer");
-  const backdrop = document.getElementById("drawer-backdrop");
-
-  function openDrawer() {
-    drawer.classList.remove("-translate-x-full");
-    drawer.removeAttribute("inert");
-    backdrop.classList.remove("opacity-0");
-    menuToggle.setAttribute("aria-expanded", "true");
-    closeDrawer.focus();
-    document.addEventListener("keydown", onKeydown);
-  }
-
-  function closeDrawerFn() {
-    drawer.classList.add("-translate-x-full");
-    drawer.setAttribute("inert", "");
-    backdrop.classList.add("opacity-0");
-    menuToggle.setAttribute("aria-expanded", "false");
-    menuToggle.focus();
-    document.removeEventListener("keydown", onKeydown);
-  }
-
-  function onKeydown(e) {
-    if (e.key === "Escape") closeDrawerFn();
-  }
-
-  menuToggle.addEventListener("click", openDrawer);
-  closeDrawer.addEventListener("click", closeDrawerFn);
-  backdrop.addEventListener("click", closeDrawerFn);
-  // Close after following an in-page link so the drawer doesn't linger.
-  drawer.querySelectorAll("a[href]").forEach((a) =>
-    a.addEventListener("click", closeDrawerFn)
-  );
-
-  // Mark the current page in both the drawer and the desktop bar for orientation.
-  (function markActive() {
-    const here = location.pathname.replace(/\/$/, "") || "/";
-    document.querySelectorAll('nav a[href^="/"]').forEach((a) => {
-      const path = a.getAttribute("href").replace(/\/$/, "") || "/";
-      if (path === here) {
-        a.setAttribute("aria-current", "page");
-        a.classList.add("text-gray-900", "dark:text-gray-100", "underline");
-      }
+  // "More" dropdown: toggle, close on outside click / Escape.
+  (function () {
+    var btn = document.querySelector(".nav-more__btn");
+    var menu = document.getElementById("nav-more-menu");
+    if (!btn || !menu) return;
+    function onDoc(e) {
+      if (!menu.contains(e.target) && !btn.contains(e.target)) close();
+    }
+    function onKey(e) {
+      if (e.key === "Escape") { close(); btn.focus(); }
+    }
+    function open() {
+      menu.hidden = false;
+      btn.setAttribute("aria-expanded", "true");
+      document.addEventListener("click", onDoc);
+      document.addEventListener("keydown", onKey);
+    }
+    function close() {
+      menu.hidden = true;
+      btn.setAttribute("aria-expanded", "false");
+      document.removeEventListener("click", onDoc);
+      document.removeEventListener("keydown", onKey);
+    }
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      menu.hidden ? open() : close();
     });
   })();
 
-  // Dark-mode toggle: flip the `dark` class on <html> and remember the choice.
-  // Wrapped in a View Transition so the swap plays as a 45° slash wipe (styled
-  // in motion.css). Falls back to an instant swap where the API is unsupported
-  // or the visitor prefers reduced motion.
-  function setTheme() {
-    const isDark = document.documentElement.classList.toggle("dark");
-    try {
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-    } catch (e) {}
-  }
-  document.querySelectorAll(".theme-toggle").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduce || !document.startViewTransition) {
-        setTheme();
-        return;
+  // Mark the current page for orientation (highlights a top link, or "More"
+  // when the active page lives inside the dropdown).
+  (function () {
+    var here = location.pathname.replace(/\/$/, "") || "/";
+    var inMore = false;
+    document.querySelectorAll('.nav-inner a[href^="/"]').forEach(function (a) {
+      var path = a.getAttribute("href").replace(/\/$/, "") || "/";
+      if (path === here) {
+        a.setAttribute("aria-current", "page");
+        if (a.classList.contains("nav-more__item")) inMore = true;
       }
+    });
+    if (inMore) {
+      var b = document.querySelector(".nav-more__btn");
+      if (b) b.setAttribute("aria-current", "page");
+    }
+  })();
+
+  // Dark-mode toggle: flip the `dark` class on <html> via a View Transition
+  // (45° slash wipe in motion.css); instant swap where unsupported / reduced.
+  function setTheme() {
+    var isDark = document.documentElement.classList.toggle("dark");
+    try { localStorage.setItem("theme", isDark ? "dark" : "light"); } catch (e) {}
+  }
+  document.querySelectorAll(".theme-toggle").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce || !document.startViewTransition) { setTheme(); return; }
       document.startViewTransition(setTheme);
     });
   });

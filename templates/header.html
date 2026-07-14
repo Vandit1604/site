@@ -161,9 +161,9 @@
     <div class="binary-gutter binary-gutter--left" aria-hidden="true"></div>
     <div class="binary-gutter binary-gutter--right" aria-hidden="true"></div>
 
-    <!-- App shell: the content scrolls inside .app-scroll while the nav sits in
-         its own bottom container (.app-nav in footer.html), so the nav never
-         overlaps content. -->
+    <!-- App shell: a fixed top nav bar, then the scrollable content in its own
+         container below it, so the nav never overlaps content. -->
+    <div class="app-nav">{{ template "nav.html" . }}</div>
     <div class="app-scroll">
     <!-- One boxed content column; the .site-frame rails run the full document
          height and close in footer.html. -->
