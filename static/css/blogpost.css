@@ -57,6 +57,28 @@
     text-decoration-color: currentColor;
 }
 
+/* External links announce themselves with a small ↗ and lean forward on hover,
+   so every outbound claim reads as a checkable receipt worth clicking. Relative
+   (in-site) links stay clean, no arrow. */
+.blog-content a[href^="http"]::after {
+    content: "\2197"; /* ↗ */
+    display: inline-block;
+    margin-left: 0.08em;
+    font-size: 0.72em;
+    font-weight: 600;
+    line-height: 1;
+    vertical-align: 0.28em;
+    color: #a3a3a3;
+    transition: transform 0.18s ease, color 0.18s ease;
+}
+.blog-content a[href^="http"]:hover::after {
+    transform: translate(1.5px, -1.5px);
+    color: currentColor;
+}
+/* The source-link line and PR-style chips already carry their own arrow/box, so
+   don't double up on them. */
+.blog-content a.src-link::after { content: none; }
+
 /* ---- Lists ---- */
 .blog-content ul,
 .blog-content ol {
