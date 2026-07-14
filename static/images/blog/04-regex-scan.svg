@@ -1,10 +1,10 @@
 <svg width="100%" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <rect class="diagram-bg" x="0" y="0" width="680" height="320" fill="#f8f8f7"/>
   <title>Regex matcher scans every label value</title>
   <desc>For pod matches web dot star, Prometheus tests each existing value web-1 web-2 db-1 cache-1, matches the two web values, then unions their postings lists.</desc>
   <style>
     .h{font-size:14px;font-weight:500;fill:#1a1a18}
     .c{font-size:12px;fill:#5f5e5a}
-    @media (prefers-color-scheme:dark){.h{fill:#e8e6df}.c{fill:#b4b2a9}}
   </style>
   <defs>
     <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">

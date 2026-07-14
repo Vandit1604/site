@@ -1,10 +1,10 @@
 <svg width="100%" viewBox="0 0 680 310" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <rect class="diagram-bg" x="0" y="0" width="680" height="310" fill="#f8f8f7"/>
   <title>Forward index flipped into inverted index</title>
   <desc>The forward map from series to labels is inverted into a map from each label to the sorted list of series IDs that contain it.</desc>
   <style>
     .h{font-size:14px;font-weight:500;fill:#1a1a18}
     .c{font-size:12px;fill:#5f5e5a}
-    @media (prefers-color-scheme:dark){.h{fill:#e8e6df}.c{fill:#b4b2a9}}
   </style>
   <defs>
     <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">

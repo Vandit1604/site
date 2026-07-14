@@ -1,10 +1,10 @@
 <svg width="100%" viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <rect class="diagram-bg" x="0" y="0" width="680" height="300" fill="#f8f8f7"/>
   <title>Query resolved by intersecting two postings lists</title>
   <desc>The query job equals api and code equals 500 intersects the lists 1 2 4 and 2 4 to return matching series 2 and 4.</desc>
   <style>
     .h{font-size:14px;font-weight:500;fill:#1a1a18}
     .c{font-size:12px;fill:#5f5e5a}
-    @media (prefers-color-scheme:dark){.h{fill:#e8e6df}.c{fill:#b4b2a9}}
   </style>
   <defs>
     <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">

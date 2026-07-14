@@ -1,11 +1,11 @@
 <svg width="100%" viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <rect class="diagram-bg" x="0" y="0" width="680" height="330" fill="#f8f8f7"/>
   <title>Fetching a block and verifying it on arrival</title>
   <desc>A node asks the DHT who has a CID, opens a stream to a provider, receives bytes, then re-hashes them. If the hash matches the CID the block is kept, otherwise it is rejected.</desc>
   <style>
     .h{font-size:13px;font-weight:500;fill:#1a1a18}
     .m{font-size:12px;font-family:ui-monospace,SFMono-Regular,monospace}
     .c{font-size:12px;fill:#5f5e5a}
-    @media (prefers-color-scheme:dark){.h{fill:#e8e6df}.c{fill:#b4b2a9}}
   </style>
   <defs>
     <marker id="a6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
