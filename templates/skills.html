@@ -1,5 +1,6 @@
-<!-- skills / stack section -->
-{{ $icon := "https://cdn.jsdelivr.net/gh/devicons/devicon/icons" }}
+<!-- skills / stack section. Icons are inline monochrome glyphs (see icons.html):
+     they inherit color and need no CDN request. -->
+{{ define "chip" }}<span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">{{ end }}
 <section data-reveal class="box">
   <h2 class="text-2xl font-bold tracking-tight mb-6">Stack &amp; Tooling</h2>
 
@@ -10,14 +11,14 @@
         DevOps &amp; Infrastructure
       </h3>
       <div class="flex flex-wrap gap-2">
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/docker/docker-original.svg" alt="" class="h-4 w-4" loading="lazy" />Docker</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/kubernetes/kubernetes-plain.svg" alt="" class="h-4 w-4" loading="lazy" />Kubernetes</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/terraform/terraform-original.svg" alt="" class="h-4 w-4" loading="lazy" />Terraform</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/helm/helm-original.svg" alt="" class="h-4 w-4" loading="lazy" />Helm</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/jenkins/jenkins-original.svg" alt="" class="h-4 w-4" loading="lazy" />Jenkins</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/gitlab/gitlab-original.svg" alt="" class="h-4 w-4" loading="lazy" />GitLab CI</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/linux/linux-original.svg" alt="" class="h-4 w-4" loading="lazy" />Linux</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/nginx/nginx-original.svg" alt="" class="h-4 w-4" loading="lazy" />Nginx</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:docker" }}</span>Docker</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:kubernetes" }}</span>Kubernetes</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:terraform" }}</span>Terraform</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:helm" }}</span>Helm</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:jenkins" }}</span>Jenkins</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:gitlab" }}</span>GitLab CI</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:linux" }}</span>Linux</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:nginx" }}</span>Nginx</span>
       </div>
     </div>
 
@@ -27,25 +28,25 @@
         Observability
       </h3>
       <div class="flex flex-wrap gap-2">
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/prometheus/prometheus-original.svg" alt="" class="h-4 w-4" loading="lazy" />Prometheus</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/grafana/grafana-original.svg" alt="" class="h-4 w-4" loading="lazy" />Grafana</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/opentelemetry/opentelemetry-original.svg" alt="" class="h-4 w-4" loading="lazy" />OpenTelemetry</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/grafana/grafana-original.svg" alt="" class="h-4 w-4" loading="lazy" />Loki</span>
-        <span class="inline-flex items-center border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Alertmanager</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/elasticsearch/elasticsearch-original.svg" alt="" class="h-4 w-4" loading="lazy" />ELK Stack</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:prometheus" }}</span>Prometheus</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:grafana" }}</span>Grafana</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:opentelemetry" }}</span>OpenTelemetry</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:grafana" }}</span>Loki</span>
+        {{ template "chip" }}Alertmanager</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:elasticsearch" }}</span>ELK Stack</span>
       </div>
     </div>
 
-    <!-- Distributed Systems & Web3 -->
+    <!-- Distributed Systems & P2P -->
     <div>
       <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-3">
         Distributed Systems &amp; P2P
       </h3>
       <div class="flex flex-wrap gap-2">
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/go/go-original.svg" alt="" class="h-4 w-4" loading="lazy" />go-libp2p</span>
-        <span class="inline-flex items-center border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Kademlia DHT</span>
-        <span class="inline-flex items-center border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">Content Addressing</span>
-        <span class="inline-flex items-center border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">libp2p streams</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:go" }}</span>go-libp2p</span>
+        {{ template "chip" }}Kademlia DHT</span>
+        {{ template "chip" }}Content Addressing</span>
+        {{ template "chip" }}libp2p streams</span>
       </div>
     </div>
 
@@ -55,15 +56,15 @@
         Languages &amp; Data
       </h3>
       <div class="flex flex-wrap gap-2">
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/go/go-original.svg" alt="" class="h-4 w-4" loading="lazy" />Golang</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/javascript/javascript-original.svg" alt="" class="h-4 w-4" loading="lazy" />JavaScript</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/python/python-original.svg" alt="" class="h-4 w-4" loading="lazy" />Python</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/java/java-original.svg" alt="" class="h-4 w-4" loading="lazy" />Java</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/postgresql/postgresql-original.svg" alt="" class="h-4 w-4" loading="lazy" />PostgreSQL</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/mongodb/mongodb-original.svg" alt="" class="h-4 w-4" loading="lazy" />MongoDB</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/mysql/mysql-original.svg" alt="" class="h-4 w-4" loading="lazy" />MySQL</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/redis/redis-original.svg" alt="" class="h-4 w-4" loading="lazy" />Redis</span>
-        <span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300"><img src="{{ $icon }}/git/git-original.svg" alt="" class="h-4 w-4" loading="lazy" />Git</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:go" }}</span>Golang</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:javascript" }}</span>JavaScript</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:python" }}</span>Python</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:java" }}</span>Java</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:postgresql" }}</span>PostgreSQL</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:mongodb" }}</span>MongoDB</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:mysql" }}</span>MySQL</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:redis" }}</span>Redis</span>
+        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:git" }}</span>Git</span>
       </div>
     </div>
   </div>
