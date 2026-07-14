@@ -84,6 +84,47 @@ body.app-shell {
   justify-content: space-between;
   gap: 1rem;
 }
+/* Inline "hooking" proof links. Underline plus a small forward-leaning arrow
+   so every outbound claim in prose reads as a checkable receipt, matching the
+   blog-content treatment. Applied to inline links, not chips or card CTAs
+   (those carry their own affordance). */
+.ilink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: #d1d5db;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.2s var(--ease-apple-out);
+}
+.ilink:hover {
+  text-decoration-color: currentColor;
+}
+.ilink::after {
+  content: "\2197"; /* ↗ */
+  display: inline-block;
+  margin-left: 0.05em;
+  font-size: 0.7em;
+  font-weight: 600;
+  line-height: 1;
+  vertical-align: 0.3em;
+  color: #a3a3a3;
+  transition:
+    transform 0.18s var(--ease-apple-out),
+    color 0.18s var(--ease-apple-out);
+}
+.ilink:hover::after {
+  transform: translate(1.5px, -1.5px);
+  color: currentColor;
+}
+/* The arrow reads as a trailing glyph, so keep it attached to the last word:
+   an ilink wrapping inline <code> shouldn't wrap the arrow to a new line. */
+.ilink > code {
+  white-space: nowrap;
+}
+.dark .ilink {
+  text-decoration-color: #525252;
+}
+
 .nav-link {
   display: inline-flex;
   align-items: center;
