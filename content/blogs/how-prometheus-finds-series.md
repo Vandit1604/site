@@ -1,6 +1,7 @@
 ---
 title: "How Prometheus Finds Matching Series in Milliseconds"
 date: "2026-06-09"
+description: "How Prometheus finds the series matching your query in milliseconds: inverted indexes, posting lists, and fast set intersection inside the TSDB."
 tags: ["tech", "prometheus"]
 ---
 

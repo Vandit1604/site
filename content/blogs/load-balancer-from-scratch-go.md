@@ -1,6 +1,7 @@
 ---
 title: "A Load Balancer Is 200 Lines of Go and Three Bugs You Won't Notice"
 date: "2024-07-16"
+description: "Building a round-robin HTTP load balancer in ~200 lines of Go, and the three quiet bugs that reveal what real load balancing actually is."
 tags: ["tech", "golang"]
 ---
 

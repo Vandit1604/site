@@ -1,6 +1,7 @@
 ---
 title: "How I Stopped Fake Emails From Wrecking My Signup Flow"
 date: "2025-05-14"
+description: "A tiny Go package that blocks disposable and fake signups with four cheap checks, cheapest first: allowlist, blocklist, MX records, MX hostname."
 tags: ["tech", "golang"]
 ---
 

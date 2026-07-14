@@ -1,6 +1,7 @@
 ---
 title: "I Built a File System Where Nobody Can Lie to You"
 date: "2025-10-02"
+description: "Building a content-addressed file system on libp2p where every blob is verified by its own hash, so a peer can never lie about what it sent."
 tags: ["tech", "golang", "web3"]
 ---
 
