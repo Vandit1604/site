@@ -1,0 +1,65 @@
+<!-- indie products section. Bootstrapped solo, closed source. Shared partial
+     included on the homepage and the /projects page. Monochrome, boxy, with an
+     "in progress" pulsing dot to signal these are live and still being built. -->
+<section data-reveal class="box">
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold tracking-tight">Building</h2>
+    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400 max-w-2xl">
+      Two products I'm bootstrapping solo. Closed source, for now.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 auto-rows-fr">
+    <!-- ThreadCite -->
+    <a href="https://threadcite.live" target="_blank" rel="noopener noreferrer"
+      class="cell lift boxy-hover press group flex flex-col p-6">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">ThreadCite</h3>
+        <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-500">
+          <span class="relative flex h-1.5 w-1.5">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-gray-500 opacity-75"></span>
+            <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-gray-600 dark:bg-gray-400"></span>
+          </span>
+          In progress
+        </span>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 flex-1">
+        Finds the Reddit threads ranking on Google for your keywords, tracks your share of voice, and hands you a coached reply for each. Reddit leads, minus the ban risk.
+      </p>
+      <div class="mt-4 flex items-center justify-between">
+        <div class="flex flex-wrap gap-1.5">
+          <span class="font-mono text-[11px] rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">SEO</span>
+          <span class="font-mono text-[11px] rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">Reddit</span>
+        </div>
+        <span class="font-mono text-xs text-gray-500 dark:text-gray-500 group-hover:text-black dark:group-hover:text-white transition-colors">threadcite.live <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-0.5">&rarr;</span></span>
+      </div>
+    </a>
+
+    <!-- Argus -->
+    <a href="https://argushq.cc" target="_blank" rel="noopener noreferrer"
+      class="cell lift boxy-hover press group flex flex-col p-6">
+      <div class="flex items-center justify-between">
+        <h3 class="inline-flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <span class="text-[18px] text-gray-400 dark:text-gray-500">{{ template "icon:chrome" }}</span>Argus
+        </h3>
+        <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-500">
+          <span class="relative flex h-1.5 w-1.5">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-gray-500 opacity-75"></span>
+            <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-gray-600 dark:bg-gray-400"></span>
+          </span>
+          In progress
+        </span>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 flex-1">
+        A Chrome extension for X that reads your real funnel (reach, visits, follows, saves) and tells you who to reply to, in your own voice. Turns reach into followers, not vanity numbers.
+      </p>
+      <div class="mt-4 flex items-center justify-between">
+        <div class="flex flex-wrap gap-1.5">
+          <span class="font-mono text-[11px] rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">Chrome extension</span>
+          <span class="font-mono text-[11px] rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">X / Twitter</span>
+        </div>
+        <span class="font-mono text-xs text-gray-500 dark:text-gray-500 group-hover:text-black dark:group-hover:text-white transition-colors">argushq.cc <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-0.5">&rarr;</span></span>
+      </div>
+    </a>
+  </div>
+</section>
