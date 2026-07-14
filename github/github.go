@@ -8,9 +8,13 @@ package github
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 	"os"
+	"regexp"
 	"sort"
+	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -72,9 +76,22 @@ func Get() Data {
 	return cached
 }
 
+// Contribution-calendar parsing. We scrape GitHub's own public contributions
+// endpoint rather than a third-party mirror so private-contribution counts
+// (when the account opts into showing them) appear immediately instead of
+// waiting on a mirror's cache. The endpoint returns HTML: a <td> per day with
+// data-date + data-level, and a <tool-tip for="<cell id>"> carrying the count.
+var (
+	cellRe    = regexp.MustCompile(`data-date="([0-9-]+)"[^>]*id="(contribution-day-component-[0-9-]+)"[^>]*data-level="([0-4])"`)
+	tooltipRe = regexp.MustCompile(`<tool-tip[^>]*for="(contribution-day-component-[0-9-]+)"[^>]*>([^<]*)</tool-tip>`)
+	countRe   = regexp.MustCompile(`^([\d,]+) contribution`)
+)
+
 func fetchContributions() (int, []Day) {
-	req, _ := http.NewRequest("GET", "https://github-contributions-api.jogruber.de/v4/"+Username+"?y=last", nil)
-	req.Header.Set("User-Agent", "vandit.dev")
+	req, _ := http.NewRequest("GET", "https://github.com/users/"+Username+"/contributions", nil)
+	// GitHub serves the calendar HTML to browser-like clients.
+	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; vandit.dev/1.0)")
+	req.Header.Set("X-Requested-With", "XMLHttpRequest")
 	resp, err := client.Do(req)
 	if err != nil {
 		return 0, nil
@@ -83,20 +100,34 @@ func fetchContributions() (int, []Day) {
 	if resp.StatusCode != http.StatusOK {
 		return 0, nil
 	}
-	var body struct {
-		Total         map[string]int `json:"total"`
-		Contributions []Day          `json:"contributions"`
-	}
-	if err := json.NewDecoder(resp.Body).Decode(&body); err != nil {
+	html, err := io.ReadAll(resp.Body)
+	if err != nil {
 		return 0, nil
 	}
-	total := body.Total["lastYear"]
-	if total == 0 {
-		for _, d := range body.Contributions {
-			total += d.Count
+
+	// Map cell id -> count from the tooltips ("N contribution(s) on ..." or
+	// "No contributions on ..." which yields 0).
+	counts := make(map[string]int)
+	for _, m := range tooltipRe.FindAllStringSubmatch(string(html), -1) {
+		id, text := m[1], m[2]
+		n := 0
+		if c := countRe.FindStringSubmatch(text); c != nil {
+			n, _ = strconv.Atoi(strings.ReplaceAll(c[1], ",", ""))
 		}
+		counts[id] = n
 	}
-	return total, body.Contributions
+
+	cells := cellRe.FindAllStringSubmatch(string(html), -1)
+	days := make([]Day, 0, len(cells))
+	total := 0
+	for _, m := range cells {
+		date, id, level := m[1], m[2], m[3]
+		lv, _ := strconv.Atoi(level)
+		cnt := counts[id]
+		total += cnt
+		days = append(days, Day{Date: date, Count: cnt, Level: lv})
+	}
+	return total, days
 }
 
 func fetchRepos() []Repo {
