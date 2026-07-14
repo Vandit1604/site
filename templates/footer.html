@@ -20,10 +20,6 @@
 <!-- close .app-scroll opened in header.html -->
 </div>
 
-<!-- Nav in its own bottom container, outside the scroll area, so it never
-     overlaps the content. -->
-<div class="app-nav">{{ template "nav.html" . }}</div>
-
 <script>
   // Keep the footer year current without a build step.
   document.getElementById("footer-year").textContent = new Date().getFullYear();
