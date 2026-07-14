@@ -37,40 +37,49 @@
    Floating nav dock: a translucent pill fixed to the bottom-centre
    of the viewport, replacing the top nav bar.
    ============================================================ */
+/* App shell: content scrolls inside .app-scroll; the nav is a separate bar
+   (.app-nav) pinned below it, so the nav never overlaps the content. */
+html {
+  overflow: hidden;
+}
+body.app-shell {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.app-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  position: relative;
+  z-index: 1;
+}
+.app-nav {
+  flex: 0 0 auto;
+  z-index: 41;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  background: var(--surface);
+  border-top: 1px solid var(--frame-line);
+}
+/* The nav row sits flat inside the bar (no floating pill / positioning). */
 .nav-dock {
-  position: fixed;
-  bottom: 1.1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 40;
-  width: fit-content;
-  max-width: calc(100vw - 1.5rem);
-  padding: 0.4rem 0.7rem;
-  border-radius: 9999px;
-  border: 1px solid var(--frame-line);
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(16px) saturate(1.5);
-  -webkit-backdrop-filter: blur(16px) saturate(1.5);
-  box-shadow: 0 12px 34px -12px rgba(0, 0, 0, 0.35);
-}
-.dark .nav-dock {
-  background: rgba(12, 12, 12, 0.68);
-  border-color: var(--frame-strong);
-  box-shadow: 0 12px 34px -12px rgba(0, 0, 0, 0.6);
-}
-.nav-dock--mobile {
-  padding: 0.45rem 0.85rem;
-}
-/* Leave room so page content (and the footer) clears the fixed dock. */
-.site-frame {
-  padding-bottom: 5.5rem;
-}
-@media (prefers-reduced-transparency: reduce) {
-  .nav-dock {
-    background: var(--surface);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
+  position: static;
+  transform: none;
+  width: auto;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* Soft corners, applied consistently without editing every template. Elements

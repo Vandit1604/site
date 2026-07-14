@@ -17,6 +17,12 @@
 </footer>
 <!-- close .site-frame opened in header.html -->
 </div>
+<!-- close .app-scroll opened in header.html -->
+</div>
+
+<!-- Nav in its own bottom container, outside the scroll area, so it never
+     overlaps the content. -->
+<div class="app-nav">{{ template "nav.html" . }}</div>
 
 <script>
   // Keep the footer year current without a build step.
