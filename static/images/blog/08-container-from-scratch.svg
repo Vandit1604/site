@@ -1,4 +1,5 @@
 <svg width="100%" viewBox="0 0 680 384" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <rect class="diagram-bg" x="0" y="0" width="680" height="384" fill="#f8f8f7"/>
   <title>What "starting a container" actually means: re-exec into fresh namespaces, then pivot_root</title>
   <desc>The dockerium binary runs on the host, re-execs itself as a child into a new set of Linux namespaces, mounts a private proc, pivot_roots into the pulled image rootfs, sets the hostname, and finally execs bin sh as PID 1. A user namespace maps the caller to root inside only, which is what makes it rootless.</desc>
   <style>
@@ -9,11 +10,6 @@
     .ns{fill:#eef1f4;stroke:#8a9099;stroke-width:1;stroke-dasharray:5 4}
     .ok{fill:#E1F5EE;stroke:#0F6E56;stroke-width:0.5}
     .okh{font-size:13px;font-weight:500;fill:#085041}
-    @media (prefers-color-scheme:dark){
-      .h{fill:#e8e6df}.c{fill:#b4b2a9}.m{fill:#b4b2a9}
-      .bx{fill:#1a2230;stroke:#3a4656}.ns{fill:#141b26;stroke:#44506a}
-      .ok{fill:#0e2a22;stroke:#1f6b57}.okh{fill:#7fd6b8}
-    }
   </style>
   <defs>
     <marker id="c8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">

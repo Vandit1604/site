@@ -1,4 +1,5 @@
 <svg width="100%" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <rect class="diagram-bg" x="0" y="0" width="680" height="320" fill="#f8f8f7"/>
   <title>A crypto price chart turned into rideable game terrain</title>
   <desc>The top panel shows a jagged BTC price line over 30 days with an all-time-high marker. An arrow labels the transform: resample to 140 points, smooth with Catmull-Rom, build Matter.js bodies. The bottom panel shows the same profile as smooth hills with a dirt bike riding it toward a TODAY finish line.</desc>
   <style>
@@ -8,12 +9,6 @@
     .panel{fill:#eef1f4;stroke:#8a9099;stroke-width:0.5}
     .ground{fill:#dfeae2;stroke:#0F6E56;stroke-width:1.5}
     .bike{stroke:#1a1a18}.rider{fill:#1a1a18}
-    @media (prefers-color-scheme:dark){
-      .h{fill:#e8e6df}.c{fill:#b4b2a9}.m{fill:#b4b2a9}
-      .panel{fill:#141b26;stroke:#3a4656}
-      .ground{fill:#12241d;stroke:#3aa981}
-      .bike{stroke:#e8e6df}.rider{fill:#e8e6df}
-    }
   </style>
   <defs>
     <marker id="d9" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
