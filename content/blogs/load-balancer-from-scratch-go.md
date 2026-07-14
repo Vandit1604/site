@@ -4,7 +4,9 @@ date: "2024-07-16"
 tags: ["tech", "golang"]
 ---
 
-"Load balancer" is one of those phrases that sounds like it should live in a data center behind a locked door. In reality, the core idea fits in a couple hundred lines of Go, and I wrote a tiny one, [go-lb](https://github.com/Vandit1604/go-lb), to prove it to myself. It takes incoming HTTP requests and spreads them across a pool of backend servers. That's the job. That's the whole job.
+"Load balancer" is one of those phrases that sounds like it should live in a data center behind a locked door. I built a tiny one, [go-lb](https://github.com/Vandit1604/go-lb), because I wanted to actually understand something I'd been hand-waving for years: *how does a single incoming request find its way to one specific server out of many?* You hit one address, but behind it are five identical backends. Something has to sit in the middle and decide. I wanted to be that something, in code, so the routing stopped being magic.
+
+The answer, it turns out, fits in a couple hundred lines of Go. A load balancer takes incoming HTTP requests and spreads them across a pool of backend servers. That's the job. That's the whole job.
 
 But this post has a twist, and it's the honest kind. Writing the happy path was easy. The interesting part is the three bugs sitting quietly in my own code, the kind that pass every casual test and would absolutely bite you in production. Let me build the thing and then show you where it lies to you, because *that* is the actual lesson about load balancers.
 
