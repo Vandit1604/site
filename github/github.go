@@ -127,6 +127,11 @@ func fetchContributions() (int, []Day) {
 		total += cnt
 		days = append(days, Day{Date: date, Count: cnt, Level: lv})
 	}
+	// GitHub emits cells day-of-week-major (all Sundays, then all Mondays, ...).
+	// The frontend grid flows column-first (7 rows per week), so it needs the
+	// days in chronological order. Dates are YYYY-MM-DD, so a lexical sort is
+	// chronological. Without this the heatmap renders scrambled.
+	sort.Slice(days, func(i, j int) bool { return days[i].Date < days[j].Date })
 	return total, days
 }
 
