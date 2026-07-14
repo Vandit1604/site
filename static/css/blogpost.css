@@ -229,3 +229,100 @@
 .dark .blog-content .src-link { color: #8a8a8a; text-decoration-color: #3a3a3a; }
 .dark .blog-content figure img,
 .dark .blog-content figure svg { border-color: #262626; }
+
+/* ============================================================
+   Reading enhancements: progress bar, sticky TOC, type polish.
+   (Added for the /blogs redesign; powered by blogpost.js.)
+   ============================================================ */
+
+/* ---- Top scroll-progress bar ---- */
+.blog-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 60;
+    background: transparent;
+    pointer-events: none;
+}
+.blog-progress span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: #111;
+    transition: width 0.08s linear;
+}
+.dark .blog-progress span { background: #f4f4f4; }
+
+/* ---- Layout: article stays centered; TOC floats in the left gutter ---- */
+.blog-layout { position: relative; }
+.blog-toc { display: none; }
+
+/* Only wide screens have gutter room for the rail. Fixed so it doesn't shift
+   the centered article. Positioned just left of the max-w-2xl (42rem) column. */
+@media (min-width: 1280px) {
+    .blog-toc {
+        display: block;
+        position: fixed;
+        top: 6.5rem;
+        left: max(1.5rem, calc(50% - 36rem));
+        width: 13.5rem;
+        max-height: calc(100vh - 9rem);
+        overflow-y: auto;
+    }
+}
+
+.blog-toc__title {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9b9b9b;
+    margin-bottom: 0.7rem;
+}
+.blog-toc__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid #e5e7eb;
+}
+.dark .blog-toc__list { border-left-color: #262626; }
+.blog-toc__item { margin: 0; }
+.blog-toc__link {
+    display: block;
+    padding: 0.28rem 0 0.28rem 0.9rem;
+    margin-left: -1px;
+    border-left: 1px solid transparent;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: #8a8a8a;
+    text-decoration: none;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+.blog-toc__item--sub .blog-toc__link {
+    padding-left: 1.7rem;
+    font-size: 0.78rem;
+}
+.blog-toc__link:hover { color: #111; }
+.dark .blog-toc__link:hover { color: #f4f4f4; }
+.blog-toc__link.is-active {
+    color: #111;
+    border-left-color: #111;
+    font-weight: 500;
+}
+.dark .blog-toc__link.is-active {
+    color: #f4f4f4;
+    border-left-color: #f4f4f4;
+}
+
+/* ---- Typography polish: even line lengths, fewer orphans, anchored jumps ---- */
+.blog-content h1,
+.blog-content h2,
+.blog-content h3 { text-wrap: balance; }
+.blog-content p,
+.blog-content li { text-wrap: pretty; }
+
+@media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+}

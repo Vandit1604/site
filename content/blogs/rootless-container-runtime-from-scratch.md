@@ -1,6 +1,7 @@
 ---
 title: "I Wrote a Container Runtime From Scratch to Find Out What a Container Even Is"
 date: "2023-12-05"
+description: "Writing a tiny rootless container runtime in Go to see what a container really is: namespaces, pivot_root, and why Docker needs the reexec trick."
 tags: ["tech", "golang"]
 ---
 

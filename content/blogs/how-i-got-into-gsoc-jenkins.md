@@ -1,6 +1,7 @@
 ---
 title: "How I Got Into GSoC (and Stopped Being Scared of Jenkins)"
 date: "2023-05-22"
+description: "How I got into Google Summer of Code with Jenkins by showing up early at the edges, and why you contribute to get good, not after."
 tags: ["opensource", "ideology"]
 ---
 

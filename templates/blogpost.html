@@ -8,7 +8,20 @@
 <link rel="stylesheet" href="/static/css/syntax-highlighting.css">
 <link rel="stylesheet" href="/static/css/blogpost.css">
 
+<!-- Reading progress: a slim bar pinned to the top, filled by blogpost.js as
+     you scroll the article. Decorative, so hidden from assistive tech. -->
+<div class="blog-progress" aria-hidden="true"><span data-blog-progress></span></div>
+
 <section class="w-full">
+ <div class="blog-layout">
+
+  <!-- Table of contents. Built by blogpost.js from the post's headings and
+       shown only on wide screens (it lives in the left gutter). Empty and
+       hidden until JS populates it, so short posts never show an empty rail. -->
+  <nav class="blog-toc" aria-label="On this page" data-blog-toc hidden>
+    <p class="blog-toc__title">On this page</p>
+    <ul class="blog-toc__list" data-blog-toc-list></ul>
+  </nav>
 
   <article class="mx-auto max-w-2xl px-6 pt-10 pb-20">
     <!-- Back link -->
@@ -22,7 +35,11 @@
 
     <!-- Post header -->
     <header data-reveal class="cell p-6 mb-10">
-      <time class="coord text-gray-500 dark:text-gray-500">{{ .blog.Date }}</time>
+      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+        <time class="coord text-gray-500 dark:text-gray-500">{{ .blog.Date }}</time>
+        <span class="coord text-gray-300 dark:text-neutral-700" aria-hidden="true">·</span>
+        <span class="coord text-gray-500 dark:text-gray-500">{{ .blog.ReadingTime }} min read</span>
+      </div>
       <h1 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tight leading-tight text-black dark:text-white">{{ .blog.Title }}</h1>
       {{ if .blog.Tags }}
       <div class="mt-4 flex flex-wrap gap-1.5">
@@ -51,6 +68,9 @@
       {{ .blog.Content }}
     </div>
   </article>
+ </div>
 </section>
+
+<script src="/static/js/blogpost.js" defer></script>
 
 {{ template "footer.html" . }}

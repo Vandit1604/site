@@ -1,15 +1,56 @@
 {{ template "header.html". }}
 
-<section class="w-full">
+{{/* One compact list row. Dot is a BlogPost. */}}
+{{ define "blogRow" }}
+<a href="blogs/{{ .Slug }}" data-reveal
+  class="press group block border-b border-gray-200 dark:border-neutral-800 py-5 hover:bg-gray-50 dark:hover:bg-neutral-900 transition-colors">
+  <div class="flex items-baseline justify-between gap-4">
+    <time class="font-mono text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500">{{ .Date }}</time>
+    <span class="font-mono text-xs text-gray-400 dark:text-neutral-600 opacity-0 group-hover:opacity-100 transition-opacity">{{ .ReadingTime }} min read &rarr;</span>
+  </div>
+  <h3 class="mt-1.5 text-xl font-semibold text-black dark:text-white">
+    <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">{{ .Title }}</span>
+  </h3>
+  <div class="mt-2 flex flex-wrap gap-1.5">
+    {{ range .Tags }}
+    <span class="font-mono text-xs rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">{{ . }}</span>
+    {{ end }}
+  </div>
+</a>
+{{ end }}
 
-  <!-- Conditional navigation -->
-  {{ if eq .Route "/blogs" }}
+{{/* The hero card for the newest post. Dot is a BlogPost. */}}
+{{ define "blogFeatured" }}
+<a href="blogs/{{ .Slug }}" data-reveal
+  class="cell lift boxy-hover press group block p-6 mb-8">
+  <div class="flex items-center justify-between">
+    <span class="font-mono text-[11px] uppercase tracking-widest text-gray-500 dark:text-gray-500">Latest post</span>
+    <span class="font-mono text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500">{{ .Date }} · {{ .ReadingTime }} min read</span>
+  </div>
+  <h2 class="mt-3 text-2xl sm:text-3xl font-bold tracking-tight leading-tight text-black dark:text-white">
+    <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">{{ .Title }}</span>
+  </h2>
+  {{ if .Description }}
+  <p class="mt-3 text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">{{ .Description }}</p>
   {{ end }}
+  <div class="mt-4 flex flex-wrap items-center gap-1.5">
+    {{ range .Tags }}
+    <span class="font-mono text-xs rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">{{ . }}</span>
+    {{ end }}
+    <span class="ml-auto font-mono text-xs text-gray-400 dark:text-neutral-600 group-hover:text-black dark:group-hover:text-white transition-colors">read &rarr;</span>
+  </div>
+</a>
+{{ end }}
+
+<section class="w-full">
 
   <div class="px-6 pt-8 pb-6">
     <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-white">Blogs.</h1>
-    <p class="mt-3 text-gray-600 dark:text-gray-400 max-w-xl">
-      Notes on Go, distributed systems, open source, and the occasional career lesson.
+    <p class="mt-3 text-gray-600 dark:text-gray-400 leading-relaxed max-w-xl">
+      Deep dives on infrastructure, distributed systems, Go, and CNCF projects. Real code, honest tradeoffs, and the occasional career lesson.
+    </p>
+    <p class="mt-3 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-500">
+      infra · distributed systems · go · cncf
     </p>
   </div>
 
@@ -30,26 +71,19 @@
     </div>
   </div>
 
-  <!-- Post list -->
-  <div class="box pt-0">
-    {{ range .blogs }}
-    <a href="blogs/{{.Slug}}" data-reveal
-      class="press group block border-b border-gray-200 dark:border-neutral-800 py-6 hover:bg-gray-50 dark:hover:bg-neutral-900 transition-colors">
-      <div class="flex items-baseline justify-between gap-4">
-        <time class="font-mono text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500">{{ .Date }}</time>
-        <span class="font-mono text-xs text-gray-400 dark:text-neutral-600 opacity-0 group-hover:opacity-100 transition-opacity">read &rarr;</span>
-      </div>
-      <h2 class="mt-2 text-2xl font-semibold text-black dark:text-white">
-        <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">{{ .Title }}</span>
-      </h2>
-      <div class="mt-3 flex flex-wrap gap-1.5">
-        {{ range .Tags }}
-        <span class="font-mono text-xs rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">{{ . }}</span>
-        {{ end }}
-      </div>
-    </a>
+  <!-- Posts: hero the newest on the main view, then a compact list. When a tag
+       is selected we show a plain list (no "latest" hero for a filtered set). -->
+  <div class="box pt-2">
+    {{ if .selectedTag }}
+      {{ range .blogs }}{{ template "blogRow" . }}{{ else }}
+      <p class="py-6 text-gray-500 dark:text-gray-400">No posts here yet.</p>
+      {{ end }}
     {{ else }}
-    <p class="py-6 text-gray-500 dark:text-gray-400">No posts here yet.</p>
+      {{ range $i, $b := .blogs }}
+        {{ if eq $i 0 }}{{ template "blogFeatured" $b }}{{ else }}{{ template "blogRow" $b }}{{ end }}
+      {{ else }}
+      <p class="py-6 text-gray-500 dark:text-gray-400">No posts here yet.</p>
+      {{ end }}
     {{ end }}
   </div>
 </section>

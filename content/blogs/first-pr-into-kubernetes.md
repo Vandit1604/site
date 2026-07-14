@@ -1,6 +1,7 @@
 ---
 title: "My First Merged PR Into Kubernetes Was 25 Lines of Tests. Here's Why That's the Move"
 date: "2024-01-24"
+description: "My first merged PR into Kubernetes was 25 lines of tests. Why a small, test-only change is the smartest way into a five-million-line repo."
 tags: ["opensource", "golang"]
 ---
 
@@ -76,7 +77,7 @@ The classic first-PR mistake is going big to look impressive: rewriting a subsys
 
 ## The staircase
 
-The thing that first PR unlocked wasn't the 25 lines. It was proof, to the maintainers and to me, that I could do this. The next contributions got bigger. Eventually I was touching real logic in [Prometheus' query layer](/blogs/) and orchestration in [Kueue and Kubernetes test-infra](https://github.com/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged). But none of that would have happened if I'd waited until I felt "ready" to make a big splash.
+The thing that first PR unlocked wasn't the 25 lines. It was proof, to the maintainers and to me, that I could do this. The next contributions got bigger. Eventually I was touching real logic in [Prometheus' query layer](https://github.com/prometheus/prometheus/pull/15552) and orchestration in [Kueue and Kubernetes test-infra](https://github.com/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged). But none of that would have happened if I'd waited until I felt "ready" to make a big splash.
 
 You don't walk into the biggest repo in the world and make a grand entrance. You slip in through the tests, prove you belong one small correct change at a time, and climb from there.
 

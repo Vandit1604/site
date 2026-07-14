@@ -123,7 +123,7 @@ func ReadBlogs() map[string]types.BlogPost {
 
 func transformDataToBlog(slug, data string) *types.BlogPost {
 	lines := strings.Split(data, "\n")
-	var title, date, draft string
+	var title, date, draft, description string
 	var tags []string
 	var contentLines []string
 	inFrontMatter := false
@@ -151,6 +151,9 @@ func transformDataToBlog(slug, data string) *types.BlogPost {
 			} else if strings.HasPrefix(line, "date:") {
 				date = strings.TrimSpace(strings.TrimPrefix(line, "date:"))
 				date = strings.Trim(date, "\"")
+			} else if strings.HasPrefix(line, "description:") {
+				description = strings.TrimSpace(strings.TrimPrefix(line, "description:"))
+				description = strings.Trim(description, "\"")
 			} else if strings.HasPrefix(line, "tags:") {
 				tagString := strings.TrimSpace(strings.TrimPrefix(line, "tags:"))
 				tagString = strings.Trim(tagString, "[]")
@@ -166,6 +169,12 @@ func transformDataToBlog(slug, data string) *types.BlogPost {
 	}
 
 	markdownContent := strings.Join(contentLines, "\n")
+
+	// Rough reading time: ~200 words per minute, at least 1 minute.
+	readingTime := len(strings.Fields(markdownContent)) / 200
+	if readingTime < 1 {
+		readingTime = 1
+	}
 
 	// Create a new Goldmark Markdown parser with extensions and custom renderer
 	md := goldmark.New(
@@ -205,11 +214,13 @@ func transformDataToBlog(slug, data string) *types.BlogPost {
 	wrappedContent := fmt.Sprintf("<div class=\"markdown-content blog-content\">%s</div>", buf.String())
 
 	blog := &types.BlogPost{
-		Slug:    slug,
-		Title:   title,
-		Date:    date,
-		Tags:    tags,
-		Content: template.HTML(wrappedContent), // Use template.HTML to prevent escaping
+		Slug:        slug,
+		Title:       title,
+		Date:        date,
+		Tags:        tags,
+		Description:  description,
+		ReadingTime: readingTime,
+		Content:     template.HTML(wrappedContent), // Use template.HTML to prevent escaping
 	}
 
 	return blog

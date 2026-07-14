@@ -1,6 +1,7 @@
 ---
 title: "From Scared of the Repo to Mentoring People Into It"
 date: "2025-02-20"
+description: "Going from scared of a big repo to mentoring people into open source in two years, told through the real merged PRs that built the path."
 tags: ["opensource", "ideology"]
 ---
 

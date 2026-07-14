@@ -1,6 +1,7 @@
 ---
 title: "Rebuilding a Site 11 Million People Read, With Antora and Gatsby"
 date: "2023-08-18"
+description: "Rebuilding the tooling behind jenkins.io, read by 11M+ people, on Antora and Gatsby during GSoC, without breaking a single URL."
 tags: ["tech", "opensource"]
 ---
 
