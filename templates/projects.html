@@ -12,7 +12,7 @@
   {{ template "indie.html" .}}
 
   <div class="px-6 pt-2 pb-4">
-    <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500">Open source &amp; tooling</h2>
+    <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500">Selected work &amp; open source</h2>
   </div>
 
   <section class="box">
@@ -33,8 +33,14 @@
           {{ if .DemoLink }}
           <a href="{{ .DemoLink }}" target="_blank" rel="noopener noreferrer"
             class="press group/link inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-            Demo <span class="inline-block transition-transform duration-300 ease-out group-hover/link:translate-x-0.5">&rarr;</span>
+            Visit <span class="inline-block transition-transform duration-300 ease-out group-hover/link:translate-x-0.5">&rarr;</span>
           </a>
+          {{ end }}
+          {{ if .CollabName }}
+          <span class="font-mono text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500">
+            with <a href="{{ .CollabLink }}" target="_blank" rel="noopener noreferrer"
+              class="press hover:text-black dark:hover:text-white transition-colors underline decoration-gray-300 dark:decoration-neutral-600 underline-offset-2">{{ .CollabName }}</a>
+          </span>
           {{ end }}
         </div>
       </div>
