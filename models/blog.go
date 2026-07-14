@@ -183,7 +183,11 @@ func transformDataToBlog(slug, data string) *types.BlogPost {
 		goldmark.WithRenderer(
 			renderer.NewRenderer(
 				renderer.WithNodeRenderers(
-					util.Prioritized(goldmarkhtml.NewRenderer(), 1000),
+					// WithUnsafe must be passed here too: the options in
+				// WithRendererOptions above don't reach this explicitly
+				// constructed renderer, so without it raw HTML (figures,
+				// callouts, inline links) in posts gets stripped.
+				util.Prioritized(goldmarkhtml.NewRenderer(goldmarkhtml.WithUnsafe()), 1000),
 					util.Prioritized(newCodeBlockRenderer(), 100),
 				),
 			),
