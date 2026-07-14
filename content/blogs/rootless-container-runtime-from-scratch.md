@@ -4,7 +4,7 @@ date: "2023-12-05"
 tags: ["tech", "golang"]
 ---
 
-For the longest time "container" lived in my head as a magic word. You type `docker run alpine`, a tiny Linux appears out of nowhere, and you just accept it, the way you accept that the fridge light turns off when you close the door. At some point I got tired of not knowing. So I wrote my own little runtime in Go, called [dockerium](https://github.com/Vandit1604/dockerium), for exactly two reasons: I wanted to get better at Go, and I wanted to see the trick with my own eyes.
+For the longest time "container" lived in my head as a magic word. You type `docker run alpine`, a tiny Linux appears out of nowhere, and you just accept it, the way you accept that the fridge light turns off when you close the door. At some point I got tired of not knowing. So I wrote my own little runtime in Go, called [dockerium](https://github.com/Vandit1604/dockerium), for three reasons: I wanted to get better at Go, I wanted to see the container trick with my own eyes, and I wanted to understand *why Docker itself is written in Go* in the first place. That last one turned out to have the most interesting answer.
 
 Here's the spoiler that ruined the magic in the best way: **a container is not a thing. It's just a normal process that has been lied to about what it can see.** That's it. No tiny VM, no special "container" object in the kernel. Just a process with a very sheltered upbringing. Let me show you the actual code that does the lying.
 
@@ -58,7 +58,7 @@ Docker feels like it "creates" an isolated machine. It doesn't. The kernel alrea
 
 Here's the first thing that genuinely surprised me. You'd think you'd just set those flags on your own process and start doing container stuff. You can't, not cleanly. A Go program is multithreaded from the moment it starts, and some namespaces (PID especially) only really apply to a *fresh child*. So the classic move, the one every real runtime uses, is: **the program re-executes itself.** It launches a second copy of its own binary, and *that* copy is the thing that gets the new namespaces and becomes PID 1.
 
-dockerium does this with Docker's own `reexec` helper. In `init()` we register a named entrypoint, and check whether we're the re-exec'd child:
+dockerium does this with Docker's own `reexec` helper, and finding it is half the fun of this project. I went digging through the [moby/moby](https://github.com/moby/moby) source (moby is the open source engine underneath Docker) expecting the "make a container" code to be some huge scary subsystem. Instead, tucked away in [`pkg/reexec`](https://github.com/moby/moby/tree/master/pkg/reexec), was this tiny, almost cheeky helper that does exactly the self-re-execution trick. The billion-dollar container company and my weekend toy use *the same little function*. In `init()` we register a named entrypoint, and check whether we're the re-exec'd child:
 
 ```go
 func init() {
@@ -74,6 +74,18 @@ func init() {
 <a class="src-link" href="https://github.com/Vandit1604/dockerium/blob/1c3a253f16e2774d3189dae4fecb5232a2d58581/main.go#L21-L28" target="_blank" rel="noopener noreferrer">↗ main.go</a>
 
 So the same binary plays two roles. First run: "I'm the parent, let me pull the image and spawn a child with the clone flags." Second run (the child it spawned): "I'm `initialisation`, I'm inside the fresh namespaces now, let me set up the container." One program, two personalities, split by a single `if`.
+
+## So why *is* Docker written in Go?
+
+This was the question I actually built dockerium to answer, and the `reexec` trick turns out to be the clue. Go is a strange choice for a container runtime if you only look at the good parts. Here's the honest ledger.
+
+The pros are real and big. Go compiles to a **single static binary** with no runtime to install, which is exactly what you want for a tool that has to run on every Linux box on earth. It has **first-class access to raw Linux syscalls** through the `syscall` package, so `clone`, `pivot_root`, `mount`, and `sethostname` are all right there. It **cross-compiles** trivially, and its **concurrency** model makes juggling many containers pleasant. For a fleet-of-processes tool, that's a fantastic fit.
+
+But `reexec` exists because of Go's one genuine *con* here, and it's a sharp one. A Go program is **multithreaded the moment it starts** (the runtime spins up threads for the scheduler, garbage collector, and so on). Some namespace operations, especially entering a new PID namespace, are defined per-thread or only apply cleanly to a fresh single-threaded process. You cannot reliably just call `unshare` inside a running Go program and expect a clean container, because you're not one process, you're a threaded runtime. So the whole "re-exec yourself as a fresh child with the flags set at spawn time" dance isn't a cute pattern. It's a **workaround for Go's threading model**, and Docker's own engineers hit the exact same wall, which is why `reexec` is sitting in moby's source in the first place.
+
+<aside class="callout callout--tip" data-label="The lesson">
+The most interesting thing I learned building this wasn't how containers work. It was that even the "right" language choice comes with a tax, and good engineering is often a clever workaround for your own tools. <code>reexec</code> is Docker admitting, in code, that Go's concurrency (its headline feature) is the exact thing that makes low-level namespace work awkward. They shipped the workaround and moved on. So did I.
+</aside>
 
 ## Building the container's fake world
 
@@ -161,6 +173,7 @@ If you've got a black box in your own stack that you've just been *accepting*, t
 ## Go deeper
 
 - The whole thing is ~440 lines of Go: [github.com/Vandit1604/dockerium](https://github.com/Vandit1604/dockerium)
+- Docker's own [`pkg/reexec`](https://github.com/moby/moby/tree/master/pkg/reexec) in the [moby](https://github.com/moby/moby) source, the tiny helper this whole thing (and Docker itself) leans on
 - [`man 2 pivot_root`](https://man7.org/linux/man-pages/man2/pivot_root.2.html) and [`man 7 namespaces`](https://man7.org/linux/man-pages/man7/namespaces.7.html), the two pages that explain the real machinery
 - Liz Rice's ["Containers From Scratch"](https://github.com/lizrice/containers-from-scratch) talk, which is the canonical version of this exercise and where a lot of the shape comes from
 
