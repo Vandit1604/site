@@ -1,9 +1,9 @@
 <!-- open source contributions section -->
 <section data-reveal class="box">
-  <h2 class="text-2xl font-bold tracking-tight mb-6">
-    Open Source
-    <span class="text-sm font-normal text-gray-500 dark:text-gray-500">· merged contributions</span>
-  </h2>
+  <h2 class="text-2xl font-bold tracking-tight mb-2">Open Source</h2>
+  <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-2xl">
+    Not tutorials. Merged, reviewed code in the infrastructure the industry actually runs on. Two years of Google Summer of Code with Jenkins: mentee in 2023, back as a mentor in 2024.
+  </p>
 
   {{ $icon := "https://cdn.jsdelivr.net/gh/devicons/devicon/icons" }}
 
@@ -12,9 +12,9 @@
     <div class="flex items-start gap-4">
       <img src="{{ $icon }}/kubernetes/kubernetes-plain.svg" alt="Kubernetes" width="32" height="32" class="h-8 w-8 flex-shrink-0 mt-1" loading="lazy" />
       <div>
-        <h3 class="font-semibold text-gray-900 dark:text-gray-100">Kubernetes</h3>
+        <h3 class="font-semibold text-black dark:text-white">Kubernetes</h3>
         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          Merged a regression test into core <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">kubernetes/kubernetes</code>; contributed 5+ PRs to <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">test-infra</code> improving Prow job orchestration.
+          Merged a regression test into core <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">kubernetes/kubernetes</code>, and shipped 5+ PRs to <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">test-infra</code> improving how Prow orchestrates CI across the whole project.
         </p>
       </div>
     </div>
@@ -23,9 +23,9 @@
     <div class="flex items-start gap-4">
       <img src="{{ $icon }}/prometheus/prometheus-original.svg" alt="Prometheus" width="32" height="32" class="h-8 w-8 flex-shrink-0 mt-1" loading="lazy" />
       <div>
-        <h3 class="font-semibold text-gray-900 dark:text-gray-100">Prometheus</h3>
+        <h3 class="font-semibold text-black dark:text-white">Prometheus</h3>
         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          Added query result limiting to the <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">/query</code> and <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">/query_range</code> endpoints; exposed the <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">direct_reclaims_total</code> metric in <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">memcached_exporter</code>.
+          Worked inside the query layer: added result limiting to the <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">/query</code> and <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">/query_range</code> endpoints, and exposed the <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">direct_reclaims_total</code> metric in <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">memcached_exporter</code>.
         </p>
       </div>
     </div>
@@ -34,20 +34,21 @@
     <div class="flex items-start gap-4">
       <img src="{{ $icon }}/jenkins/jenkins-original.svg" alt="Jenkins" width="32" height="32" class="h-8 w-8 flex-shrink-0 mt-1" loading="lazy" />
       <div>
-        <h3 class="font-semibold text-gray-900 dark:text-gray-100">
+        <h3 class="font-semibold text-black dark:text-white">
           Jenkins
-          <span class="text-xs font-normal text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-neutral-800 rounded-full px-2 py-0.5 ml-1">GSoC '23</span>
+          <span class="text-xs font-normal text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-neutral-800 rounded-full px-2 py-0.5 ml-1">GSoC '23 mentee</span>
+          <span class="text-xs font-normal text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-neutral-800 rounded-full px-2 py-0.5 ml-1">GSoC '24 mentor</span>
         </h3>
         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          Migrated Jenkins docs (11M+ users) to a versioned architecture (GatsbyJS + Antora); contributed Helm charts &amp; CI/CD to <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">jenkins-infra</code> and modernized Java CI plugins.
+          Rebuilt the Jenkins docs (11M+ users) on a versioned GatsbyJS + Antora stack; shipped Helm charts and CI/CD to <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">jenkins-infra</code> and modernized Java CI plugins. The year after being a mentee, I came back to mentor the next GSoC cohort.
         </p>
       </div>
     </div>
   </div>
 
   <div class="mt-5">
-    <a href="https://github.com/Vandit1604" class="text-gray-900 dark:text-gray-100 hover:text-black dark:hover:text-white transition duration-300">
-      View all contributions on GitHub →
+    <a href="https://github.com/Vandit1604" class="coord text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
+      View all contributions on GitHub &rarr;
     </a>
   </div>
 </section>
