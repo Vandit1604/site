@@ -42,6 +42,7 @@
       linkFor[h.id] = a;
     });
     nav.hidden = false;
+    nav.classList.add("is-visible");
 
     // Highlight the section currently near the top of the viewport.
     var observer = new IntersectionObserver(

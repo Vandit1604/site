@@ -255,20 +255,33 @@
 }
 .dark .blog-progress span { background: #f4f4f4; }
 
-/* ---- Layout: article stays centered; TOC floats in the left gutter ---- */
+/* ---- Layout: a two-column grid INSIDE the 56rem site frame ----
+   The article and the TOC share the frame width (article ~40rem + a 12rem
+   sticky rail), so the TOC lives in real layout, not floated over the binary
+   gutters. Only engages on wide screens and only when the TOC has content
+   (:has), so short posts and mobile keep the article centered full-width. */
 .blog-layout { position: relative; }
 .blog-toc { display: none; }
 
-/* Only wide screens have gutter room for the rail. Fixed so it doesn't shift
-   the centered article. Positioned just left of the max-w-2xl (42rem) column. */
-@media (min-width: 1280px) {
-    .blog-toc {
+@media (min-width: 1024px) {
+    .blog-layout:has(.blog-toc.is-visible) {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 12rem;
+        gap: 2rem;
+        align-items: start;
+        padding-right: 1.5rem;
+    }
+    .blog-layout:has(.blog-toc.is-visible) > article {
+        grid-column: 1;
+        min-width: 0;
+    }
+    .blog-toc.is-visible {
         display: block;
-        position: fixed;
+        grid-column: 2;
+        position: sticky;
         top: 6.5rem;
-        left: max(1.5rem, calc(50% - 36rem));
-        width: 13.5rem;
-        max-height: calc(100vh - 9rem);
+        align-self: start;
+        max-height: calc(100vh - 8rem);
         overflow-y: auto;
     }
 }
