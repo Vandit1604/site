@@ -1,8 +1,10 @@
-<!-- open source contributions section -->
+<!-- open source contributions section. Every claim is backed by a real, linked
+     merged PR ("receipts" row) so the section reads as proof, not assertion. -->
+{{ define "pr" }}<a target="_blank" rel="noopener noreferrer" class="font-mono text-[11px] rounded border border-gray-200 dark:border-neutral-800 px-1.5 py-0.5 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:border-gray-400 dark:hover:border-neutral-600 transition-colors"{{ end }}
 <section data-reveal class="box">
   <h2 class="text-2xl font-bold tracking-tight mb-2">Open Source</h2>
   <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-2xl">
-    Not tutorials. Merged, reviewed code in the infrastructure the industry actually runs on, since 2022. Two years of Google Summer of Code with Jenkins: mentee in 2023, back as a mentor in 2024. Currently also contributing to a Lightning Network node.
+    Not tutorials. Merged, reviewed code in the infrastructure the industry actually runs on, since 2022. Two years of Google Summer of Code with Jenkins: mentee in 2023, back as a mentor in 2024. Currently also contributing to a Lightning Network node. Every line below links to a real merged PR.
   </p>
 
   <div class="space-y-5">
@@ -12,8 +14,14 @@
       <div>
         <h3 class="font-semibold text-black dark:text-white">Kubernetes</h3>
         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          Contributor to <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">kubernetes-sigs/kueue</code> (job queueing for batch and AI workloads). Merged a regression test into core <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">kubernetes/kubernetes</code>, plus 5+ PRs to <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">test-infra</code> improving how Prow orchestrates CI.
+          Contributor to <a href="https://github.com/kubernetes-sigs/kueue/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="underline decoration-gray-300 dark:decoration-neutral-600 underline-offset-2 hover:decoration-current">kubernetes-sigs/kueue</a> (job queueing for batch and AI workloads). Merged a regression test into core <a href="https://github.com/kubernetes/kubernetes/pull/122625" target="_blank" rel="noopener noreferrer" class="underline decoration-gray-300 dark:decoration-neutral-600 underline-offset-2 hover:decoration-current">kubernetes/kubernetes</a>, plus PRs to <a href="https://github.com/kubernetes/test-infra/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="underline decoration-gray-300 dark:decoration-neutral-600 underline-offset-2 hover:decoration-current">test-infra</a> improving how Prow orchestrates CI.
         </p>
+        <div class="mt-2 flex flex-wrap gap-1.5">
+          {{ template "pr" }} href="https://github.com/kubernetes/kubernetes/pull/122625">kubernetes#122625</a>
+          {{ template "pr" }} href="https://github.com/kubernetes-sigs/kueue/pull/1552">kueue#1552</a>
+          {{ template "pr" }} href="https://github.com/kubernetes-sigs/kueue/pull/1863">kueue#1863</a>
+          {{ template "pr" }} href="https://github.com/kubernetes/test-infra/pull/32136">test-infra#32136</a>
+        </div>
       </div>
     </div>
 
@@ -23,8 +31,14 @@
       <div>
         <h3 class="font-semibold text-black dark:text-white">Prometheus</h3>
         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          Multiple PRs merged into <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">prombench</code>, Prometheus' benchmarking test bench. Also worked in the query layer (result limiting on <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">/query</code> and <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">/query_range</code>) and exposed <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">direct_reclaims_total</code> in <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">memcached_exporter</code>.
+          Multiple PRs merged into <a href="https://github.com/prometheus/test-infra/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="underline decoration-gray-300 dark:decoration-neutral-600 underline-offset-2 hover:decoration-current">prombench</a>, Prometheus' benchmarking test bench. Also worked in the query layer (a limit parameter on <a href="https://github.com/prometheus/prometheus/pull/15552" target="_blank" rel="noopener noreferrer" class="underline decoration-gray-300 dark:decoration-neutral-600 underline-offset-2 hover:decoration-current"><code class="text-xs">/query</code> and <code class="text-xs">/query_range</code></a>) and exposed <a href="https://github.com/prometheus/memcached_exporter/pull/227" target="_blank" rel="noopener noreferrer" class="underline decoration-gray-300 dark:decoration-neutral-600 underline-offset-2 hover:decoration-current"><code class="text-xs">direct_reclaims_total</code> in memcached_exporter</a>.
         </p>
+        <div class="mt-2 flex flex-wrap gap-1.5">
+          {{ template "pr" }} href="https://github.com/prometheus/prometheus/pull/15552">prometheus#15552</a>
+          {{ template "pr" }} href="https://github.com/prometheus/memcached_exporter/pull/227">memcached_exporter#227</a>
+          {{ template "pr" }} href="https://github.com/prometheus/test-infra/pull/777">test-infra#777</a>
+          {{ template "pr" }} href="https://github.com/prometheus/test-infra/pull/728">test-infra#728</a>
+        </div>
       </div>
     </div>
 
@@ -34,19 +48,27 @@
       <div>
         <h3 class="font-semibold text-black dark:text-white">
           Jenkins
-          <span class="text-xs font-normal text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-neutral-800 rounded-full px-2 py-0.5 ml-1">GSoC '23 mentee</span>
-          <span class="text-xs font-normal text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-neutral-800 rounded-full px-2 py-0.5 ml-1">GSoC '24 mentor</span>
+          <a href="https://www.jenkins.io/projects/gsoc/2023/" target="_blank" rel="noopener noreferrer" class="text-xs font-normal text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-neutral-800 rounded-full px-2 py-0.5 ml-1 hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors">GSoC '23 mentee</a>
+          <a href="https://www.jenkins.io/projects/gsoc/2024/" target="_blank" rel="noopener noreferrer" class="text-xs font-normal text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-neutral-800 rounded-full px-2 py-0.5 ml-1 hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors">GSoC '24 mentor</a>
         </h3>
         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          Rebuilt the Jenkins docs (11M+ users) on a versioned GatsbyJS + Antora stack; shipped Helm charts and CI/CD to <code class="text-xs bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">jenkins-infra</code> and modernized Java CI plugins. The year after being a mentee, I came back to mentor the next GSoC cohort.
+          Rebuilt the Jenkins docs (11M+ users) on a versioned GatsbyJS + Antora stack, shipped CI/CD to <a href="https://github.com/jenkins-infra/docs.jenkins.io/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="underline decoration-gray-300 dark:decoration-neutral-600 underline-offset-2 hover:decoration-current">jenkins-infra</a>, and modernized Java CI <a href="https://github.com/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged+org%3Ajenkinsci" target="_blank" rel="noopener noreferrer" class="underline decoration-gray-300 dark:decoration-neutral-600 underline-offset-2 hover:decoration-current">plugins</a>. The year after being a mentee, I came back to mentor the next GSoC cohort.
         </p>
+        <div class="mt-2 flex flex-wrap gap-1.5">
+          {{ template "pr" }} href="https://github.com/jenkins-infra/docs.jenkins.io/pull/106">docs.jenkins.io#106</a>
+          {{ template "pr" }} href="https://github.com/jenkinsci/embeddable-build-status-plugin/pull/163">embeddable-build-status#163</a>
+          {{ template "pr" }} href="https://github.com/jenkinsci/conditional-buildstep-plugin/pull/51">conditional-buildstep#51</a>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="mt-5">
-    <a href="https://github.com/Vandit1604" class="coord text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-      View all contributions on GitHub &rarr;
+  <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+    <a href="https://github.com/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged+archived%3Afalse" target="_blank" rel="noopener noreferrer" class="coord text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
+      All merged PRs &rarr;
+    </a>
+    <a href="https://github.com/Vandit1604" target="_blank" rel="noopener noreferrer" class="coord text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
+      GitHub profile &rarr;
     </a>
   </div>
 </section>
