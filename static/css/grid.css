@@ -97,7 +97,11 @@ body.app-shell {
   transition: text-decoration-color 0.2s var(--ease-apple-out);
 }
 .ilink:hover {
+  color: #000;
   text-decoration-color: currentColor;
+}
+.dark .ilink:hover {
+  color: #fff;
 }
 .ilink::after {
   content: "\2197"; /* ↗ */
