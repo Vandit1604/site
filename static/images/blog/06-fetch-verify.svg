@@ -1,0 +1,42 @@
+<svg width="100%" viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <title>Fetching a block and verifying it on arrival</title>
+  <desc>A node asks the DHT who has a CID, opens a stream to a provider, receives bytes, then re-hashes them. If the hash matches the CID the block is kept, otherwise it is rejected.</desc>
+  <style>
+    .h{font-size:13px;font-weight:500;fill:#1a1a18}
+    .m{font-size:12px;font-family:ui-monospace,SFMono-Regular,monospace}
+    .c{font-size:12px;fill:#5f5e5a}
+    @media (prefers-color-scheme:dark){.h{fill:#e8e6df}.c{fill:#b4b2a9}}
+  </style>
+  <defs>
+    <marker id="a6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- step 1 -->
+  <g><rect x="20" y="30" width="180" height="52" rx="8" fill="#eef1f4" stroke="#8a9099" stroke-width="0.5"/><text x="110" y="52" class="h" text-anchor="middle">1. Ask the DHT</text><text x="110" y="70" class="m" fill="#5f5e5a" text-anchor="middle">FindProviders(cid)</text></g>
+  <line x1="200" y1="56" x2="252" y2="56" stroke="#73726c" stroke-width="1.5" marker-end="url(#a6)"/>
+  <!-- step 2 -->
+  <g><rect x="256" y="30" width="180" height="52" rx="8" fill="#eef1f4" stroke="#8a9099" stroke-width="0.5"/><text x="346" y="52" class="h" text-anchor="middle">2. Open a stream</text><text x="346" y="70" class="m" fill="#5f5e5a" text-anchor="middle">/phile/fetch/1.0.0</text></g>
+  <line x1="436" y1="56" x2="488" y2="56" stroke="#73726c" stroke-width="1.5" marker-end="url(#a6)"/>
+  <!-- step 3 -->
+  <g><rect x="492" y="30" width="168" height="52" rx="8" fill="#eef1f4" stroke="#8a9099" stroke-width="0.5"/><text x="576" y="52" class="h" text-anchor="middle">3. Receive bytes</text><text x="576" y="70" class="m" fill="#5f5e5a" text-anchor="middle">from a stranger</text></g>
+  <line x1="576" y1="82" x2="576" y2="120" stroke="#73726c" stroke-width="1.5" marker-end="url(#a6)"/>
+
+  <!-- decision -->
+  <g><path d="M576 120 L672 168 L576 216 L480 168 Z" fill="#fff7ed" stroke="#c98a3a" stroke-width="0.6"/><text x="576" y="162" class="h" text-anchor="middle">re-hash</text><text x="576" y="180" class="m" fill="#8a5a1a" text-anchor="middle">hash==cid?</text></g>
+
+  <!-- yes -->
+  <line x1="480" y1="168" x2="360" y2="168" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#a6)"/>
+  <text x="420" y="160" class="c" text-anchor="middle" fill="#0F6E56">yes</text>
+  <g><rect x="150" y="142" width="200" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/><text x="250" y="164" class="h" fill="#085041" text-anchor="middle">Keep the block</text><text x="250" y="182" class="m" fill="#0F6E56" text-anchor="middle">exactly what you asked for</text></g>
+
+  <!-- no -->
+  <line x1="576" y1="216" x2="576" y2="256" stroke="#993C1D" stroke-width="1.5" marker-end="url(#a6)"/>
+  <text x="596" y="240" class="c" fill="#993C1D">no</text>
+  <g><rect x="476" y="256" width="200" height="52" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/><text x="576" y="278" class="h" fill="#712B13" text-anchor="middle">Reject. Never served.</text><text x="576" y="296" class="m" fill="#993C1D" text-anchor="middle">tampered or corrupt</text></g>
+
+  <text class="c" x="20" y="238">A liar would need bytes that hash to the exact CID you</text>
+  <text class="c" x="20" y="256">requested. That is a SHA-256 collision on demand.</text>
+  <text class="c" x="20" y="274">So they can't. The check is arithmetic, not trust.</text>
+</svg>

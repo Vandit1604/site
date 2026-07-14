@@ -119,6 +119,64 @@
     margin: 2.5em 0;
 }
 
+/* ---- Figures: a diagram/image plus a caption, centered as one unit ---- */
+.blog-content figure {
+    margin: 2em 0;
+}
+.blog-content figure img,
+.blog-content figure svg {
+    margin: 0 auto 0.6em;
+}
+.blog-content figcaption {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #6b6b6b;
+    text-align: center;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+/* ---- Callouts: boxed asides for notes, tips, gotchas ---- */
+.blog-content .callout {
+    display: flex;
+    gap: 0.7rem;
+    border: 1px solid #e5e7eb;
+    background: #fafafa;
+    padding: 0.9rem 1.05rem;
+    margin: 1.7em 0;
+    font-size: 0.97em;
+    line-height: 1.65;
+}
+.blog-content .callout p { margin: 0; }
+.blog-content .callout p + p { margin-top: 0.5em; }
+.blog-content .callout::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #6b6b6b;
+    padding-top: 0.15em;
+    min-width: 3.6rem;
+}
+.blog-content .callout--tip { background: #f5faf6; border-color: #cfe6d5; }
+.blog-content .callout--tip::before { color: #2f7d46; content: attr(data-label); }
+.blog-content .callout--warn { background: #fdf7f4; border-color: #ecd7cc; }
+.blog-content .callout--warn::before { color: #a5502a; content: attr(data-label); }
+
+/* ---- "Read it in the repo" source line under a code block ---- */
+.blog-content .src-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: #6b6b6b;
+    margin: -1em 0 1.6em;
+    text-decoration-color: #d0d0d0;
+}
+
 /* ============================================================
    Dark mode (class-based, toggled from the nav)
    ============================================================ */
@@ -139,3 +197,13 @@
 .dark .blog-content img,
 .dark .blog-content svg { border-color: #262626; }
 .dark .blog-content hr { border-top-color: #2a2a2a; }
+.dark .blog-content figcaption { color: #8a8a8a; }
+.dark .blog-content .callout { background: #131316; border-color: #262626; }
+.dark .blog-content .callout::before { color: #9a9a9a; }
+.dark .blog-content .callout--tip { background: #10160f; border-color: #24361f; }
+.dark .blog-content .callout--tip::before { color: #6fbf7f; }
+.dark .blog-content .callout--warn { background: #17110d; border-color: #3a281c; }
+.dark .blog-content .callout--warn::before { color: #d08a5f; }
+.dark .blog-content .src-link { color: #8a8a8a; text-decoration-color: #3a3a3a; }
+.dark .blog-content figure img,
+.dark .blog-content figure svg { border-color: #262626; }
