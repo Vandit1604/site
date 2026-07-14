@@ -1,0 +1,58 @@
+<svg width="100%" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <title>A crypto price chart turned into rideable game terrain</title>
+  <desc>The top panel shows a jagged BTC price line over 30 days with an all-time-high marker. An arrow labels the transform: resample to 140 points, smooth with Catmull-Rom, build Matter.js bodies. The bottom panel shows the same profile as smooth hills with a dirt bike riding it toward a TODAY finish line.</desc>
+  <style>
+    .h{font-size:13px;font-weight:500;fill:#1a1a18}
+    .m{font-size:11px;font-family:ui-monospace,SFMono-Regular,monospace;fill:#5f5e5a}
+    .c{font-size:11px;fill:#5f5e5a}
+    .panel{fill:#eef1f4;stroke:#8a9099;stroke-width:0.5}
+    .ground{fill:#dfeae2;stroke:#0F6E56;stroke-width:1.5}
+    .bike{stroke:#1a1a18}.rider{fill:#1a1a18}
+    @media (prefers-color-scheme:dark){
+      .h{fill:#e8e6df}.c{fill:#b4b2a9}.m{fill:#b4b2a9}
+      .panel{fill:#141b26;stroke:#3a4656}
+      .ground{fill:#12241d;stroke:#3aa981}
+      .bike{stroke:#e8e6df}.rider{fill:#e8e6df}
+    }
+  </style>
+  <defs>
+    <marker id="d9" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- price chart panel -->
+  <rect x="30" y="30" width="620" height="96" rx="8" class="panel"/>
+  <text x="44" y="24" class="m">price: BTC, 30d</text>
+  <line x1="46" y1="52" x2="600" y2="52" stroke="#a3a3a3" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="606" y="55" class="c">ATH</text>
+  <polyline points="50,110 110,88 170,100 230,64 290,84 350,52 410,92 470,70 530,58 600,78"
+    fill="none" stroke="#0F6E56" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="600" cy="78" r="3" fill="#0F6E56"/>
+
+  <!-- transform arrow -->
+  <line x1="340" y1="126" x2="340" y2="158" stroke="#73726c" stroke-width="1.5" marker-end="url(#d9)"/>
+  <text x="356" y="147" class="c">resample → 140 points → Catmull-Rom smooth → Matter.js bodies</text>
+
+  <!-- terrain panel -->
+  <rect x="30" y="164" width="620" height="140" rx="8" class="panel"/>
+  <text x="44" y="182" class="h">the same chart, now rideable</text>
+  <line x1="46" y1="212" x2="560" y2="212" stroke="#a3a3a3" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="566" y="215" class="c">ATH marker</text>
+  <path d="M40,300 L40,262 Q80,258 110,250 Q150,262 170,258 Q205,224 230,224 Q265,244 290,242 Q325,212 350,214 Q385,252 410,250 Q450,230 470,232 Q505,220 530,222 Q575,236 600,238 L600,300 Z" class="ground"/>
+  <!-- checkered finish -->
+  <g>
+    <rect x="604" y="200" width="14" height="100" fill="#eef1f4" stroke="#8a9099" stroke-width="0.5"/>
+    <rect x="604" y="200" width="7" height="12.5" fill="#5f5e5a"/><rect x="611" y="212.5" width="7" height="12.5" fill="#5f5e5a"/>
+    <rect x="604" y="225" width="7" height="12.5" fill="#5f5e5a"/><rect x="611" y="237.5" width="7" height="12.5" fill="#5f5e5a"/>
+    <rect x="604" y="250" width="7" height="12.5" fill="#5f5e5a"/><rect x="611" y="262.5" width="7" height="12.5" fill="#5f5e5a"/>
+    <rect x="604" y="275" width="7" height="12.5" fill="#5f5e5a"/><rect x="611" y="287.5" width="7" height="12.5" fill="#5f5e5a"/>
+  </g>
+  <text x="622" y="300" class="c" transform="rotate(-90 622 300)">TODAY ▸</text>
+  <!-- dirt bike on a hill around x=340 -->
+  <g class="bike" stroke-width="2" fill="none" transform="translate(322,206)">
+    <circle cx="0" cy="12" r="9"/><circle cx="30" cy="6" r="9"/>
+    <path d="M0,12 L12,2 L30,6 M12,2 L18,-4 L28,-4"/>
+    <circle class="rider" cx="15" cy="-9" r="4" stroke="none"/>
+  </g>
+</svg>
