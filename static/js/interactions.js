@@ -61,3 +61,47 @@
     }
   }, 1200);
 })();
+
+/* Scroll-aware floating nav dock: slide it out of the way while scrolling down
+   (reading), bring it back on scroll up, and always show it near the very top
+   and bottom of the page so it never permanently covers content. */
+(function () {
+  "use strict";
+  var docks = document.querySelectorAll(".nav-dock");
+  if (!docks.length) return;
+
+  var lastY = window.scrollY || 0;
+  var ticking = false;
+
+  function setHidden(hide) {
+    for (var i = 0; i < docks.length; i++) {
+      docks[i].classList.toggle("nav-dock--hidden", hide);
+    }
+  }
+
+  function onScroll() {
+    var y = window.scrollY || 0;
+    var doc = document.documentElement;
+    var nearTop = y < 90;
+    var nearBottom = window.innerHeight + y >= doc.scrollHeight - 60;
+    var delta = y - lastY;
+
+    if (nearTop || nearBottom) setHidden(false);
+    else if (delta > 6) setHidden(true); // scrolling down
+    else if (delta < -6) setHidden(false); // scrolling up
+
+    lastY = y;
+    ticking = false;
+  }
+
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(onScroll);
+      }
+    },
+    { passive: true }
+  );
+})();
