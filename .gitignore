@@ -9,4 +9,3 @@ assets/gallery/
 
 # Local secrets (Spotify, etc.)
 .env
-devto/

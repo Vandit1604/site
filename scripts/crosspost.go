@@ -1,22 +1,20 @@
-// Command crosspost publishes a site blog post to dev.to (and Hashnode, when a
-// Pro publication is available) straight from content/blogs, converting the
-// site's HTML flourishes (callouts, figures, source links) to portable
-// markdown and rewriting asset URLs to absolute vandit.dev links on the fly.
+// Command crosspost publishes a site blog post to dev.to straight from
+// content/blogs, converting the site's HTML flourishes (callouts, figures,
+// source links) to portable markdown and rewriting asset URLs to absolute
+// vandit.dev links on the fly.
 //
-// dev.to works on the free API. Hashnode's GraphQL API now requires a paid Pro
-// plan; without it every request 301-redirects to their announcement and the
-// tool reports that clearly instead of failing silently.
+// Safe by default: with no action flag it only PREVIEWS (dry-run). Publishing
+// requires an explicit -publish (live) or -draft (dev.to draft), so a new post
+// is never pushed to dev.to by accident.
 //
 // Usage:
 //
 //	go run ./cmd/crosspost -list
-//	go run ./cmd/crosspost -slug <slug> -devto -dry-run
-//	go run ./cmd/crosspost -slug <slug> -devto                    # publish live
-//	go run ./cmd/crosspost -slug <slug> -devto -draft             # dev.to draft
-//	go run ./cmd/crosspost -slug <slug> -devto -tags go,devops    # override tags
-//	go run ./cmd/crosspost -slug <slug> -hashnode -at 2026-07-22T14:00:00Z
+//	go run ./cmd/crosspost -slug <slug> -tags go,devops              # preview only
+//	go run ./cmd/crosspost -slug <slug> -tags go,devops -draft       # create dev.to draft
+//	go run ./cmd/crosspost -slug <slug> -tags go,devops -publish     # publish live
 //
-// Keys come from .env (or the environment): DEVTO_API_KEY, HASHNODE_TOKEN.
+// The dev.to API key comes from .env (or the environment): DEVTO_API_KEY.
 package main
 
 import (
@@ -31,7 +29,6 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-	"time"
 )
 
 const (
@@ -52,12 +49,9 @@ type post struct {
 func main() {
 	var (
 		slug    = flag.String("slug", "", "post slug (matches content/blogs/<slug>.md)")
-		toDevto = flag.Bool("devto", false, "publish to dev.to")
-		toHash  = flag.Bool("hashnode", false, "publish to Hashnode (needs Pro)")
-		draft   = flag.Bool("draft", false, "create as a draft instead of publishing")
-		tagsCSV = flag.String("tags", "", "comma-separated tag override (max 4, dev.to-valid)")
-		at      = flag.String("at", "", "Hashnode schedule time, RFC3339 (e.g. 2026-07-22T14:00:00Z)")
-		dryRun  = flag.Bool("dry-run", false, "print what would be sent, do not call the API")
+		tagsCSV = flag.String("tags", "", "comma-separated tags (max 4, dev.to-valid)")
+		publish = flag.Bool("publish", false, "publish LIVE to dev.to (omit to preview)")
+		draft   = flag.Bool("draft", false, "create a dev.to draft instead of publishing live")
 		list    = flag.Bool("list", false, "list publishable post slugs and exit")
 	)
 	flag.Parse()
@@ -69,23 +63,16 @@ func main() {
 		}
 		return
 	}
-	if *slug == "" || (!*toDevto && !*toHash) {
-		fatal("usage: -slug <slug> and at least one of -devto / -hashnode (see -list)")
+	if *slug == "" {
+		fatal("usage: -slug <slug> [-tags a,b,c] [-draft|-publish] (see -list)")
 	}
 
 	p, err := loadPost(*slug, *tagsCSV)
 	if err != nil {
 		fatal("%v", err)
 	}
-	if *toDevto {
-		if err := publishDevto(p, *draft, *dryRun); err != nil {
-			fatal("dev.to: %v", err)
-		}
-	}
-	if *toHash {
-		if err := publishHashnode(p, *at, *dryRun); err != nil {
-			fatal("hashnode: %v", err)
-		}
+	if err := publishDevto(p, *publish, *draft); err != nil {
+		fatal("dev.to: %v", err)
 	}
 }
 
@@ -195,7 +182,14 @@ func convert(body string) string {
 
 // ---- dev.to ----------------------------------------------------------------
 
-func publishDevto(p post, draft, dry bool) error {
+func publishDevto(p post, publish, draft bool) error {
+	// Preview unless an explicit action flag is set, so nothing goes live by accident.
+	if !publish && !draft {
+		fmt.Printf("[preview] dev.to (pass -draft or -publish to send)\n"+
+			"  title:     %s\n  tags:      %v\n  canonical: %s\n  cover:     %s\n  body:      %d chars\n",
+			p.Title, p.Tags, p.Canonical, p.CoverImage, len(p.Body))
+		return nil
+	}
 	key := os.Getenv("DEVTO_API_KEY")
 	if key == "" {
 		return fmt.Errorf("DEVTO_API_KEY not set")
@@ -203,18 +197,14 @@ func publishDevto(p post, draft, dry bool) error {
 	article := map[string]any{
 		"title":         p.Title,
 		"body_markdown": p.Body,
-		"published":     !draft,
+		"published":     publish && !draft,
 		"canonical_url": p.Canonical,
 		"description":   p.Description,
 		"tags":          p.Tags,
 		"main_image":    p.CoverImage,
 	}
 	payload, _ := json.Marshal(map[string]any{"article": article})
-	if dry {
-		fmt.Printf("[dry-run] dev.to POST /api/articles published=%v tags=%v\n  title: %s\n  canonical: %s\n  cover: %s\n  body: %d chars\n",
-			!draft, p.Tags, p.Title, p.Canonical, p.CoverImage, len(p.Body))
-		return nil
-	}
+
 	req, _ := http.NewRequest(http.MethodPost, "https://dev.to/api/articles", bytes.NewReader(payload))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("api-key", key)
@@ -231,114 +221,11 @@ func publishDevto(p post, draft, dry bool) error {
 		URL string `json:"url"`
 	}
 	_ = json.Unmarshal(b, &out)
-	state := "published"
+	state := "published live"
 	if draft {
 		state = "draft created"
 	}
 	fmt.Printf("dev.to: %s -> %s\n", state, out.URL)
-	return nil
-}
-
-// ---- Hashnode (GraphQL, Pro-gated) -----------------------------------------
-
-var noRedirect = &http.Client{
-	Timeout:       30 * time.Second,
-	CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse },
-}
-
-func hashnodeGQL(token, query string, vars map[string]any) (json.RawMessage, error) {
-	body, _ := json.Marshal(map[string]any{"query": query, "variables": vars})
-	req, _ := http.NewRequest(http.MethodPost, "https://gql.hashnode.com/", bytes.NewReader(body))
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", token)
-	resp, err := noRedirect.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode == http.StatusMovedPermanently || resp.StatusCode == http.StatusFound {
-		return nil, fmt.Errorf("API redirected (%d -> %s). Hashnode's GraphQL API now requires a Pro plan on the publication; free plans cannot use it",
-			resp.StatusCode, resp.Header.Get("Location"))
-	}
-	raw, _ := io.ReadAll(resp.Body)
-	if !json.Valid(raw) {
-		return nil, fmt.Errorf("non-JSON response (status %d), likely the Pro gate or an auth problem", resp.StatusCode)
-	}
-	var env struct {
-		Data   json.RawMessage `json:"data"`
-		Errors []struct {
-			Message string `json:"message"`
-		} `json:"errors"`
-	}
-	if err := json.Unmarshal(raw, &env); err != nil {
-		return nil, err
-	}
-	if len(env.Errors) > 0 {
-		return nil, fmt.Errorf("graphql: %s", env.Errors[0].Message)
-	}
-	return env.Data, nil
-}
-
-func publishHashnode(p post, at string, dry bool) error {
-	token := os.Getenv("HASHNODE_TOKEN")
-	if token == "" {
-		return fmt.Errorf("HASHNODE_TOKEN not set")
-	}
-	data, err := hashnodeGQL(token, `query { me { publications(first:1){ edges { node { id } } } } }`, nil)
-	if err != nil {
-		return err
-	}
-	var me struct {
-		Me struct {
-			Publications struct {
-				Edges []struct {
-					Node struct{ ID string } `json:"node"`
-				} `json:"edges"`
-			} `json:"publications"`
-		} `json:"me"`
-	}
-	if err := json.Unmarshal(data, &me); err != nil {
-		return err
-	}
-	if len(me.Me.Publications.Edges) == 0 {
-		return fmt.Errorf("no publication found for this token")
-	}
-	pubID := me.Me.Publications.Edges[0].Node.ID
-
-	tags := make([]map[string]string, 0, len(p.Tags))
-	for _, t := range p.Tags {
-		tags = append(tags, map[string]string{"slug": t, "name": capitalize(t)})
-	}
-	input := map[string]any{
-		"publicationId":      pubID,
-		"title":              p.Title,
-		"contentMarkdown":    p.Body,
-		"tags":               tags,
-		"originalArticleURL": p.Canonical,
-		"coverImageOptions":  map[string]string{"coverImageURL": p.CoverImage},
-	}
-	if at != "" {
-		if _, err := time.Parse(time.RFC3339, at); err != nil {
-			return fmt.Errorf("bad -at time %q (want RFC3339): %v", at, err)
-		}
-		input["publishedAt"] = at
-	}
-	if dry {
-		fmt.Printf("[dry-run] hashnode publishPost (pub %s) tags=%v at=%q\n  title: %s\n", pubID, p.Tags, at, p.Title)
-		return nil
-	}
-	mutation := `mutation P($input: PublishPostInput!){ publishPost(input:$input){ post { url } } }`
-	out, err := hashnodeGQL(token, mutation, map[string]any{"input": input})
-	if err != nil {
-		return err
-	}
-	var res struct {
-		PublishPost struct {
-			Post struct{ URL string } `json:"post"`
-		} `json:"publishPost"`
-	}
-	_ = json.Unmarshal(out, &res)
-	fmt.Printf("hashnode: published -> %s\n", res.PublishPost.Post.URL)
 	return nil
 }
 
@@ -386,13 +273,6 @@ func cleanTags(csv string) []string {
 		}
 	}
 	return out
-}
-
-func capitalize(s string) string {
-	if s == "" {
-		return s
-	}
-	return strings.ToUpper(s[:1]) + s[1:]
 }
 
 func loadDotenv(path string) {
