@@ -118,10 +118,21 @@ This flips the security model. In the normal web you trust <em>the source</em>: 
 
 Cool, the bytes are verifiable. But there's no central server. So when I ask for a CID, who do I even talk to? This is where [libp2p](https://libp2p.io/) does the heavy lifting.
 
-Every node has a **PeerID**, a cryptographic identity derived from a keypair, saved to `identity.key` so it survives restarts. Your node is the same "person" every time it boots. Nodes find each other two ways:
+Every node has a **PeerID**, and it's worth being precise about what that is, because it's the same trick as content addressing pointed at identity instead of data. On first boot, `loadOrCreateIdentity` generates an **Ed25519 keypair**, marshals the private key, and writes it to `identity.key` with `0600` permissions (owner-only). The PeerID is *derived from the public key*. That makes it **self-certifying**: you cannot claim a PeerID you don't hold the private key for, the same way you can't SSH in as someone whose key you don't have. Content addressing says "the address is the hash of the bytes"; PeerIDs say "the address is the hash of your public key." Same idea, and it's why nobody can impersonate your node just by copying its ID.
+
+```go
+priv, _, err := crypto.GenerateEd25519Key(rand.Reader)
+// ... marshal and persist to identity.key at 0600 ...
+```
+
+<a class="src-link" href="https://github.com/Vandit1604/phile-storage/blob/da5d99910a3c1943691826141dc99c80f9489e82/backend/internal/p2p/host.go#L109-L135" target="_blank" rel="noopener noreferrer">↗ backend/internal/p2p/host.go</a>
+
+Your node is the same "person" every time it boots. Nodes find each other two ways:
 
 - **mDNS** for peers on your local network. The "shout on the LAN and see who answers" approach.
 - A **Kademlia DHT** for the wider network. A DHT is a distributed phone book with no owner. When my node stores a block, it announces to the DHT "hey, I have this CID," and anyone can later ask the DHT who has it.
+
+Two setup details matter. The node joins the DHT in `ModeServer`, which means it doesn't just *query* the phone book, it *is* part of it: it stores routing records for other peers. And the initial `Bootstrap` call is non-fatal (a failure logs a warning and keeps going), so a node with no reachable bootstrap peers still comes up and can find neighbors over mDNS on the LAN. The mDNS side is aggressive on purpose: when it hears another peer announce itself, it immediately dials them with a 10-second timeout, so the DHT always has someone to talk to without any public bootstrap list. That's what makes the localhost demo work with zero configuration.
 
 The announce and lookup are two small methods:
 
@@ -149,7 +160,22 @@ func (n *Node) FindProviders(ctx context.Context, c cid.Cid, max int) []peer.Add
 
 <a class="src-link" href="https://github.com/Vandit1604/phile-storage/blob/main/backend/internal/p2p/fetch.go" target="_blank" rel="noopener noreferrer">↗ backend/internal/p2p/fetch.go</a>
 
-To download, I ask the DHT `FindProviders` for a CID, it points me at peers holding it, and I open a direct stream to one of them over a little custom protocol I named `/phile/fetch/1.0.0`. They send bytes, I re-hash (see above), and either it checks out or it hits the floor.
+To download, I ask the DHT `FindProviders` for a CID, it points me at peers holding it, and I open a direct stream to one of them over a little custom protocol I named `/phile/fetch/1.0.0`. The wire format is about as simple as it gets: the client writes the CID it wants followed by a newline, then calls `CloseWrite()` to half-close the stream (a way of saying "I'm done talking, now I'm only listening"), and the server streams the raw block bytes straight back.
+
+Here's the detail that took me a second to appreciate. The **server serves blindly.** Look at the stream handler: it reads a CID string, hands it to a `provide` callback, and writes back whatever bytes come out. It does no verification of its own, and it doesn't need to, because a lying server gains nothing. All the security lives on the *receiving* end, in that one `content.Verify` call. This is the inversion that makes peer-to-peer safe: you don't need honest servers, you need an honest hash function. The provider could be actively malicious and the worst it can do is waste your bandwidth, because bytes that don't hash to the CID you asked for hit the floor before they're ever returned or persisted.
+
+```go
+n.host.SetStreamHandler(fetchProtocol, func(s network.Stream) {
+    cidStr, _ := bufio.NewReader(s).ReadString('\n')
+    data, err := provide(strings.TrimSpace(cidStr)) // serve it, no questions asked
+    if err != nil { return }
+    s.Write(data)
+})
+```
+
+<a class="src-link" href="https://github.com/Vandit1604/phile-storage/blob/da5d99910a3c1943691826141dc99c80f9489e82/backend/internal/p2p/fetch.go#L22-L42" target="_blank" rel="noopener noreferrer">↗ backend/internal/p2p/fetch.go</a>
+
+There's a matching helper on the client side, `ComputeReader`, that drains a reader and returns both the bytes and their CID together, precisely so code fetching from an untrusted source can hash first and persist second, never the other way around.
 
 ## Run it yourself
 
@@ -166,6 +192,22 @@ Upload a file to peer 1, then fetch it by CID from peer 3. It was never copied d
 
 There's an *optional* centralized mode (etcd + Redis) behind a single env var, for when you actually want one global searchable index. But the version that made me build this needs nothing but the peers themselves.
 
+## The bonus nobody advertises: it also kills path traversal
+
+Here's a security win that falls out of content addressing for free, and I didn't plan for it. Phile stores every block on disk in a file *named by its CID*: `data/<peerID>/blocks/<cid>`. Now think about the classic file-server vulnerability, path traversal, where an attacker asks for `../../etc/passwd` or `../../../secrets` and a naive server happily reads or writes outside its sandbox because it built a path from an attacker-controlled string.
+
+Phile can't do that, and not because I wrote careful sanitization. A CID is a fixed-alphabet, self-describing string. It comes out of a base-encoding of a hash. It physically cannot contain `/` or `..`, because those characters aren't in the alphabet, and a malformed CID fails to parse in `Parse` long before it's ever used as a path segment. So the filename is never really attacker-controlled free text, even though it *looks* like it came from the network. The same property that makes content addressing verifiable, "the name is a constrained function of the bytes," also makes it path-traversal-proof. Two security bugs, one design decision.
+
+```go
+func (fs *FileStore) blockPath(c cid.Cid) string {
+    return filepath.Join(fs.basePath, fs.peerID, "blocks", c.String())
+}
+```
+
+<a class="src-link" href="https://github.com/Vandit1604/phile-storage/blob/da5d99910a3c1943691826141dc99c80f9489e82/backend/internal/storage/filestore.go#L34-L36" target="_blank" rel="noopener noreferrer">↗ backend/internal/storage/filestore.go</a>
+
+And because the filename *is* the content's fingerprint, `SaveBlock` writing the same CID twice is a literal no-op: the bytes are identical by definition, so dedup isn't a feature you implement, it's a thing you can't avoid. At startup, `ListBlockCIDs` walks that blocks directory and re-announces every CID it finds to the DHT, which is how a node reboots and rejoins the network already advertising everything it holds.
+
 ## Where the design bites back
 
 I'm not going to pretend content addressing is free lunch. The honest tradeoffs:
@@ -173,6 +215,7 @@ I'm not going to pretend content addressing is free lunch. The honest tradeoffs:
 - **Immutability cuts both ways.** "The file at this address can never change" is a feature until you want to change the file. Now you need a *mutable pointer* that says "the latest version is this CID," which is a whole separate naming problem (IPFS solves it with IPNS, and it's the gnarly part).
 - **Content addressing doesn't give you discovery.** A CID tells you nothing about what the file *is*. You still need some human-readable name to CID map somewhere, and in decentralized mode each node only knows the names of files it uploaded.
 - **The DHT is eventually-consistent and can be slow.** `FindProviders` might take a beat, or briefly return nobody if an announce hasn't propagated. Great for resilience, occasionally annoying for latency.
+- **Connectivity across real NATs is a separate hard problem.** The host listens on a plain `/ip4/0.0.0.0/tcp/<port>` and nothing else. On localhost or a LAN that's fine, which is exactly the demo. Between two home networks, both peers sit behind NATs and neither can dial the other without hole-punching or a relay, which real libp2p deployments enable explicitly (`EnableHolePunching`, circuit relays, public bootstrap nodes) and this one doesn't. The verification model is planet-scale; the transport config is localhost-scale. Worth being honest that those are different milestones.
 
 <aside class="callout callout--warn" data-label="Gotcha">
 Verifying on arrival protects integrity, not availability. Nobody can hand you <em>wrong</em> bytes, but if every peer holding a CID goes offline, that content is simply gone. Content addressing guarantees "you get the right file or nothing," never "you always get the file."
@@ -182,8 +225,11 @@ Verifying on arrival protects integrity, not availability. Nobody can hand you <
 
 - Address files by the **hash of their bytes** (a CID), not by a name. Name and content become inseparable.
 - You get **dedup and immutability for free**, and every download is **re-hashed and verified**, so tampered bytes are auto-rejected. Lying is mathematically off the table.
-- **libp2p** handles identity (PeerID), discovery (mDNS + Kademlia DHT), and a direct fetch stream. No central server.
-- The catch: immutability makes updates hard, and integrity is not the same as availability.
+- **Trust lives entirely on the receiver.** The serving peer sends bytes blindly; the one `content.Verify` on the client side is the whole security model. You don't need honest servers, you need an honest hash.
+- **Self-certifying identity:** a PeerID is derived from an Ed25519 public key, so nobody can impersonate your node by copying its ID. Same trick as content addressing, aimed at identity.
+- **Path traversal is impossible by construction:** a CID can't contain `/` or `..`, so the on-disk block name is never really attacker-controlled. One design decision, two classes of bug gone.
+- **libp2p** handles identity (PeerID), discovery (mDNS + Kademlia DHT in server mode), and a direct fetch stream over `/phile/fetch/1.0.0`. No central server.
+- The catches: immutability makes updates hard, integrity is not availability, and cross-NAT connectivity needs hole-punching this demo doesn't configure.
 
 Content addressing flips the trust model. You stop trusting *who* sent the data and start trusting the *data itself*. Once that clicks, plain old "here's a file at this URL, trust me bro" starts to feel kind of medieval.
 
