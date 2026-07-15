@@ -35,6 +35,7 @@ func ShowIndividualBlogPage(c *gin.Context) {
 			gin.H{
 				"blog":         blog,
 				"OGType":       "article",
+				"OGImage":      SiteURL + "/static/images/blog/og/" + slug + ".png",
 				"IsArticle":    true,
 				"ArticleDate":  blog.Date,
 				"ArticleTitle": blog.Title,

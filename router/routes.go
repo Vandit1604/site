@@ -27,6 +27,11 @@ func setUpRoutes(router *gin.Engine) {
 	router.StaticFile("/robots.txt", "./static/robots.txt")
 	router.GET("/sitemap.xml", handlers.ShowSitemap)
 
+	// RSS feed for readers and aggregators; llms.txt for AI search engines
+	// (GEO). Both are generated from the live blog set, like the sitemap.
+	router.GET("/rss.xml", handlers.ShowRSS)
+	router.GET("/llms.txt", handlers.ShowLLMsTxt)
+
 	// IndexNow: serve the ownership key file so Bing/Yandex/etc. can validate
 	// the URL submissions made by `site -indexnow` on deploy.
 	router.GET("/"+handlers.IndexNowKey+".txt", handlers.ShowIndexNowKey)
