@@ -46,7 +46,7 @@ In code, the five checks live in one place and it's worth seeing them together, 
 
 ```go
 token, err := jwt.Parse(raw, func(t *jwt.Token) (any, error) {
-    // 5) pin the algorithm — never trust t.Header["alg"]
+    // 5) pin the algorithm, never trust t.Header["alg"]
     if _, ok := t.Method.(*jwt.SigningMethodRSA); !ok {
         return nil, fmt.Errorf("unexpected signing method")
     }
