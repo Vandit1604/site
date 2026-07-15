@@ -32,6 +32,18 @@ That last point is the elegant part, and it's what OIDC buys you. [OpenID Connec
 The secret never travels to the service you're calling, only to the issuer. Every callee validates a signed token offline against a public key. That means a compromised service B can't turn around and impersonate A, because B only ever held A's public-key-verified token, never A's secret. Shared API keys fail exactly this test: whoever you present the key to can now replay it as you.
 </aside>
 
+## Provisioning the clients as code
+
+The clients don't get clicked into a Keycloak admin UI by hand, which is how this kind of thing usually rots into tribal knowledge. Every service that needs an identity is an entry in a **map in Terraform**, and the Keycloak provider turns that map into a set of **service account clients** (Keycloak's term for a confidential client that authenticates as *itself* via the client-credentials grant, no user attached). One `terraform apply` and every client in the map exists, each with its `client_id`, its secret, and its assigned role. Need a new service? Add a line to the map, apply, done.
+
+This matters more than it looks. Because the clients are declared as data, "which services are allowed to authenticate, and what role does each hold" is answerable by reading a file in a pull request, not by spelunking someone's browser history. Drift, a client that exists in Keycloak but not in the map, or the reverse, shows up as a Terraform diff. And each client carrying its **own role** is what turns authentication into authorization: the token proves not just "I'm a registered client" but "I'm *this* client, with *this* role," so the callee can check the request came from a client it actually expects, holding a role that's actually allowed to make this call.
+
+## Cookies for humans, tokens for machines
+
+There's a split in the system worth calling out, because it's where the token path stops being optional. User-facing traffic from the frontend authenticates with **cookies**, the ordinary browser session flow, and by default that's what everything used. Internal service-to-service calls can't lean on that, and the **cron and worker jobs** made the reason concrete: a scheduled job has no browser, no session, no cookie jar. There's no human in the loop and nothing to hold a cookie. So internal calls, and the background workers especially, use the **Bearer token** path instead: the client fetches a token from Keycloak with its own credentials and presents it on the call.
+
+So the platform runs two authentication modes on purpose. Cookies for anything that originates from a logged-in human in a browser; client-credential tokens for anything a service or a cron job kicks off on its own behalf. The rule for which applies is just "is there a browser and a human behind this request." The moment the answer is no, an internal API hop, a nightly worker, you're on the token path, because a cookie needs a browser to live in and these callers don't have one.
+
 ## What the callee actually has to check
 
 Here's where the real work lives. "Validate the token" is five checks, and skipping any one of them silently removes a security guarantee while the happy path keeps working perfectly. This is the part that took the care.
@@ -91,6 +103,8 @@ Audience validation is the check that feels optional and isn't. If service B doe
 - Internal services have **no user and no password**, so user-auth patterns don't apply. The question is machine identity.
 - **Shared API keys** rot and leak; **mTLS** is strong but means running a PKI (or a service mesh / SPIFFE). Fine at scale, heavy to hand-roll.
 - **OAuth2 client-credentials + Keycloak + OIDC** fits: each service is a client with a secret, gets a **short-lived JWT** from the token endpoint, and callees validate it **offline via JWKS** with no per-request call to the issuer.
+- **Provision the clients as code**: a map in Terraform, and the Keycloak provider creates every **service account client** on apply, each with its own role. The auth topology is reviewable in a PR and drift shows up as a diff.
+- **Two auth modes on purpose**: cookies for browser/human traffic, **Bearer tokens for internal service-to-service calls and cron/worker jobs**, which have no browser and so can't use a cookie.
 - Validation is five checks: **signature (right `kid`), `exp`, `iss`, `aud`, and a pinned algorithm.** Skipping any one silently deletes a guarantee.
 - The five traps: **clock skew** (allow leeway, run NTP), **JWKS rotation** (cache by `kid`, refetch on miss), **skipping `aud`** (confused deputy), **the issuer as a SPOF** (client-side token caching + jitter), and **token lifetime** (short, because stateless JWTs can't be revoked early).
 
