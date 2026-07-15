@@ -159,9 +159,11 @@
 }
 
 /* ---- Callouts: boxed asides for notes, tips, gotchas ---- */
+/* Block layout with the label as a stacked eyebrow. Never flex: a flex
+   callout shatters raw inline bodies (each <code>/text run becomes its own
+   column). Block flow also lets long labels wrap cleanly. */
 .blog-content .callout {
-    display: flex;
-    gap: 0.7rem;
+    display: block;
     border: 1px solid #e5e7eb;
     background: #fafafa;
     padding: 0.9rem 1.05rem;
@@ -169,18 +171,18 @@
     font-size: 0.97em;
     line-height: 1.65;
 }
+.blog-content .callout > :first-child { margin-top: 0; }
 .blog-content .callout p { margin: 0; }
 .blog-content .callout p + p { margin-top: 0.5em; }
 .blog-content .callout::before {
     content: attr(data-label);
-    flex-shrink: 0;
+    display: block;
+    margin-bottom: 0.35rem;
     font-family: "Geist Mono", ui-monospace, monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.04em;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: #6b6b6b;
-    padding-top: 0.15em;
-    min-width: 3.6rem;
 }
 .blog-content .callout--tip { background: #f5faf6; border-color: #cfe6d5; }
 .blog-content .callout--tip::before { color: #2f7d46; content: attr(data-label); }
