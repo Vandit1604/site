@@ -179,10 +179,38 @@
   var audioStarted = false;
   var sampler = null;
   var samplerReady = false;
-  // C major pentatonic — no "wrong" notes, always pleasant.
-  var scale = ["C4", "D4", "E4", "G4", "A4", "C5", "D5", "E5", "G5", "A5"];
-  var noteIndex = 0;
+
+  // Pentatonic: there are no wrong notes, so any order of these is consonant.
+  // Four keys rather than one, because the relative minor of a pentatonic is
+  // the same five pitches — only a genuine transposition changes the colour.
+  // Every note sits at C4 or above: the lowest Salamander sample is C4, and
+  // anything under it gets pitch-shifted down into mud.
+  var SCALES = [
+    ["C4", "D4", "E4", "G4", "A4", "C5", "D5", "E5", "G5", "A5"], // C — open, bright
+    ["D4", "E4", "F#4", "A4", "B4", "D5", "E5", "F#5", "A5", "B5"], // D — airy
+    ["F4", "G4", "A4", "C5", "D5", "F5", "G5", "A5"], // F — warm
+    ["G4", "A4", "B4", "D5", "E5", "G5", "A5", "B5"], // G — folk
+  ];
+  var scale = SCALES[Math.floor(Math.random() * SCALES.length)];
+  var noteIndex = Math.floor(Math.random() * scale.length);
   var lastNote = 0;
+
+  // The melody used to be `scale[i++]`: a strict ascending run that hit the top
+  // and snapped back down an octave, identical on every drag. That's a scale
+  // exercise, not a tune. Walk it instead — mostly neighbours with the odd
+  // leap, which is roughly how a melody actually moves — and reflect off the
+  // ends rather than wrapping, since the wrap was the octave snap.
+  function nextNote() {
+    var r = Math.random();
+    var dir = Math.random() < 0.5 ? 1 : -1;
+    var step = r < 0.62 ? 1 : r < 0.88 ? 2 : 3;
+    var next = noteIndex + dir * step;
+    var top = scale.length - 1;
+    if (next < 0) next = -next;
+    if (next > top) next = 2 * top - next;
+    noteIndex = Math.max(0, Math.min(top, next));
+    return scale[noteIndex];
+  }
 
   // Tone.js is fetched on demand, not at page load. It's ~200KB from a CDN and
   // browsers won't let it make a sound before a user gesture, so there is no
@@ -233,10 +261,8 @@
     var now = (window.performance && performance.now()) || 0;
     if (now - lastNote < 90) return; // keep it from turning to mush
     lastNote = now;
-    var note = scale[noteIndex % scale.length];
-    noteIndex++;
     try {
-      sampler.triggerAttackRelease(note, "8n", undefined, 0.55 + Math.random() * 0.2);
+      sampler.triggerAttackRelease(nextNote(), "8n", undefined, 0.55 + Math.random() * 0.2);
     } catch (err) {
       /* ignore transient timing errors */
     }
