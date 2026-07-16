@@ -1,10 +1,51 @@
-/* Apple-ish micro-interactions: subtle, compositor-only (transform/opacity),
-   and fully disabled under prefers-reduced-motion. */
+/* The motion system: one vocabulary of easings and durations for the whole
+   site. Subtle, compositor-only (transform/opacity), and fully disabled under
+   prefers-reduced-motion.
+
+   Two rules govern every call site:
+     1. Everything decelerates. Ease-out only — no bounce, no elastic, no
+        ease-in-out. Things arrive and settle; they never overshoot.
+     2. Duration follows what's moving, not taste. Pick the step below by the
+        size of the change, so a hover and a hero entrance can't drift into
+        each other's timing. */
 
 :root {
-  /* gentle, slightly springy ease-out — the "iOS settle" */
-  --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-apple-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Easing, named by curve rather than vibe so a call site reads plainly.
+     The gap between them is small on purpose: one family, three tempos. */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1); /* smooth: the default */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1); /* snappier: feedback */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* decisive: entrances */
+
+  /* Duration, by the size of the thing that moves. */
+  --dur-1: 120ms; /* instant feedback: press, toggle, color shift */
+  --dur-2: 220ms; /* state change: hover, menu, tooltip */
+  --dur-3: 320ms; /* layout / media: panel, expand, image fade */
+  --dur-4: 600ms; /* entrance: the hero beat */
+  --dur-exit: 160ms; /* exits run at ~75% of their entrance */
+}
+
+/* ---- Tailwind bridge ----
+   The templates lean on Tailwind's `transition-*` utilities, which ship their
+   own curve (cubic-bezier(.4,0,.2,1), an ease-in-out) at 150ms. Left alone the
+   markup and this stylesheet animate to two different rhythms, and the site
+   feels subtly incoherent for reasons nobody can point at. Re-point the
+   utilities at the system rather than hand-editing 40-odd call sites.
+
+   This wins over Tailwind's own `duration-*`/`ease-*` utilities too: same
+   specificity, and tailwind.css loads first. That's deliberate — ad-hoc
+   per-element timings are the drift this system exists to remove. An element
+   that genuinely needs a different step gets a named class below, not a
+   utility. */
+[class*="transition"] {
+  transition-timing-function: var(--ease-out-quart);
+  transition-duration: var(--dur-2);
+}
+
+/* Fill wipe (the 404 CTA): the panel travels the button's full width, so it
+   takes the layout step. A hover-speed wipe across that distance reads as a
+   glitch rather than a sweep. */
+.wipe {
+  transition: transform var(--dur-3) var(--ease-out-quart);
 }
 
 /* ---- Scroll reveal: REMOVED ----
@@ -16,17 +57,18 @@
         instead of lifting/shadowing (see grid.css tokens). ---- */
 .lift {
   transition:
-    background-color 0.3s var(--ease-apple-out),
-    border-color 0.3s var(--ease-apple-out);
+    background-color var(--dur-2) var(--ease-out-quart),
+    border-color var(--dur-2) var(--ease-out-quart);
 }
 .lift:hover {
   background-color: var(--surface-2);
   border-color: var(--frame-strong);
 }
 
-/* ---- Press / tap feedback ---- */
+/* ---- Press / tap feedback. Fastest step on the scale: a press that lags
+        reads as a dropped input rather than a confirmation. ---- */
 .press {
-  transition: transform 0.18s var(--ease-apple-out);
+  transition: transform var(--dur-1) var(--ease-out-quint);
 }
 .press:active {
   transform: scale(0.97);
@@ -34,7 +76,7 @@
 
 /* ---- Theme toggle flourish ---- */
 .theme-toggle svg {
-  transition: transform 0.45s var(--ease-apple);
+  transition: transform var(--dur-3) var(--ease-out-expo);
 }
 .theme-toggle:hover svg {
   transform: rotate(12deg);
@@ -51,7 +93,7 @@
   display: inline-block;
   opacity: 0;
   transform: translateY(0.5em);
-  animation: hero-word-in 0.6s var(--ease-apple-out) forwards;
+  animation: hero-word-in var(--dur-4) var(--ease-out-expo) forwards;
   animation-delay: calc(var(--i, 0) * 70ms + 80ms);
 }
 @keyframes hero-word-in {
@@ -87,16 +129,41 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ---- Theme toggle: 45° slash wipe via the View Transitions API. The new
-        theme grows from the top-left corner behind a diagonal leading edge that
-        matches the gutter slash-hatch. vmax legs keep the edge a true 45°
-        regardless of aspect ratio. No-op where the API is unsupported. ---- */
-::view-transition-old(root) {
+/* ============================================================
+   View Transitions. Two different jobs share one API, so each says which
+   one it is: the theme toggle wipes, a navigation crossfades.
+   ============================================================ */
+
+/* ---- Navigation: cross-document transitions. This is a server-rendered
+        multi-page site, so every nav click is a full document load — roughly a
+        second of frozen page and then a hard swap. Opting in hands that gap to
+        the browser, which crossfades the old paint into the new one. No JS, no
+        bytes, and nothing added to first paint. Browsers without the feature
+        ignore the rule and navigate exactly as they do today. ---- */
+@view-transition {
+  navigation: auto;
+}
+
+/* Keep it quiet. The crossfade is the whole move: a navigation should feel
+   like the page settled, not like it performed. Duration matches the layout
+   step so it stays inside the site's vocabulary. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--dur-3);
+  animation-timing-function: var(--ease-out-quart);
+}
+
+/* ---- Theme toggle: 45° slash wipe. The new theme grows from the top-left
+        corner behind a diagonal leading edge that matches the gutter
+        slash-hatch. vmax legs keep the edge a true 45° regardless of aspect
+        ratio. Scoped to `vt-theme` (set in nav.html) so it stays the toggle's
+        signature instead of firing on every navigation. ---- */
+.vt-theme::view-transition-old(root) {
   animation: none;
   z-index: 0;
 }
-::view-transition-new(root) {
-  animation: slash-wipe 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+.vt-theme::view-transition-new(root) {
+  animation: slash-wipe 0.9s var(--ease-out-quint) both;
   z-index: 1;
 }
 @keyframes slash-wipe {
@@ -116,6 +183,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Everything the Tailwind bridge reaches. Movement is what triggers
+     vestibular symptoms, so transform transitions stop entirely; colour and
+     opacity fades stay, because removing those trades a gentle change for a
+     harsh snap and helps nobody. */
+  [class*="transition-transform"],
+  .wipe {
+    transition: none !important;
+  }
+
   .lift,
   .press,
   .theme-toggle svg {

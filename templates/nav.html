@@ -97,7 +97,14 @@
     btn.addEventListener("click", function () {
       var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduce || !document.startViewTransition) { setTheme(); return; }
-      document.startViewTransition(setTheme);
+      // Page navigations are View Transitions too now, so the slash wipe has to
+      // say which one it belongs to: motion.css keys it off `vt-theme`.
+      // Without this, every nav click would wipe — far too loud for moving
+      // between pages, and it would spend the toggle's signature on nothing.
+      var root = document.documentElement;
+      root.classList.add("vt-theme");
+      var vt = document.startViewTransition(setTheme);
+      vt.finished.finally(function () { root.classList.remove("vt-theme"); });
     });
   });
 </script>

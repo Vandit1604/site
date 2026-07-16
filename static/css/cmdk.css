@@ -15,8 +15,8 @@
   color: #6b7280; /* gray-500 */
   background: var(--surface);
   transition:
-    color 0.2s var(--ease-apple-out),
-    border-color 0.2s var(--ease-apple-out);
+    color var(--dur-2) var(--ease-out-quint),
+    border-color var(--dur-2) var(--ease-out-quint);
 }
 .cmdk-trigger:hover {
   color: #000;
@@ -43,7 +43,7 @@
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   opacity: 0;
-  transition: opacity 0.16s var(--ease-apple-out);
+  transition: opacity var(--dur-2) var(--ease-out-quart);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -62,8 +62,8 @@
   transform: translateY(-8px) scale(0.99);
   opacity: 0;
   transition:
-    transform 0.18s var(--ease-apple-out),
-    opacity 0.18s var(--ease-apple-out);
+    transform var(--dur-2) var(--ease-out-quint),
+    opacity var(--dur-2) var(--ease-out-quint);
   display: flex;
   flex-direction: column;
   max-height: 66vh;
