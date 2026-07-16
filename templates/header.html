@@ -136,12 +136,16 @@
     />
 
     <style>
-      /* Smooth the light/dark hand-off without animating layout. */
+      /* Smooth the light/dark hand-off without animating layout. Tokens come
+         from motion.css, linked above, so this stays on the motion system
+         rather than drifting off with its own hand-picked timing. */
       html {
         scroll-behavior: smooth;
       }
       body {
-        transition: background-color 0.2s ease, color 0.2s ease;
+        transition:
+          background-color var(--dur-2) var(--ease-out-quart),
+          color var(--dur-2) var(--ease-out-quart);
       }
 
       /* Hide scrollbar for Webkit-based browsers */

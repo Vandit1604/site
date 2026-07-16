@@ -669,9 +669,8 @@ footer {
 
 /* ============================================================
    Experience timeline: a rail with nodes down the left, cards on
-   the right. Items reveal on scroll (via data-reveal + is-visible);
-   the current role gets a pulsing "live" node. Content is fully
-   visible without JS — the entrance is a .js-gated enhancement.
+   the right. The current role gets a pulsing "live" node. Every
+   item paints on load — there is no entrance and no JS gating.
    ============================================================ */
 .tl {
   position: relative;
@@ -755,35 +754,15 @@ footer {
   }
 }
 
-/* Entrance (enhancement): cards rise + fade, nodes pop, staggered by the
-   observer's --reveal-delay. Gated on .js so no-JS/crawlers see full content. */
-.js .tl-item {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity var(--dur-4) var(--ease-out-quint),
-    transform var(--dur-4) var(--ease-out-quint);
-  transition-delay: var(--reveal-delay, 0ms);
-}
-.js .tl-item.is-visible {
-  opacity: 1;
-  transform: none;
-}
-.js .tl-dot {
-  transform: scale(0);
-  transition: transform var(--dur-3) var(--ease-out-quint) 0.12s;
-}
-.js .tl-item.is-visible .tl-dot {
-  transform: scale(1);
-}
+/* No entrance. The timeline used to start at opacity:0 and rise in when an
+   observer said so, which was the last thing on the site still gating content
+   on JS — the pattern the reveal system was deleted for (see motion.css). A
+   renderer that runs JS but never scrolls kept the hero (in view, revealed) and
+   so the failsafe stayed quiet, leaving the timeline blank underneath.
+   Fade-and-rise-per-section is also the reveal every generated page ships, and
+   the hero is already the one entrance this site spends. The rail just paints. */
 
 @media (prefers-reduced-motion: reduce) {
-  .js .tl-item,
-  .js .tl-dot {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
   .tl-dot--live::after {
     animation: none;
     opacity: 0;
