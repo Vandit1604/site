@@ -49,9 +49,11 @@
 }
 
 /* ---- Scroll reveal: REMOVED ----
-   Content is never hidden — every box paints on load, no JS gating.
-   The [data-reveal] attributes are left inert in the markup; the
-   observer in interactions.js simply has nothing to un-hide. */
+   Content is never hidden — every box paints on load, no JS gating. The
+   [data-reveal] attributes are now genuinely inert: nothing reads them, and
+   the observer that used to (interactions.js) is deleted. Don't reintroduce
+   one. A section that starts invisible and waits to be scrolled to is a
+   section that ships blank to anything that renders without scrolling. */
 
 /* ---- Hover (cards): boxy surfaces don't float — shift fill + border
         instead of lifting/shadowing (see grid.css tokens). ---- */
