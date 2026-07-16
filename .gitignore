@@ -11,3 +11,6 @@ assets/gallery/
 .env
 /crosspost
 /site
+
+# Local view-counter file (prod uses VIEWS_PATH on the /data volume)
+views.count

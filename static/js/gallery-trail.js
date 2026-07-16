@@ -14,14 +14,31 @@
   var hint = document.getElementById("gallery-hint");
   if (!stage || !grid || !photos.length) return;
 
-  // Progressive enhancement: only take over for fine-pointer, motion-ok devices.
-  var canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!canHover || reduced) return;
+  // ---- grid photo fade (runs for everyone who sees the grid) ---------------
+  // Mark the grid as ours before wiring anything up: the opacity:0 start state
+  // in gallery.css keys off this class, so it can only ever apply when this
+  // script is alive to undo it.
+  grid.classList.add("is-fading");
+  Array.prototype.forEach.call(grid.querySelectorAll("img"), function (img) {
+    if (img.complete && img.naturalWidth > 0) {
+      img.classList.add("is-loaded"); // already cached: no fade, no flash
+      return;
+    }
+    var reveal = function () {
+      img.classList.add("is-loaded");
+    };
+    // `error` reveals too: a broken photo must never strand at opacity 0.
+    img.addEventListener("load", reveal, { once: true });
+    img.addEventListener("error", reveal, { once: true });
+  });
 
-  // Activate trail mode: hide the grid, reveal the stage + audio toggle.
-  grid.hidden = true;
-  stage.hidden = false;
+  // Trail-vs-grid was decided before paint by the inline script in gallery.html
+  // and is expressed by `trail-mode` on <html>. Read that decision rather than
+  // making it again, so CSS and JS can't disagree about which one is showing.
+  if (!document.documentElement.classList.contains("trail-mode")) return;
+
+  // The stage is already visible via CSS; only the JS-dependent chrome is
+  // revealed here, so it stays hidden if this script never runs.
   if (toggle) toggle.hidden = false;
   if (hint) hint.textContent = "Click and hold, then drag — your photos trail the cursor and the piano plays.";
   stage.style.cursor = "grab";
@@ -34,11 +51,32 @@
     photos[j] = t;
   }
 
-  // Warm the browser cache so the trail is smooth on first pass.
-  photos.forEach(function (src) {
+  // Warm the cache so the trail is smooth on first pass, without firing all
+  // 24 photos (5MB) at once and starving the rest of the page. Only the first
+  // few are needed to start; the tail arrives while the browser is idle.
+  var EAGER = 4;
+  function warm(src) {
     var img = new Image();
     img.src = src;
-  });
+  }
+  photos.slice(0, EAGER).forEach(warm);
+
+  // The tail waits for the page to finish, then for the browser to go idle.
+  // requestIdleCallback alone isn't enough: with nothing else in flight it
+  // fires immediately and the whole 5MB lands on the load path anyway.
+  var rest = photos.slice(EAGER);
+  function warmRest() {
+    var idle =
+      window.requestIdleCallback ||
+      function (fn) {
+        return setTimeout(fn, 300);
+      };
+    idle(function () {
+      rest.forEach(warm);
+    });
+  }
+  if (document.readyState === "complete") warmRest();
+  else window.addEventListener("load", warmRest, { once: true });
 
   // ---- visual trail --------------------------------------------------------
   var SPAWN_DISTANCE = 130; // px of travel between spawns (higher = less overlap)
@@ -146,6 +184,26 @@
   var noteIndex = 0;
   var lastNote = 0;
 
+  // Tone.js is fetched on demand, not at page load. It's ~200KB from a CDN and
+  // browsers won't let it make a sound before a user gesture, so there is no
+  // version of "load it early" that helps the visitor.
+  var tonePromise = null;
+  function loadTone() {
+    if (tonePromise) return tonePromise;
+    tonePromise = new Promise(function (resolve, reject) {
+      if (typeof Tone !== "undefined") return resolve();
+      var s = document.createElement("script");
+      s.src = "https://unpkg.com/tone@14.8.49/build/Tone.js";
+      s.async = true;
+      s.onload = function () {
+        resolve();
+      };
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+    return tonePromise;
+  }
+
   function buildSampler() {
     if (sampler || typeof Tone === "undefined") return;
     var reverb = new Tone.Reverb({ decay: 4, wet: 0.35 }).toDestination();
@@ -196,9 +254,18 @@
   // browsers). Since audio is on by default, this kicks the piano to life
   // the moment the visitor first clicks/taps anywhere on the page.
   function startAudio() {
-    if (audioStarted || typeof Tone === "undefined") return;
+    if (audioStarted) return;
     audioStarted = true;
-    Tone.start().then(buildSampler);
+    loadTone()
+      .then(function () {
+        return Tone.start();
+      })
+      .then(buildSampler)
+      .catch(function () {
+        // The piano is a bonus, not the feature. If the CDN is blocked or slow
+        // the trail carries on in silence.
+        audioStarted = false;
+      });
   }
   document.addEventListener(
     "pointerdown",
@@ -211,9 +278,8 @@
   if (toggle) {
     setToggleState(); // reflect the default-on state
     toggle.addEventListener("click", function () {
-      if (typeof Tone === "undefined") return;
       audioOn = !audioOn;
-      if (audioOn) startAudio();
+      if (audioOn) startAudio(); // loads Tone.js on demand if this is the first ask
       setToggleState();
     });
   }

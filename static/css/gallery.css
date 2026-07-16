@@ -1,0 +1,50 @@
+/* ============================================================
+   Gallery: the trail-vs-grid switch, and the photo fade.
+
+   The switch is made here, in CSS, keyed off a `trail-mode` class the page
+   sets before its first paint. It used to be made in JS after the fact, and
+   because the deferred script sat behind a render-blocking CDN request, the
+   fallback grid painted all 24 photos and then got yanked away — a visible
+   flash of a page you were never meant to see. The conditions the trail needs
+   (fine pointer, motion allowed) are plain media queries, so CSS can answer
+   the question without waiting on a script at all.
+   ============================================================ */
+
+/* The default, and the answer for no-JS, touch, and reduced-motion: the
+   browsable grid. The stage is inert without its script, so it stays hidden
+   until something proves otherwise. */
+.gallery-stage {
+  display: none;
+}
+
+/* Pointer + motion: the trail takes over. The grid going `display: none`
+   before paint also means the browser never fetches its lazy images, so the
+   trail-mode visitor doesn't pay 5.3MB for photos they'll never see. */
+.trail-mode .gallery-stage {
+  display: block;
+}
+.trail-mode .gallery-grid {
+  display: none;
+}
+
+/* The grid's own version of the flash: two dozen photos punching onto the
+   page one by one as each arrives. Fade each in as it decodes instead.
+
+   `.is-fading` is added by the gallery script itself, not by the global `js`
+   class — so if that script never loads or throws, no photo is ever left at
+   opacity 0. Content is not gated on JS arriving. */
+.gallery-grid.is-fading img {
+  opacity: 0;
+  transition: opacity var(--dur-3) var(--ease-out-quart);
+}
+.gallery-grid.is-fading img.is-loaded {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-grid.is-fading img,
+  .gallery-grid.is-fading img.is-loaded {
+    opacity: 1;
+    transition: none;
+  }
+}

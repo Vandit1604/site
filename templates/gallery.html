@@ -1,5 +1,23 @@
 {{ template "header.html" .}}
 
+<link rel="stylesheet" href="/static/css/gallery.css" />
+
+<script>
+  // Decide trail-vs-grid before the browser paints anything below. These are
+  // the same conditions gallery-trail.js needs to run at all; answering them
+  // here means the fallback grid never flashes on its way out. Runs inline and
+  // ahead of the markup on purpose — a deferred script is far too late.
+  (function () {
+    try {
+      var pointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (pointer && !reduced) document.documentElement.classList.add("trail-mode");
+    } catch (e) {
+      /* no matchMedia: fall through to the grid, which always works */
+    }
+  })();
+</script>
+
 <div class="w-full">
 
   <section data-reveal class="box">
@@ -20,16 +38,17 @@
     <p id="gallery-hint" class="text-gray-500 dark:text-gray-400 mb-10">A few moments from my camera roll.</p>
 
     {{ if .galleryPhotos }}
-    <!-- Interactive cursor image-trail stage (pointer devices, motion allowed) -->
+    <!-- Interactive cursor image-trail stage (pointer devices, motion allowed).
+         Shown/hidden by gallery.css via the `trail-mode` class set above, not
+         by script — see gallery.css for why. -->
     <div
       id="trail-stage"
-      hidden
-      class="relative w-full h-[70vh] overflow-hidden border border-gray-200 dark:border-neutral-800 cursor-grab select-none"
+      class="gallery-stage relative w-full h-[70vh] overflow-hidden border border-gray-200 dark:border-neutral-800 cursor-grab select-none"
       aria-hidden="true"
     ></div>
 
     <!-- Fallback: browsable masonry grid (touch / reduced-motion / no-JS) -->
-    <div id="photo-grid" class="columns-2 md:columns-3 gap-3 [column-fill:_balance]">
+    <div id="photo-grid" class="gallery-grid columns-2 md:columns-3 gap-3 [column-fill:_balance]">
       {{ range .galleryPhotos }}
       <a
         href="{{ . }}"
@@ -41,7 +60,7 @@
           src="{{ . }}"
           alt="Photo by Vandit Singh"
           loading="lazy"
-          class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+          class="w-full h-auto object-cover transition-transform group-hover:scale-105"
         />
       </a>
       {{ end }}
@@ -52,7 +71,11 @@
         {{- range $i, $p := .galleryPhotos }}{{ if $i }},{{ end }}"{{ $p }}"{{ end -}}
       ];
     </script>
-    <script src="https://unpkg.com/tone@14.8.49/build/Tone.js"></script>
+    <!-- Tone.js is NOT loaded here. It used to be a render-blocking tag, which
+         stalled the parser on a third-party CDN round trip and held up the
+         deferred script below — the grid painted in that gap. The piano can't
+         make a sound before a user gesture anyway, so the script fetches it on
+         the first press instead. Nothing audio-related is on the load path. -->
     <script src="/static/js/gallery-trail.js" defer></script>
     {{ else }}
     <p class="text-gray-500 dark:text-gray-400">No photos yet.</p>
