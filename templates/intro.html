@@ -1,6 +1,12 @@
-<!-- intro / hero section -->
-<section data-reveal class="box flex flex-col-reverse gap-8 md:flex-row md:items-center md:justify-between">
-  <div class="md:flex-1">
+<!-- intro / hero section.
+     Mobile is a two-column grid so the portrait shares its row with the
+     greeting and name instead of sitting alone against a dead half-row, which
+     is what flex-col-reverse used to produce. The prose drops to a full-width
+     row beneath. From md the same three blocks resolve to the original shape:
+     identity over prose in column one, portrait spanning both rows in column
+     two and optically centred against them. -->
+<section data-reveal class="box grid grid-cols-[auto_1fr] items-start md:items-center gap-x-5 gap-y-6 sm:gap-x-9 md:grid-cols-[1fr_auto] md:gap-x-8">
+  <div class="col-start-2 row-start-1 md:col-start-1 md:row-start-1">
     <span class="inline-flex items-center border border-gray-200 dark:border-neutral-800 px-3 py-1 text-sm font-semibold text-gray-900 dark:text-gray-100 mb-5">
       नमस्ते
     </span>
@@ -13,8 +19,10 @@
     <p class="mt-3 font-mono text-sm text-gray-500 dark:text-gray-400" aria-label="Building distributed systems, storage and p2p, observability, and open source.">
       <span class="text-gray-400 dark:text-gray-600" aria-hidden="true">&gt;&nbsp;</span><span data-typewriter>building distributed systems</span><span class="type-caret" aria-hidden="true"></span>
     </p>
+  </div>
 
-    <p class="mt-5 text-lg leading-relaxed text-gray-600 dark:text-gray-400 max-w-2xl">
+  <div class="col-span-2 row-start-2 md:col-span-1 md:col-start-1 md:row-start-2">
+    <p class="text-lg leading-relaxed text-gray-600 dark:text-gray-400 max-w-2xl">
       I build distributed systems, storage, and p2p (libp2p) in Go, plus the
       observability to run them in production. Member of Technical Staff at
       FluidCloud. My code is merged into Kubernetes, Prometheus, and Jenkins.
@@ -42,7 +50,7 @@
     </p>
   </div>
 
-  <div class="md:flex-shrink-0 flex flex-col items-end gap-3">
+  <div class="col-start-1 row-start-1 flex flex-col items-start gap-3 md:col-start-2 md:row-span-2 md:row-start-1 md:items-end">
     <!-- Total page views, sitting in the content (moved out of the nav). -->
     <span class="site-views coord inline-flex items-center gap-1.5 text-gray-500 dark:text-gray-500 tabular-nums" title="Total page views" aria-label="Total page views">
       <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="2.6"/></svg>
@@ -52,7 +60,7 @@
       <img
         src="../assets/images/vandit-singh.png"
         alt="Vandit Singh"
-        width="144" height="144" class="soft-media h-36 w-36 sm:h-44 sm:w-44 object-cover border border-gray-200 dark:border-neutral-800"
+        width="144" height="144" class="soft-media h-24 w-24 sm:h-32 sm:w-32 md:h-44 md:w-44 object-cover border border-gray-200 dark:border-neutral-800"
       />
       <!-- A cat perched at the corner of the photo (shared partial). -->
       <div class="cat cat--hero is-sleeping" title="hi :)">{{ template "catInner" . }}</div>
