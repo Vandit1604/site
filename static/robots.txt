@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# Offsite redirect, not a page. Crawling it only produces "page with redirect"
+# noise in Search Console.
+Disallow: /resume
+
 Sitemap: https://vandit.dev/sitemap.xml

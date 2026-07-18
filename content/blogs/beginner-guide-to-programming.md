@@ -1,6 +1,6 @@
 ---
 title: "Beginner's Guide to Programming"
-date: "2024-9-26"
+date: "2024-09-26"
 tags: ["tech"]
 ---
 

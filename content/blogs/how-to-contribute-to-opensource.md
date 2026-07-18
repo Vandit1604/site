@@ -1,6 +1,6 @@
 ---
 title: "How to Contribute to Open Source"  
-date: "2024-9-19"  
+date: "2024-09-19"
 tags: ["tech"]  
 ---
 

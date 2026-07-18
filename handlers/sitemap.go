@@ -4,16 +4,42 @@ import (
 	"net/http"
 	"sort"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/vandit1604/site/models"
+	"github.com/vandit1604/site/types"
 )
 
-// sitemapEntry is one <url> in the sitemap.
+// sitemapEntry is one <url> in the sitemap. LastMod is optional and emitted
+// only when we actually know the date, since a made-up lastmod trains crawlers
+// to ignore the field.
 type sitemapEntry struct {
 	Loc        string
 	ChangeFreq string
 	Priority   string
+	LastMod    string
+}
+
+// isISODate reports whether s is a bare YYYY-MM-DD date, the W3C format the
+// sitemap spec accepts for <lastmod>. Post frontmatter is hand-written, so a
+// malformed date is dropped rather than emitted as invalid XML.
+func isISODate(s string) bool {
+	_, err := time.Parse("2006-01-02", s)
+	return err == nil
+}
+
+// blogLastMod returns the <lastmod> value for a post: its `updated` date when
+// the author marked a meaningful revision, otherwise its publish date. Returns
+// "" when neither is a usable date, so the field is omitted rather than faked.
+func blogLastMod(b types.BlogPost) string {
+	if isISODate(b.Updated) {
+		return b.Updated
+	}
+	if isISODate(b.Date) {
+		return b.Date
+	}
+	return ""
 }
 
 // staticRoutes are the fixed public pages, in priority order.
@@ -40,12 +66,31 @@ func sitemapEntries() []sitemapEntry {
 		slugs = append(slugs, slug)
 	}
 	sort.Strings(slugs)
+
+	// Newest post date doubles as the lastmod for the two pages that change
+	// whenever a post is published: the homepage and the blog index.
+	newest := ""
 	for _, slug := range slugs {
-		entries = append(entries, sitemapEntry{
+		if date := blogLastMod(blogs[slug]); date > newest {
+			newest = date
+		}
+	}
+	if newest != "" {
+		for i := range entries {
+			if entries[i].Loc == "/" || entries[i].Loc == "/blogs" {
+				entries[i].LastMod = newest
+			}
+		}
+	}
+
+	for _, slug := range slugs {
+		entry := sitemapEntry{
 			Loc:        "/blogs/" + slug,
 			ChangeFreq: "yearly",
 			Priority:   "0.7",
-		})
+		}
+		entry.LastMod = blogLastMod(blogs[slug])
+		entries = append(entries, entry)
 	}
 	return entries
 }
@@ -72,6 +117,9 @@ func ShowSitemap(c *gin.Context) {
 	for _, e := range entries {
 		b.WriteString("  <url>\n")
 		b.WriteString("    <loc>" + SiteURL + e.Loc + "</loc>\n")
+		if e.LastMod != "" {
+			b.WriteString("    <lastmod>" + e.LastMod + "</lastmod>\n")
+		}
 		b.WriteString("    <changefreq>" + e.ChangeFreq + "</changefreq>\n")
 		b.WriteString("    <priority>" + e.Priority + "</priority>\n")
 		b.WriteString("  </url>\n")
