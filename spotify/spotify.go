@@ -125,7 +125,8 @@ func fetchRecentlyPlayed() (*Track, error) {
 				} `json:"artists"`
 				Album struct {
 					Images []struct {
-						URL string `json:"url"`
+						URL   string `json:"url"`
+						Width int    `json:"width"`
 					} `json:"images"`
 				} `json:"album"`
 			} `json:"track"`
@@ -146,9 +147,18 @@ func fetchRecentlyPlayed() (*Track, error) {
 
 	albumArt := ""
 	if len(item.Track.Album.Images) > 0 {
-		// Spotify returns images largest-first; take a mid/small one.
+		// Spotify returns images largest-first (typically 640/300/64). The card
+		// renders the sleeve at its full height, which is ~200px and double that
+		// on a retina display, so the 64px thumbnail visibly blurs. Take the
+		// widest and let the browser scale it down.
 		imgs := item.Track.Album.Images
-		albumArt = imgs[len(imgs)-1].URL
+		widest := imgs[0]
+		for _, img := range imgs {
+			if img.Width > widest.Width {
+				widest = img
+			}
+		}
+		albumArt = widest.URL
 	}
 
 	return &Track{
