@@ -1,0 +1,107 @@
+<!-- Connect band: last-played Spotify card on the left, the four places to
+     reach Vandit on the right. Socials live outside the .nowPlaying guard on
+     purpose. They are the section's real job, so a Spotify outage or an
+     unconfigured API must never take them down with it; when the track is
+     missing the four cards simply span the full width instead.
+
+     Each mark sits monochrome and resolves to its brand colour on hover, the
+     same idiom the Spotify mark already uses, so the row reads as one system
+     rather than a bolted-on icon grid. GitHub, X and the resume are ink-only;
+     LinkedIn is the single hue, which keeps the band inside the monochrome
+     identity described in PRODUCT.md. -->
+<section data-reveal class="box">
+  <div class="grid items-stretch gap-3 {{ if .nowPlaying }}md:grid-cols-2{{ end }}">
+    {{ if .nowPlaying }}
+    <a
+      href="{{ .nowPlaying.URL }}"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="group flex h-full w-full items-center gap-4 rounded-[14px] border border-gray-200 bg-gray-50 px-4 py-3.5 dark:border-neutral-800 dark:bg-neutral-900 boxy-hover press"
+    >
+      {{ if .nowPlaying.AlbumArt }}
+      <img
+        src="{{ .nowPlaying.AlbumArt }}"
+        alt=""
+        width="56"
+        height="56"
+        loading="lazy"
+        class="soft-media h-14 w-14 flex-shrink-0 object-cover ring-1 ring-black/5 dark:ring-white/10"
+      />
+      {{ end }}
+      <span class="flex min-w-0 flex-1 flex-col gap-0.5">
+        <span class="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+          <span class="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#1DB954]"></span>
+          Last played
+        </span>
+        <span class="truncate text-[15px] font-semibold text-black dark:text-white">{{ .nowPlaying.Title }}</span>
+        <span class="truncate text-[13px] text-gray-500 dark:text-gray-400">{{ .nowPlaying.Artist }}</span>
+      </span>
+      <svg class="h-7 w-7 flex-shrink-0 text-gray-300 transition-colors group-hover:text-[#1DB954] dark:text-neutral-600" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.52 17.34c-.24.36-.66.48-1.02.24-2.82-1.74-6.36-2.1-10.56-1.14-.42.12-.78-.18-.9-.54-.12-.42.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.3 1.02zm1.44-3.3c-.3.42-.84.6-1.26.3-3.24-1.98-8.16-2.58-11.94-1.38-.48.12-1.02-.12-1.14-.6-.12-.48.12-1.02.6-1.14 4.38-1.32 9.78-.66 13.5 1.62.36.18.54.78.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.1 9.3c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.32-1.32 11.4-1.02 15.9 1.62.54.3.72 1.02.42 1.56-.3.48-1.02.66-1.56.36z"/>
+      </svg>
+    </a>
+    {{ end }}
+
+    <div class="grid grid-cols-2 gap-3 {{ if not .nowPlaying }}sm:grid-cols-4{{ end }}">
+      <a
+        href="https://github.com/Vandit1604"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex flex-col justify-between gap-3 rounded-[10px] border border-gray-200 bg-gray-50 px-3.5 py-3 dark:border-neutral-800 dark:bg-neutral-900 boxy-hover press"
+      >
+        <svg class="h-5 w-5 flex-shrink-0 text-gray-400 transition-colors group-hover:text-black dark:text-neutral-500 dark:group-hover:text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+        </svg>
+        <span class="flex min-w-0 flex-col gap-0.5">
+          <span class="text-[13px] font-semibold text-black dark:text-white">GitHub</span>
+          <span class="truncate text-[11px] text-gray-500 dark:text-gray-400">@Vandit1604</span>
+        </span>
+      </a>
+
+      <a
+        href="https://x.com/v4nd1t"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex flex-col justify-between gap-3 rounded-[10px] border border-gray-200 bg-gray-50 px-3.5 py-3 dark:border-neutral-800 dark:bg-neutral-900 boxy-hover press"
+      >
+        <svg class="h-5 w-5 flex-shrink-0 text-gray-400 transition-colors group-hover:text-black dark:text-neutral-500 dark:group-hover:text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+        <span class="flex min-w-0 flex-col gap-0.5">
+          <span class="text-[13px] font-semibold text-black dark:text-white">X</span>
+          <span class="truncate text-[11px] text-gray-500 dark:text-gray-400">@v4nd1t</span>
+        </span>
+      </a>
+
+      <a
+        href="https://www.linkedin.com/in/vandit-singh/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex flex-col justify-between gap-3 rounded-[10px] border border-gray-200 bg-gray-50 px-3.5 py-3 dark:border-neutral-800 dark:bg-neutral-900 boxy-hover press"
+      >
+        <svg class="h-5 w-5 flex-shrink-0 text-gray-400 transition-colors group-hover:text-[#0A66C2] dark:text-neutral-500 dark:group-hover:text-[#0A66C2]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.454C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
+        </svg>
+        <span class="flex min-w-0 flex-col gap-0.5">
+          <span class="text-[13px] font-semibold text-black dark:text-white">LinkedIn</span>
+          <span class="truncate text-[11px] text-gray-500 dark:text-gray-400">/vandit-singh</span>
+        </span>
+      </a>
+
+      <a
+        href="/resume"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex flex-col justify-between gap-3 rounded-[10px] border border-gray-200 bg-gray-50 px-3.5 py-3 dark:border-neutral-800 dark:bg-neutral-900 boxy-hover press"
+      >
+        <svg class="h-5 w-5 flex-shrink-0 text-gray-400 transition-colors group-hover:text-black dark:text-neutral-500 dark:group-hover:text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-7-7zm0 2.5L17.5 9H13V4.5zM8 9.6h3v1.6H8V9.6zm0 3.4h8v1.6H8V13zm0 3.4h8V18H8v-1.6z"/>
+        </svg>
+        <span class="flex min-w-0 flex-col gap-0.5">
+          <span class="text-[13px] font-semibold text-black dark:text-white">Résumé</span>
+          <span class="truncate text-[11px] text-gray-500 dark:text-gray-400">PDF</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
