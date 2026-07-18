@@ -122,15 +122,16 @@ func ShowBlogPage(c *gin.Context) {
 		"allblogs.html",
 		merge(
 			// Tag-filtered views canonicalize to /blogs so thin near-duplicate
-			// tag pages don't compete with the main listing.
+			// tag pages don't compete with the main listing. Deliberately no
+			// noindex alongside it: noindex plus a cross-URL canonical are
+			// contradictory, and Google may apply the noindex to the canonical
+			// target, which would deindex /blogs itself.
 			pageMeta(title, description, "/blogs"),
 			gin.H{
 				"blogs":       sortedBlogs(blogs),
 				"Route":       "/blogs",
 				"selectedTag": selectedTag,
 				"allTags":     allTags,
-				// Don't index tag-filtered permutations; they're thin slices.
-				"Noindex": selectedTag != "",
 			},
 		),
 	)

@@ -44,7 +44,12 @@
     {{ end }}
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
+    {{/* A noindex page must not also declare a canonical: the two are
+         contradictory, and Google may carry the noindex over to the canonical
+         target. The 404 page would otherwise point one at the homepage. */}}
+    {{ if not .Noindex }}
     <link rel="canonical" href="{{ $canonical }}" />
+    {{ end }}
 
     <!-- Feed auto-discovery: readers and aggregators find the RSS feed from any page. -->
     <link rel="alternate" type="application/rss+xml" title="Vandit Singh — Blog" href="https://vandit.dev/rss.xml" />

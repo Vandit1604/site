@@ -123,7 +123,7 @@ func ReadBlogs() map[string]types.BlogPost {
 
 func transformDataToBlog(slug, data string) *types.BlogPost {
 	lines := strings.Split(data, "\n")
-	var title, date, draft, description string
+	var title, date, updated, draft, description string
 	var tags []string
 	var contentLines []string
 	inFrontMatter := false
@@ -151,6 +151,9 @@ func transformDataToBlog(slug, data string) *types.BlogPost {
 			} else if strings.HasPrefix(line, "date:") {
 				date = strings.TrimSpace(strings.TrimPrefix(line, "date:"))
 				date = strings.Trim(date, "\"")
+			} else if strings.HasPrefix(line, "updated:") {
+				updated = strings.TrimSpace(strings.TrimPrefix(line, "updated:"))
+				updated = strings.Trim(updated, "\"")
 			} else if strings.HasPrefix(line, "description:") {
 				description = strings.TrimSpace(strings.TrimPrefix(line, "description:"))
 				description = strings.Trim(description, "\"")
@@ -193,10 +196,10 @@ func transformDataToBlog(slug, data string) *types.BlogPost {
 			renderer.NewRenderer(
 				renderer.WithNodeRenderers(
 					// WithUnsafe must be passed here too: the options in
-				// WithRendererOptions above don't reach this explicitly
-				// constructed renderer, so without it raw HTML (figures,
-				// callouts, inline links) in posts gets stripped.
-				util.Prioritized(goldmarkhtml.NewRenderer(goldmarkhtml.WithUnsafe()), 1000),
+					// WithRendererOptions above don't reach this explicitly
+					// constructed renderer, so without it raw HTML (figures,
+					// callouts, inline links) in posts gets stripped.
+					util.Prioritized(goldmarkhtml.NewRenderer(goldmarkhtml.WithUnsafe()), 1000),
 					util.Prioritized(newCodeBlockRenderer(), 100),
 				),
 			),
@@ -217,8 +220,9 @@ func transformDataToBlog(slug, data string) *types.BlogPost {
 		Slug:        slug,
 		Title:       title,
 		Date:        date,
+		Updated:     updated,
 		Tags:        tags,
-		Description:  description,
+		Description: description,
 		ReadingTime: readingTime,
 		Content:     template.HTML(wrappedContent), // Use template.HTML to prevent escaping
 	}
