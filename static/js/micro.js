@@ -13,13 +13,11 @@
     var targets = document.querySelectorAll("[data-views]");
     if (!targets.length) return;
 
-    // Count each browser once: POST (increment) on a first-ever visit, GET
-    // (read-only) on return. Keeps the tally unique-per-visitor, not per load.
-    var seen = false;
-    try { seen = localStorage.getItem("vs_seen") === "1"; } catch (e) {}
-    if (!seen) { try { localStorage.setItem("vs_seen", "1"); } catch (e) {} }
-
-    fetch("/api/views", seen ? undefined : { method: "POST" })
+    // Always POST and let the server decide whether this is a new visitor.
+    // The old localStorage gate lived entirely on the client, so an incognito
+    // window (or any cleared profile) presented itself as a first-ever visit
+    // and bumped the tally again. The server dedupes per visitor instead.
+    fetch("/api/views", { method: "POST" })
       .then(function (r) { return r.json(); })
       .then(function (data) {
         var n = typeof data.count === "number" ? data.count : 0;

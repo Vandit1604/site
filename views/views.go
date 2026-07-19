@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 )
 
 // Counter is a goroutine-safe, file-backed view counter.
@@ -18,6 +19,11 @@ type Counter struct {
 	n     int64
 	path  string
 	dirty bool // count advanced but the last write to disk failed
+
+	// seen maps a salted visitor fingerprint to the moment it stops counting
+	// as already-seen. See visitors.go.
+	seen map[string]time.Time
+	salt []byte
 }
 
 // New loads the counter from VIEWS_PATH (default ./views.count). A missing or
@@ -34,6 +40,8 @@ func New() *Counter {
 			c.n = v
 		}
 	}
+	c.loadSaltLocked()
+	c.loadSeenLocked()
 	return c
 }
 
