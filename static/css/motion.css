@@ -215,3 +215,36 @@
     opacity: 1;
   }
 }
+
+/* ---- Project card diagrams ------------------------------------------
+   One motion beat per card, and only on hover. The dashed paths in these
+   drawings represent something in transit — a block being fetched, an address
+   moving through a rule — so they march; everything else that moves is the
+   single element the diagram is actually about. Nothing animates at rest,
+   which is what keeps a grid of eight of them calm. */
+.art-pulse {
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .group:hover .art-pulse,
+  .group:focus-visible .art-pulse {
+    transform: scale(1.045);
+    opacity: 1;
+  }
+
+  .group:hover .art-flow,
+  .group:focus-visible .art-flow {
+    animation: art-march 900ms linear infinite;
+  }
+
+  @keyframes art-march {
+    to {
+      stroke-dashoffset: -12;
+    }
+  }
+}
