@@ -12,6 +12,9 @@ type Project struct {
 	// text-only, which is the correct look for a project with nothing
 	// meaningful to draw.
 	Art string `yaml:"art,omitempty"`
+	// Tags are the short pills along the bottom of the card, matching the
+	// indie products above them.
+	Tags []string `yaml:"tags,omitempty"`
 }
 
 type Projects struct {
