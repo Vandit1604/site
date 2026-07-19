@@ -18,7 +18,17 @@
   <section class="box">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 auto-rows-fr">
       {{ range .Projects }}
-      <div data-reveal class="lift boxy-hover group flex flex-col p-6">
+      <div data-reveal class="lift boxy-hover group flex flex-col overflow-hidden">
+        {{ if .Art }}
+        {{/* A schematic of what the thing actually is, not a screenshot: most of
+             these are libraries and daemons with no interface to photograph.
+             The art sits at a fixed ratio so a row of cards lines up on the
+             fold below it regardless of how long the descriptions run. */}}
+        <div class="relative aspect-[16/9] w-full border-b border-gray-200 bg-gray-50/70 p-4 text-gray-900 dark:border-neutral-800 dark:bg-neutral-900/50 dark:text-gray-100">
+          {{ template "projectArt" . }}
+        </div>
+        {{ end }}
+        <div class="flex flex-1 flex-col p-6">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ .Name }}</h3>
         <p class="text-sm text-gray-600 dark:text-gray-400 flex-1">
           {{ .Description }}
@@ -42,6 +52,7 @@
               class="press hover:text-black dark:hover:text-white transition-colors underline decoration-gray-300 dark:decoration-neutral-600 underline-offset-2">{{ .CollabName }}</a>
           </span>
           {{ end }}
+        </div>
         </div>
       </div>
       {{ else }}

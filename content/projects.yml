@@ -3,6 +3,7 @@ projects:
     description: "GPU cloud platform for ML/AI teams: deploy on H100/A100-class GPUs across many providers and pay only while in use. Built the core Go backend, Mjolnir (a control-plane API tracking GPU deployment state across DataCrunch, Hyperstack, Nebius and more) and Ogre (a distributed daemon on the GPUs for backups, health checks, and better GPU utilization)."
     demo_link: "https://aquanode.io"
     github_link: ""
+    art: "aquanode"
     collab_name: "Ansh"
     collab_link: "https://x.com/anshstwt/"
 
@@ -10,23 +11,28 @@ projects:
     description: "Minimal rootless container runtime built on Linux namespaces and the Docker API; Xontainer adds rootless user/mount/PID-namespace sandboxing for OCI-style isolation."
     demo_link: ""
     github_link: "https://github.com/Vandit1604/dockerium"
+    art: "dockerium"
 
   - name: Phile Storage
     description: "Content-addressed P2P storage (CIDv1, sha2-256) over go-libp2p, with Ed25519 PeerID identity, Kademlia DHT routing, and a custom block-transfer stream protocol for trustless, deduplicated retrieval."
     demo_link: ""
     github_link: "https://github.com/Vandit1604/phile-storage"
+    art: "phile-storage"
 
   - name: GO-LB
     description: "A simple load balancer written in Golang with round-robin architecture and passive health checks."
     demo_link: ""  # Use demo_link to match the struct field
     github_link: "https://github.com/Vandit1604/go-lb"
+    art: "go-lb"
 
   - name: EmailGuard
     description: "Fast, practical Go package for filtering disposable or masked email domains, built for B2B SaaS signup validation."
     demo_link: ""
     github_link: "https://github.com/Vandit1604/emailguard"
+    art: "emailguard"
 
   - name: Jenkins.io Alternative Tools
     description: "Developed a versioned documentation site as a drop-in replacement for Jenkins CI."
     demo_link: ""
     github_link: "https://github.com/Vandit1604/jenkins-docs"
+    art: "jenkins-docs"

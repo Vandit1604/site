@@ -7,6 +7,11 @@ type Project struct {
 	Description string `yaml:"description,omitempty"`
 	CollabName  string `yaml:"collab_name,omitempty"` // optional co-builder credit
 	CollabLink  string `yaml:"collab_link,omitempty"`
+	// Art names an inline diagram template in projectart.html ("dockerium"
+	// renders {{ template "art:dockerium" }}). Empty means the card renders
+	// text-only, which is the correct look for a project with nothing
+	// meaningful to draw.
+	Art string `yaml:"art,omitempty"`
 }
 
 type Projects struct {
