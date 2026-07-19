@@ -7,6 +7,13 @@
      ".../<owner>/<repo>/pulls?q=" links are public and fine. -->
 {{/* A receipt chip: GitHub's pull-request octicon, the repo#number, then the
      real diffstat.
+
+     Only substantive PRs are listed. The full history has plenty of shellcheck
+     wiring, lint bumps, parent-pom updates and one-line CI image changes, and
+     every one of those on the page made the genuinely hard work — a limit
+     parameter in Prometheus' query layer, new K8s resource support in
+     prombench — harder to find rather than more credible. The complete list is
+     one click away at the bottom of the section; this row is the argument.
      The counts are transcribed from the GitHub API rather than fetched at
      runtime — the numbers on a merged PR never change again, and the section
      must render with no network and no API token. Green/red are GitHub's own
@@ -28,13 +35,10 @@
       <div>
         <h3 class="font-semibold text-black dark:text-white">Kubernetes</h3>
         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          Contributor to <a href="https://github.com/kubernetes-sigs/kueue/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="ilink">kubernetes-sigs/kueue</a> (job queueing for batch and AI workloads). Merged a regression test into core <a href="https://github.com/kubernetes/kubernetes/pull/122625" target="_blank" rel="noopener noreferrer" class="ilink">kubernetes/kubernetes</a>, plus PRs to <a href="https://github.com/kubernetes/test-infra/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="ilink">test-infra</a> improving how Prow orchestrates CI.
+          Merged into core <a href="https://github.com/kubernetes/kubernetes/pull/122625" target="_blank" rel="noopener noreferrer" class="ilink">kubernetes/kubernetes</a>: a regression test pinning the negative-index behaviour of json-patch. Also a contributor to <a href="https://github.com/kubernetes-sigs/kueue/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="ilink">kubernetes-sigs/kueue</a> (job queueing for batch and AI workloads) and its <a href="https://github.com/kubernetes/test-infra/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="ilink">Prow job config</a>, on the build and CI side.
         </p>
         <div class="mt-2 flex flex-wrap gap-1.5">
           {{ template "pr" }} href="https://github.com/kubernetes/kubernetes/pull/122625">{{ template "prIcon" }}kubernetes#122625<span class="tabular-nums">{{ template "add" }}+25</span>&thinsp;{{ template "del" }}&minus;0</span></span></a>
-          {{ template "pr" }} href="https://github.com/kubernetes-sigs/kueue/pull/1552">{{ template "prIcon" }}kueue#1552<span class="tabular-nums">{{ template "add" }}+62</span>&thinsp;{{ template "del" }}&minus;25</span></span></a>
-          {{ template "pr" }} href="https://github.com/kubernetes-sigs/kueue/pull/1863">{{ template "prIcon" }}kueue#1863<span class="tabular-nums">{{ template "add" }}+39</span>&thinsp;{{ template "del" }}&minus;3</span></span></a>
-          {{ template "pr" }} href="https://github.com/kubernetes/test-infra/pull/32136">{{ template "prIcon" }}test-infra#32136<span class="tabular-nums">{{ template "add" }}+1</span>&thinsp;{{ template "del" }}&minus;1</span></span></a>
         </div>
       </div>
     </div>
@@ -50,8 +54,8 @@
         <div class="mt-2 flex flex-wrap gap-1.5">
           {{ template "pr" }} href="https://github.com/prometheus/prometheus/pull/15552">{{ template "prIcon" }}prometheus#15552<span class="tabular-nums">{{ template "add" }}+280</span>&thinsp;{{ template "del" }}&minus;3</span></span></a>
           {{ template "pr" }} href="https://github.com/prometheus/memcached_exporter/pull/227">{{ template "prIcon" }}memcached_exporter#227<span class="tabular-nums">{{ template "add" }}+11</span>&thinsp;{{ template "del" }}&minus;0</span></span></a>
-          {{ template "pr" }} href="https://github.com/prometheus/test-infra/pull/777">{{ template "prIcon" }}test-infra#777<span class="tabular-nums">{{ template "add" }}+32</span>&thinsp;{{ template "del" }}&minus;2</span></span></a>
-          {{ template "pr" }} href="https://github.com/prometheus/test-infra/pull/728">{{ template "prIcon" }}test-infra#728<span class="tabular-nums">{{ template "add" }}+681</span>&thinsp;{{ template "del" }}&minus;494</span></span></a>
+          {{ template "pr" }} href="https://github.com/prometheus/test-infra/pull/719">{{ template "prIcon" }}prometheus/test-infra#719<span class="tabular-nums">{{ template "add" }}+65</span>&thinsp;{{ template "del" }}&minus;0</span></span></a>
+          {{ template "pr" }} href="https://github.com/prometheus/test-infra/pull/716">{{ template "prIcon" }}prometheus/test-infra#716<span class="tabular-nums">{{ template "add" }}+65</span>&thinsp;{{ template "del" }}&minus;2</span></span></a>
         </div>
       </div>
     </div>
@@ -69,9 +73,9 @@
           Rebuilt the Jenkins docs (11M+ users) on a versioned GatsbyJS + Antora stack, shipped CI/CD to <a href="https://github.com/jenkins-infra/docs.jenkins.io/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="ilink">jenkins-infra</a>, and modernized Java CI <a href="https://github.com/search?q=author%3AVandit1604+is%3Apr+is%3Amerged+org%3Ajenkinsci&amp;type=pullrequests" target="_blank" rel="noopener noreferrer" class="ilink">plugins</a>. The year after being a mentee, I came back to mentor the next GSoC cohort.
         </p>
         <div class="mt-2 flex flex-wrap gap-1.5">
-          {{ template "pr" }} href="https://github.com/jenkins-infra/docs.jenkins.io/pull/44">{{ template "prIcon" }}docs.jenkins.io#44<span class="tabular-nums">{{ template "add" }}+723</span>&thinsp;{{ template "del" }}&minus;450</span></span></a>
+          {{ template "pr" }} href="https://github.com/jenkins-infra/docs.jenkins.io/pull/11">{{ template "prIcon" }}docs.jenkins.io#11<span class="tabular-nums">{{ template "add" }}+4203</span>&thinsp;{{ template "del" }}&minus;848</span></span></a>
+          {{ template "pr" }} href="https://github.com/jenkins-infra/docs.jenkins.io/pull/12">{{ template "prIcon" }}docs.jenkins.io#12<span class="tabular-nums">{{ template "add" }}+800</span>&thinsp;{{ template "del" }}&minus;800</span></span></a>
           {{ template "pr" }} href="https://github.com/jenkinsci/embeddable-build-status-plugin/pull/163">{{ template "prIcon" }}embeddable-build-status#163<span class="tabular-nums">{{ template "add" }}+130</span>&thinsp;{{ template "del" }}&minus;0</span></span></a>
-          {{ template "pr" }} href="https://github.com/jenkinsci/conditional-buildstep-plugin/pull/51">{{ template "prIcon" }}conditional-buildstep#51<span class="tabular-nums">{{ template "add" }}+21</span>&thinsp;{{ template "del" }}&minus;14</span></span></a>
         </div>
       </div>
     </div>
