@@ -1,6 +1,15 @@
 <!-- open source contributions section. Every claim is backed by a real, linked
      merged PR ("receipts" row) so the section reads as proof, not assertion. -->
-{{ define "pr" }}<a target="_blank" rel="noopener noreferrer" class="font-mono text-[11px] rounded border border-gray-200 dark:border-neutral-800 px-1.5 py-0.5 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:border-gray-400 dark:hover:border-neutral-600 transition-colors"{{ end }}
+{{/* A receipt chip: GitHub's pull-request octicon, the repo#number, then the
+     real diffstat.
+     The counts are transcribed from the GitHub API rather than fetched at
+     runtime — the numbers on a merged PR never change again, and the section
+     must render with no network and no API token. Green/red are GitHub's own
+     diff colours, the one place on the site where hue carries meaning. */}}
+{{ define "pr" }}<a target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1.5 font-mono text-[11px] rounded border border-gray-200 dark:border-neutral-800 px-1.5 py-0.5 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:border-gray-400 dark:hover:border-neutral-600 transition-colors"{{ end }}
+{{ define "prIcon" }}<span class="text-[13px] text-[#1a7f37] dark:text-[#3fb950]" aria-hidden="true">{{ template "icon:pr" }}</span>{{ end }}
+{{ define "add" }}<span class="text-[#1a7f37] dark:text-[#3fb950]">{{ end }}
+{{ define "del" }}<span class="text-[#cf222e] dark:text-[#f85149]">{{ end }}
 <section data-reveal class="box">
   <h2 class="text-2xl font-bold tracking-tight mb-2">Open Source</h2>
   <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-2xl">
@@ -17,10 +26,10 @@
           Contributor to <a href="https://github.com/kubernetes-sigs/kueue/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="ilink">kubernetes-sigs/kueue</a> (job queueing for batch and AI workloads). Merged a regression test into core <a href="https://github.com/kubernetes/kubernetes/pull/122625" target="_blank" rel="noopener noreferrer" class="ilink">kubernetes/kubernetes</a>, plus PRs to <a href="https://github.com/kubernetes/test-infra/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="ilink">test-infra</a> improving how Prow orchestrates CI.
         </p>
         <div class="mt-2 flex flex-wrap gap-1.5">
-          {{ template "pr" }} href="https://github.com/kubernetes/kubernetes/pull/122625">kubernetes#122625</a>
-          {{ template "pr" }} href="https://github.com/kubernetes-sigs/kueue/pull/1552">kueue#1552</a>
-          {{ template "pr" }} href="https://github.com/kubernetes-sigs/kueue/pull/1863">kueue#1863</a>
-          {{ template "pr" }} href="https://github.com/kubernetes/test-infra/pull/32136">test-infra#32136</a>
+          {{ template "pr" }} href="https://github.com/kubernetes/kubernetes/pull/122625">{{ template "prIcon" }}kubernetes#122625<span class="tabular-nums">{{ template "add" }}+25</span>&thinsp;{{ template "del" }}&minus;0</span></span></a>
+          {{ template "pr" }} href="https://github.com/kubernetes-sigs/kueue/pull/1552">{{ template "prIcon" }}kueue#1552<span class="tabular-nums">{{ template "add" }}+62</span>&thinsp;{{ template "del" }}&minus;25</span></span></a>
+          {{ template "pr" }} href="https://github.com/kubernetes-sigs/kueue/pull/1863">{{ template "prIcon" }}kueue#1863<span class="tabular-nums">{{ template "add" }}+39</span>&thinsp;{{ template "del" }}&minus;3</span></span></a>
+          {{ template "pr" }} href="https://github.com/kubernetes/test-infra/pull/32136">{{ template "prIcon" }}test-infra#32136<span class="tabular-nums">{{ template "add" }}+1</span>&thinsp;{{ template "del" }}&minus;1</span></span></a>
         </div>
       </div>
     </div>
@@ -34,10 +43,10 @@
           Multiple PRs merged into <a href="https://github.com/prometheus/test-infra/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="ilink">prombench</a>, Prometheus' benchmarking test bench. Also worked in the query layer (a limit parameter on <a href="https://github.com/prometheus/prometheus/pull/15552" target="_blank" rel="noopener noreferrer" class="ilink"><code class="text-xs">/query</code> and <code class="text-xs">/query_range</code></a>) and exposed <a href="https://github.com/prometheus/memcached_exporter/pull/227" target="_blank" rel="noopener noreferrer" class="ilink"><code class="text-xs">direct_reclaims_total</code> in memcached_exporter</a>.
         </p>
         <div class="mt-2 flex flex-wrap gap-1.5">
-          {{ template "pr" }} href="https://github.com/prometheus/prometheus/pull/15552">prometheus#15552</a>
-          {{ template "pr" }} href="https://github.com/prometheus/memcached_exporter/pull/227">memcached_exporter#227</a>
-          {{ template "pr" }} href="https://github.com/prometheus/test-infra/pull/777">test-infra#777</a>
-          {{ template "pr" }} href="https://github.com/prometheus/test-infra/pull/728">test-infra#728</a>
+          {{ template "pr" }} href="https://github.com/prometheus/prometheus/pull/15552">{{ template "prIcon" }}prometheus#15552<span class="tabular-nums">{{ template "add" }}+280</span>&thinsp;{{ template "del" }}&minus;3</span></span></a>
+          {{ template "pr" }} href="https://github.com/prometheus/memcached_exporter/pull/227">{{ template "prIcon" }}memcached_exporter#227<span class="tabular-nums">{{ template "add" }}+11</span>&thinsp;{{ template "del" }}&minus;0</span></span></a>
+          {{ template "pr" }} href="https://github.com/prometheus/test-infra/pull/777">{{ template "prIcon" }}test-infra#777<span class="tabular-nums">{{ template "add" }}+32</span>&thinsp;{{ template "del" }}&minus;2</span></span></a>
+          {{ template "pr" }} href="https://github.com/prometheus/test-infra/pull/728">{{ template "prIcon" }}test-infra#728<span class="tabular-nums">{{ template "add" }}+681</span>&thinsp;{{ template "del" }}&minus;494</span></span></a>
         </div>
       </div>
     </div>
@@ -55,9 +64,9 @@
           Rebuilt the Jenkins docs (11M+ users) on a versioned GatsbyJS + Antora stack, shipped CI/CD to <a href="https://github.com/jenkins-infra/docs.jenkins.io/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="ilink">jenkins-infra</a>, and modernized Java CI <a href="https://github.com/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged+org%3Ajenkinsci" target="_blank" rel="noopener noreferrer" class="ilink">plugins</a>. The year after being a mentee, I came back to mentor the next GSoC cohort.
         </p>
         <div class="mt-2 flex flex-wrap gap-1.5">
-          {{ template "pr" }} href="https://github.com/jenkins-infra/docs.jenkins.io/pull/106">docs.jenkins.io#106</a>
-          {{ template "pr" }} href="https://github.com/jenkinsci/embeddable-build-status-plugin/pull/163">embeddable-build-status#163</a>
-          {{ template "pr" }} href="https://github.com/jenkinsci/conditional-buildstep-plugin/pull/51">conditional-buildstep#51</a>
+          {{ template "pr" }} href="https://github.com/jenkins-infra/docs.jenkins.io/pull/44">{{ template "prIcon" }}docs.jenkins.io#44<span class="tabular-nums">{{ template "add" }}+723</span>&thinsp;{{ template "del" }}&minus;450</span></span></a>
+          {{ template "pr" }} href="https://github.com/jenkinsci/embeddable-build-status-plugin/pull/163">{{ template "prIcon" }}embeddable-build-status#163<span class="tabular-nums">{{ template "add" }}+130</span>&thinsp;{{ template "del" }}&minus;0</span></span></a>
+          {{ template "pr" }} href="https://github.com/jenkinsci/conditional-buildstep-plugin/pull/51">{{ template "prIcon" }}conditional-buildstep#51<span class="tabular-nums">{{ template "add" }}+21</span>&thinsp;{{ template "del" }}&minus;14</span></span></a>
         </div>
       </div>
     </div>
