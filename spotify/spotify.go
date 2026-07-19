@@ -26,11 +26,38 @@ import (
 
 // Track is the trimmed-down view of a play the template needs.
 type Track struct {
-	Title    string
-	Artist   string
-	AlbumArt string
-	URL      string
-	PlayedAt time.Time
+	Title     string
+	Artist    string
+	AlbumArt  string
+	URL       string
+	AlbumURL  string
+	ArtistURL string
+	PlayedAt  time.Time
+}
+
+// PlayedAgo renders the age of the play as a short relative string ("2h ago").
+// The card shows this instead of a playback position: the recently-played
+// endpoint reports when a track finished, never where the needle is, so a
+// progress bar would be invented data.
+func (t *Track) PlayedAgo() string {
+	// A zero timestamp means the field never decoded; printing "106751d ago"
+	// would be worse than printing nothing, and the template drops empty text.
+	if t.PlayedAt.IsZero() {
+		return ""
+	}
+	d := time.Since(t.PlayedAt)
+	switch {
+	case d < time.Minute:
+		return "just now"
+	case d < time.Hour:
+		return strconv.Itoa(int(d.Minutes())) + "m ago"
+	case d < 24*time.Hour:
+		return strconv.Itoa(int(d.Hours())) + "h ago"
+	case d < 48*time.Hour:
+		return "yesterday"
+	default:
+		return strconv.Itoa(int(d.Hours()/24)) + "d ago"
+	}
 }
 
 const (
@@ -121,9 +148,15 @@ func fetchRecentlyPlayed() (*Track, error) {
 					Spotify string `json:"spotify"`
 				} `json:"external_urls"`
 				Artists []struct {
-					Name string `json:"name"`
+					Name         string `json:"name"`
+					ExternalURLs struct {
+						Spotify string `json:"spotify"`
+					} `json:"external_urls"`
 				} `json:"artists"`
 				Album struct {
+					ExternalURLs struct {
+						Spotify string `json:"spotify"`
+					} `json:"external_urls"`
 					Images []struct {
 						URL   string `json:"url"`
 						Width int    `json:"width"`
@@ -161,12 +194,19 @@ func fetchRecentlyPlayed() (*Track, error) {
 		albumArt = widest.URL
 	}
 
+	artistURL := ""
+	if len(item.Track.Artists) > 0 {
+		artistURL = item.Track.Artists[0].ExternalURLs.Spotify
+	}
+
 	return &Track{
-		Title:    item.Track.Name,
-		Artist:   strings.Join(artists, ", "),
-		AlbumArt: albumArt,
-		URL:      item.Track.ExternalURLs.Spotify,
-		PlayedAt: item.PlayedAt,
+		Title:     item.Track.Name,
+		Artist:    strings.Join(artists, ", "),
+		AlbumArt:  albumArt,
+		URL:       item.Track.ExternalURLs.Spotify,
+		AlbumURL:  item.Track.Album.ExternalURLs.Spotify,
+		ArtistURL: artistURL,
+		PlayedAt:  item.PlayedAt,
 	}, nil
 }
 
