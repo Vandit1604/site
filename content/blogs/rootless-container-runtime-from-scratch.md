@@ -59,7 +59,7 @@ Docker feels like it "creates" an isolated machine. It doesn't. The kernel alrea
 
 Here's the first thing that genuinely surprised me. You'd think you'd just set those flags on your own process and start doing container stuff. You can't, not cleanly. A Go program is multithreaded from the moment it starts, and some namespaces (PID especially) only really apply to a *fresh child*. So the classic move, the one every real runtime uses, is: **the program re-executes itself.** It launches a second copy of its own binary, and *that* copy is the thing that gets the new namespaces and becomes PID 1.
 
-dockerium does this with Docker's own `reexec` helper, and finding it is half the fun of this project. I went digging through the [moby/moby](https://github.com/moby/moby) source (moby is the open source engine underneath Docker) expecting the "make a container" code to be some huge scary subsystem. Instead, tucked away in [`pkg/reexec`](https://github.com/moby/moby/tree/master/pkg/reexec), was this tiny, almost cheeky helper that does exactly the self-re-execution trick. The billion-dollar container company and my weekend toy use *the same little function*. In `init()` we register a named entrypoint, and check whether we're the re-exec'd child:
+dockerium does this with Docker's own `reexec` helper, and finding it is half the fun of this project. I went digging through the [moby/moby](https://github.com/moby/moby) source (moby is the open source engine underneath Docker) expecting the "make a container" code to be some huge scary subsystem. Instead, tucked away in [`pkg/reexec`](https://github.com/moby/sys/tree/main/reexec), was this tiny, almost cheeky helper that does exactly the self-re-execution trick. The billion-dollar container company and my weekend toy use *the same little function*. In `init()` we register a named entrypoint, and check whether we're the re-exec'd child:
 
 ```go
 func init() {
@@ -174,7 +174,7 @@ If you've got a black box in your own stack that you've just been *accepting*, t
 ## Go deeper
 
 - The whole thing is ~440 lines of Go: [github.com/Vandit1604/dockerium](https://github.com/Vandit1604/dockerium)
-- Docker's own [`pkg/reexec`](https://github.com/moby/moby/tree/master/pkg/reexec) in the [moby](https://github.com/moby/moby) source, the tiny helper this whole thing (and Docker itself) leans on
+- Docker's own [`pkg/reexec`](https://github.com/moby/sys/tree/main/reexec) in the [moby](https://github.com/moby/moby) source, the tiny helper this whole thing (and Docker itself) leans on
 - [`man 2 pivot_root`](https://man7.org/linux/man-pages/man2/pivot_root.2.html) and [`man 7 namespaces`](https://man7.org/linux/man-pages/man7/namespaces.7.html), the two pages that explain the real machinery
 - Liz Rice's ["Containers From Scratch"](https://github.com/lizrice/containers-from-scratch) talk, which is the canonical version of this exercise and where a lot of the shape comes from
 

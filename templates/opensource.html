@@ -1,5 +1,10 @@
 <!-- open source contributions section. Every claim is backed by a real, linked
-     merged PR ("receipts" row) so the section reads as proof, not assertion. -->
+     merged PR ("receipts" row) so the section reads as proof, not assertion.
+
+     Cross-repo links must use /search, never /pulls. github.com/pulls is the
+     signed-in dashboard and 404s for anyone who is not logged into GitHub,
+     which is most of the people this section is written for. Repo-scoped
+     ".../<owner>/<repo>/pulls?q=" links are public and fine. -->
 {{/* A receipt chip: GitHub's pull-request octicon, the repo#number, then the
      real diffstat.
      The counts are transcribed from the GitHub API rather than fetched at
@@ -61,7 +66,7 @@
           <a href="https://www.jenkins.io/projects/gsoc/2024/" target="_blank" rel="noopener noreferrer" class="text-xs font-normal text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-neutral-800 rounded-full px-2 py-0.5 ml-1 hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors">GSoC '24 mentor</a>
         </h3>
         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          Rebuilt the Jenkins docs (11M+ users) on a versioned GatsbyJS + Antora stack, shipped CI/CD to <a href="https://github.com/jenkins-infra/docs.jenkins.io/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="ilink">jenkins-infra</a>, and modernized Java CI <a href="https://github.com/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged+org%3Ajenkinsci" target="_blank" rel="noopener noreferrer" class="ilink">plugins</a>. The year after being a mentee, I came back to mentor the next GSoC cohort.
+          Rebuilt the Jenkins docs (11M+ users) on a versioned GatsbyJS + Antora stack, shipped CI/CD to <a href="https://github.com/jenkins-infra/docs.jenkins.io/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged" target="_blank" rel="noopener noreferrer" class="ilink">jenkins-infra</a>, and modernized Java CI <a href="https://github.com/search?q=author%3AVandit1604+is%3Apr+is%3Amerged+org%3Ajenkinsci&amp;type=pullrequests" target="_blank" rel="noopener noreferrer" class="ilink">plugins</a>. The year after being a mentee, I came back to mentor the next GSoC cohort.
         </p>
         <div class="mt-2 flex flex-wrap gap-1.5">
           {{ template "pr" }} href="https://github.com/jenkins-infra/docs.jenkins.io/pull/44">{{ template "prIcon" }}docs.jenkins.io#44<span class="tabular-nums">{{ template "add" }}+723</span>&thinsp;{{ template "del" }}&minus;450</span></span></a>
@@ -73,8 +78,8 @@
   </div>
 
   <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
-    <a href="https://github.com/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged+archived%3Afalse" target="_blank" rel="noopener noreferrer" class="coord text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-      All merged PRs &rarr;
+    <a href="https://github.com/search?q=author%3AVandit1604+is%3Apr+is%3Amerged&amp;type=pullrequests" target="_blank" rel="noopener noreferrer" class="coord text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
+      All 188 merged PRs &rarr;
     </a>
     <a href="https://github.com/Vandit1604" target="_blank" rel="noopener noreferrer" class="coord text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
       GitHub profile &rarr;

@@ -54,7 +54,7 @@ If you've been circling some giant repo waiting to feel ready, this is your sign
 
 ## Go deeper
 
-- My [merged PRs across these projects](https://github.com/pulls?q=is%3Apr+author%3AVandit1604+is%3Amerged) if you want to see the actual trail
+- My [merged PRs across these projects](https://github.com/search?q=author%3AVandit1604+is%3Apr+is%3Amerged&type=pullrequests) if you want to see the actual trail
 - [Kubernetes contributor guide](https://www.kubernetes.dev/docs/guide/) and [Prometheus contributing docs](https://github.com/prometheus/prometheus/blob/main/CONTRIBUTING.md)
 - [How Google Summer of Code works](https://summerofcode.withgoogle.com/), if you want to get paid to do your first contributions
 
