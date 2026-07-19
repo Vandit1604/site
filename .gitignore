@@ -12,5 +12,6 @@ assets/gallery/
 /crosspost
 /site
 
-# Local view-counter file (prod uses VIEWS_PATH on the /data volume)
-views.count
+# Local view-counter state: the count plus its dedupe salt and visitor set
+# (prod uses VIEWS_PATH on the /data volume)
+views.count*

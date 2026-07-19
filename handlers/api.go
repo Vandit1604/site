@@ -24,11 +24,28 @@ func ShowViews(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"count": viewCounter.Count()})
 }
 
-// CountView increments the tally by one and returns the new total. The nav
-// widget POSTs here exactly once per browser (gated by localStorage) so a
-// visitor is only counted the first time they arrive.
+// CountView counts this visitor if they have not been counted inside the
+// dedupe window, and returns the total either way.
+//
+// The client used to be the only gate, via localStorage, which meant every
+// incognito window and every cleared profile arrived as a brand new visitor.
+// The decision now lives here, keyed on the caller's address plus their
+// user agent: same machine, same browser, one count per window regardless of
+// how the browser stores things. The key itself is only ever hashed (see
+// views.SeenRecently), so no address is written to disk.
 func CountView(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"count": viewCounter.Increment()})
+	if viewCounter.SeenRecently(visitorKey(c)) {
+		c.JSON(http.StatusOK, gin.H{"count": viewCounter.Count(), "counted": false})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"count": viewCounter.Increment(), "counted": true})
+}
+
+// visitorKey identifies the caller for dedupe purposes. The user agent is mixed
+// in so that two people behind one NAT or office IP are not collapsed into a
+// single visitor.
+func visitorKey(c *gin.Context) string {
+	return c.ClientIP() + "\n" + c.Request.UserAgent()
 }
 
 // ShowGitHub returns the cached GitHub activity snapshot (contribution
@@ -42,9 +59,9 @@ func ShowGitHub(c *gin.Context) {
 type searchDoc struct {
 	Title   string `json:"title"`
 	URL     string `json:"url"`
-	Section string `json:"section"`         // group header shown in the palette
-	Desc    string `json:"desc,omitempty"`  // secondary line
-	Ext     bool   `json:"ext,omitempty"`   // opens in a new tab
+	Section string `json:"section"`        // group header shown in the palette
+	Desc    string `json:"desc,omitempty"` // secondary line
+	Ext     bool   `json:"ext,omitempty"`  // opens in a new tab
 }
 
 var (
