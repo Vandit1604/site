@@ -10,44 +10,90 @@
      LinkedIn is the single hue, which keeps the band inside the monochrome
      identity described in PRODUCT.md. -->
 <section data-reveal class="box">
-  <div class="grid items-stretch gap-3 {{ if .nowPlaying }}md:grid-cols-2{{ end }}">
+  <div class="grid items-stretch gap-3 {{ if .nowPlaying }}md:grid-cols-3{{ end }}">
     {{ if .nowPlaying }}
-    <a
-      href="{{ .nowPlaying.URL }}"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="group flex h-full min-h-[7rem] w-full items-stretch overflow-hidden rounded-[14px] border border-gray-200 bg-gray-50 dark:border-neutral-800 dark:bg-neutral-900 boxy-hover press"
-    >
+    <!-- Last-played card, modelled on a music-player widget: the sleeve is the
+         card, and everything else floats over it on frosted panels. Square so
+         the artwork is never cropped, which is the whole point of showing it.
+
+         There is deliberately no scrubber and no transport controls. The
+         recently-played endpoint reports when a track finished, not where the
+         needle is, and the site cannot control anyone's playback, so a progress
+         bar and a play button would both be decoration pretending to be state.
+         The same row instead carries three controls that go somewhere real:
+         album, track, artist.
+
+         Reads dark in both themes on purpose. This is the one tile whose
+         subject is an image, and a light variant would only wash it out. -->
+    <div class="relative aspect-square w-full max-w-[16rem] self-center overflow-hidden rounded-[14px] bg-neutral-900 md:max-w-none">
       {{ if .nowPlaying.AlbumArt }}
-      <!-- The sleeve fills the card's full height and is clipped by it, which is
-           why it carries no radius of its own. The width is fixed rather than
-           derived from the aspect ratio on purpose: with an auto width the
-           640px source drives the card's height instead of the other way round,
-           and the whole band inflates. -->
       <img
         src="{{ .nowPlaying.AlbumArt }}"
-        alt=""
-        width="200"
-        height="200"
+        alt="Album art for {{ .nowPlaying.Title }} by {{ .nowPlaying.Artist }}"
+        width="640"
+        height="640"
         loading="lazy"
-        class="h-full w-28 flex-shrink-0 self-stretch object-cover md:w-48"
+        class="absolute inset-0 h-full w-full object-cover"
       />
       {{ end }}
-      <span class="flex min-w-0 flex-1 flex-col justify-center gap-0.5 px-4 py-3.5">
-        <span class="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-          <span class="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#1DB954]"></span>
-          Last played
-        </span>
-        <span class="truncate text-[15px] font-semibold text-black dark:text-white">{{ .nowPlaying.Title }}</span>
-        <span class="truncate text-[13px] text-gray-500 dark:text-gray-400">{{ .nowPlaying.Artist }}</span>
-      </span>
-      <svg class="mr-4 h-7 w-7 flex-shrink-0 self-center text-gray-300 transition-colors group-hover:text-[#1DB954] dark:text-neutral-600" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.52 17.34c-.24.36-.66.48-1.02.24-2.82-1.74-6.36-2.1-10.56-1.14-.42.12-.78-.18-.9-.54-.12-.42.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.3 1.02zm1.44-3.3c-.3.42-.84.6-1.26.3-3.24-1.98-8.16-2.58-11.94-1.38-.48.12-1.02-.12-1.14-.6-.12-.48.12-1.02.6-1.14 4.38-1.32 9.78-.66 13.5 1.62.36.18.54.78.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.1 9.3c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.32-1.32 11.4-1.02 15.9 1.62.54.3.72 1.02.42 1.56-.3.48-1.02.66-1.56.36z"/>
-      </svg>
-    </a>
+      <!-- Scrim: art is arbitrary, so the panels alone cannot be trusted to
+           carry white text. Weighted to the top and bottom edges where the
+           controls sit, leaving the middle of the sleeve untouched. -->
+      <span class="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/10 to-black/75"></span>
+      <span class="pointer-events-none absolute inset-0 rounded-[14px] ring-1 ring-inset ring-white/10"></span>
+
+      <div class="absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3">
+        <a
+          href="{{ .nowPlaying.URL }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex min-w-0 items-center gap-2 rounded-full bg-black/40 py-1.5 pl-1.5 pr-3.5 backdrop-blur-md ring-1 ring-white/15 transition-colors hover:bg-black/60"
+        >
+          <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-white/10 text-white transition-colors group-hover:text-[#1DB954]">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.52 17.34c-.24.36-.66.48-1.02.24-2.82-1.74-6.36-2.1-10.56-1.14-.42.12-.78-.18-.9-.54-.12-.42.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.3 1.02zm1.44-3.3c-.3.42-.84.6-1.26.3-3.24-1.98-8.16-2.58-11.94-1.38-.48.12-1.02-.12-1.14-.6-.12-.48.12-1.02.6-1.14 4.38-1.32 9.78-.66 13.5 1.62.36.18.54.78.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.1 9.3c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.32-1.32 11.4-1.02 15.9 1.62.54.3.72 1.02.42 1.56-.3.48-1.02.66-1.56.36z"/>
+            </svg>
+          </span>
+          <span class="flex min-w-0 flex-col leading-tight">
+            <span class="truncate text-[13px] font-semibold text-white">{{ .nowPlaying.Title }}</span>
+            <span class="truncate text-[11px] text-white/70">{{ .nowPlaying.Artist }}</span>
+          </span>
+        </a>
+      </div>
+
+      <div class="absolute inset-x-0 bottom-0 p-3">
+        <div class="flex items-baseline justify-between text-[11px] font-medium uppercase tracking-wider text-white/70">
+          <span class="inline-flex items-center gap-1.5">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#1DB954]"></span>
+            Last played
+          </span>
+          <span class="tabular-nums normal-case tracking-normal">{{ .nowPlaying.PlayedAgo }}</span>
+        </div>
+        <div class="mt-2 h-px w-full bg-white/25"></div>
+
+        <div class="mt-3 flex items-center justify-center gap-3">
+          {{ if .nowPlaying.AlbumURL }}
+          <a href="{{ .nowPlaying.AlbumURL }}" target="_blank" rel="noopener noreferrer" title="Album on Spotify" class="grid h-9 w-9 place-items-center rounded-full bg-black/40 text-white/80 backdrop-blur-md ring-1 ring-white/15 transition hover:bg-black/60 hover:text-white">
+            <span class="sr-only">Open the album on Spotify</span>
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.6"/></svg>
+          </a>
+          {{ end }}
+          <a href="{{ .nowPlaying.URL }}" target="_blank" rel="noopener noreferrer" title="Track on Spotify" class="grid h-11 w-11 place-items-center rounded-full bg-white text-black ring-1 ring-white/25 transition hover:bg-[#1DB954] hover:text-white">
+            <span class="sr-only">Open the track on Spotify</span>
+            <svg class="ml-0.5 h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14Z"/></svg>
+          </a>
+          {{ if .nowPlaying.ArtistURL }}
+          <a href="{{ .nowPlaying.ArtistURL }}" target="_blank" rel="noopener noreferrer" title="Artist on Spotify" class="grid h-9 w-9 place-items-center rounded-full bg-black/40 text-white/80 backdrop-blur-md ring-1 ring-white/15 transition hover:bg-black/60 hover:text-white">
+            <span class="sr-only">Open the artist on Spotify</span>
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0"/></svg>
+          </a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
     {{ end }}
 
-    <div class="grid grid-cols-2 gap-3 {{ if not .nowPlaying }}sm:grid-cols-4{{ end }}">
+    <div class="grid grid-cols-2 gap-3 {{ if .nowPlaying }}md:col-span-2{{ end }}{{ if not .nowPlaying }}sm:grid-cols-4{{ end }}">
       <a
         href="https://github.com/Vandit1604"
         target="_blank"
