@@ -1,0 +1,51 @@
+{{/* One project card, shared by /projects and the homepage featured grid.
+
+     Previously those two rendered their own markup and neither matched the
+     indie cards above them, so the same page showed three different card
+     designs. There is one now, and it is the indie one: diagram, then a
+     header row, the description, and a footer that pairs tags against the
+     destination.
+
+     The whole card is a single link because every project has exactly one
+     destination — a live site or a repo, never both. That also means a nested
+     <a> is impossible, which is why a collaborator is credited as text here
+     rather than as a link to their profile. */}}
+{{ define "projectCard" }}
+{{ $url := .PrimaryURL }}
+<a
+  {{ if $url }}href="{{ $url }}" target="_blank" rel="noopener noreferrer"{{ end }}
+  class="cell lift boxy-hover press group flex flex-col overflow-hidden"
+>
+  {{ if .Art }}
+  <div class="relative aspect-[16/9] w-full border-b border-gray-200 bg-gray-50/70 p-4 text-gray-900 dark:border-neutral-800 dark:bg-neutral-900/50 dark:text-gray-100">
+    {{ template "projectArt" . }}
+  </div>
+  {{ end }}
+
+  <div class="flex flex-1 flex-col p-6">
+    <div class="flex items-center justify-between gap-3">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ .Name }}</h3>
+      {{ if .CollabName }}
+      <span class="flex-shrink-0 font-mono text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-500">
+        with {{ .CollabName }}
+      </span>
+      {{ end }}
+    </div>
+
+    <p class="mt-2 flex-1 text-sm text-gray-600 dark:text-gray-400">{{ .Description }}</p>
+
+    <div class="mt-4 flex items-end justify-between gap-3">
+      <div class="flex flex-wrap gap-1.5">
+        {{ range .Tags }}
+        <span class="font-mono text-[11px] rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">{{ . }}</span>
+        {{ end }}
+      </div>
+      {{ if $url }}
+      <span class="flex-shrink-0 font-mono text-xs text-gray-500 dark:text-gray-500 group-hover:text-black dark:group-hover:text-white transition-colors">
+        {{ .PrimaryLabel }} <span class="inline-block transition-transform group-hover:translate-x-0.5">&rarr;</span>
+      </span>
+      {{ end }}
+    </div>
+  </div>
+</a>
+{{ end }}
