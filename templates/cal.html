@@ -135,6 +135,27 @@
       layout: "month_view",
       theme: siteTheme(),
     });
+    retintMountedEmbed();
+  }
+
+  // The ui() call above only takes effect before the embed mounts: once the
+  // iframe exists, neither ui() nor a postMessage re-themes it, so toggling the
+  // site left a dark calendar sitting in a light page. The theme is baked into
+  // the iframe's query string, so the only thing that actually works is
+  // rewriting that param, which reloads the embed. Guarded on an actual change
+  // so we never reload for an unrelated class mutation on <html>.
+  function retintMountedEmbed() {
+    var frame = document.querySelector("#my-cal-inline-30min iframe");
+    if (!frame || !frame.src) return;
+    var url;
+    try {
+      url = new URL(frame.src);
+    } catch (e) {
+      return;
+    }
+    if (url.searchParams.get("theme") === siteTheme()) return;
+    url.searchParams.set("theme", siteTheme());
+    frame.src = url.toString();
   }
 
   Cal.ns["30min"]("inline", {
