@@ -1,70 +1,76 @@
 <!-- indie products section. Bootstrapped solo, closed source. Shared partial
-     included on the homepage and the /projects page. Monochrome, boxy, with an
-     "in progress" pulsing dot to signal these are live and still being built. -->
+     included on the homepage and the /projects page. Not cards: each product is
+     an open row split by a hairline, a live screenshot framed in a browser
+     window on a gradient, story on the right. -->
+{{ define "indieStatus" }}<span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-500">
+  <span class="relative flex h-1.5 w-1.5">
+    <span class="absolute inline-flex h-full w-full animate-ping motion-reduce:animate-none rounded-full bg-gray-500 opacity-75"></span>
+    <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-gray-600 dark:bg-gray-400"></span>
+  </span>
+  In progress
+</span>{{ end }}
 <section data-reveal class="box">
   <div class="mb-6">
     <h2 class="text-2xl font-bold tracking-tight">Building</h2>
     <p class="mt-1 text-sm text-gray-600 dark:text-gray-400 max-w-2xl">
-      Two products I'm bootstrapping solo. Closed source, for now.
+      Two products I&rsquo;m bootstrapping solo. Closed source, for now.
     </p>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 auto-rows-fr">
+  <div class="border-t border-gray-200 dark:border-neutral-800">
     <!-- ThreadCite -->
     <a href="https://threadcite.live" target="_blank" rel="noopener noreferrer"
-      class="cell lift boxy-hover press group flex flex-col overflow-hidden">
-      <div class="relative aspect-[16/9] w-full border-b border-gray-200 bg-gray-50/70 p-4 text-gray-900 dark:border-neutral-800 dark:bg-neutral-900/50 dark:text-gray-100">{{ template "art:threadcite" }}</div>
-      <div class="flex flex-1 flex-col p-6">
-      <div class="flex items-center justify-between">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">ThreadCite</h3>
-        <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-500">
-          <span class="relative flex h-1.5 w-1.5">
-            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-gray-500 opacity-75"></span>
-            <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-gray-600 dark:bg-gray-400"></span>
-          </span>
-          In progress
-        </span>
-      </div>
-      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 flex-1">
-        Finds the Reddit threads ranking on Google for your keywords, tracks your share of voice, and hands you a coached reply for each. Reddit leads, minus the ban risk.
-      </p>
-      <div class="mt-4 flex items-center justify-between">
-        <div class="flex flex-wrap gap-1.5">
-          <span class="font-mono text-[11px] rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">SEO</span>
-          <span class="font-mono text-[11px] rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">Reddit</span>
+       class="press group grid items-center gap-6 border-b border-gray-200 py-8 dark:border-neutral-800 sm:grid-cols-[minmax(0,20rem)_1fr] sm:gap-9">
+      <div class="preview preview--threadcite">
+        <div class="browser">
+          <div class="browser__bar"><span class="browser__dots"><i></i><i></i><i></i></span><span class="browser__url">threadcite.live</span></div>
+          <img class="browser__shot" src="/static/assets/previews/threadcite.jpg" alt="ThreadCite landing page" width="1000" height="625" loading="lazy" />
         </div>
-        <span class="font-mono text-xs text-gray-500 dark:text-gray-500 group-hover:text-black dark:group-hover:text-white transition-colors">threadcite.live <span class="inline-block transition-transform group-hover:translate-x-0.5">&rarr;</span></span>
       </div>
+      <div>
+        <div class="flex items-center justify-between gap-3">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">ThreadCite</h3>
+          {{ template "indieStatus" }}
+        </div>
+        <p class="mt-2 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+          Finds the Reddit threads ranking on Google for your keywords, tracks your share of voice, and hands you a coached reply for each. Reddit leads, minus the ban risk.
+        </p>
+        <div class="mt-4 flex items-center justify-between gap-3">
+          <div class="flex flex-wrap gap-1.5">
+            <span class="font-mono text-[11px] border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">SEO</span>
+            <span class="font-mono text-[11px] border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">Reddit</span>
+          </div>
+          <span class="font-mono text-xs text-gray-500 dark:text-gray-500 group-hover:text-black dark:group-hover:text-white transition-colors">threadcite.live <span class="inline-block transition-transform group-hover:translate-x-0.5">&rarr;</span></span>
+        </div>
       </div>
     </a>
 
     <!-- Argus -->
     <a href="https://argushq.cc" target="_blank" rel="noopener noreferrer"
-      class="cell lift boxy-hover press group flex flex-col overflow-hidden">
-      <div class="relative aspect-[16/9] w-full border-b border-gray-200 bg-gray-50/70 p-4 text-gray-900 dark:border-neutral-800 dark:bg-neutral-900/50 dark:text-gray-100">{{ template "art:argus" }}</div>
-      <div class="flex flex-1 flex-col p-6">
-      <div class="flex items-center justify-between">
-        <h3 class="inline-flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
-          <span class="text-[18px] text-gray-400 dark:text-gray-500">{{ template "icon:chrome" }}</span>Argus
-        </h3>
-        <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-500">
-          <span class="relative flex h-1.5 w-1.5">
-            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-gray-500 opacity-75"></span>
-            <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-gray-600 dark:bg-gray-400"></span>
-          </span>
-          In progress
-        </span>
-      </div>
-      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 flex-1">
-        A Chrome extension for X that reads your real funnel (reach, visits, follows, saves) and tells you who to reply to, in your own voice. Turns reach into followers, not vanity numbers.
-      </p>
-      <div class="mt-4 flex items-center justify-between">
-        <div class="flex flex-wrap gap-1.5">
-          <span class="font-mono text-[11px] rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">Chrome extension</span>
-          <span class="font-mono text-[11px] rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">X / Twitter</span>
+       class="press group grid items-center gap-6 border-b border-gray-200 py-8 dark:border-neutral-800 sm:grid-cols-[minmax(0,20rem)_1fr] sm:gap-9">
+      <div class="preview preview--argus">
+        <div class="browser">
+          <div class="browser__bar"><span class="browser__dots"><i></i><i></i><i></i></span><span class="browser__url">argushq.cc</span></div>
+          <img class="browser__shot" src="/static/assets/previews/argus.jpg" alt="Argus landing page" width="1000" height="625" loading="lazy" />
         </div>
-        <span class="font-mono text-xs text-gray-500 dark:text-gray-500 group-hover:text-black dark:group-hover:text-white transition-colors">argushq.cc <span class="inline-block transition-transform group-hover:translate-x-0.5">&rarr;</span></span>
       </div>
+      <div>
+        <div class="flex items-center justify-between gap-3">
+          <h3 class="inline-flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <span class="text-[18px] text-gray-400 dark:text-gray-500">{{ template "icon:chrome" }}</span>Argus
+          </h3>
+          {{ template "indieStatus" }}
+        </div>
+        <p class="mt-2 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+          A Chrome extension for X that reads your real funnel (reach, visits, follows, saves) and tells you who to reply to, in your own voice. Turns reach into followers, not vanity numbers.
+        </p>
+        <div class="mt-4 flex items-center justify-between gap-3">
+          <div class="flex flex-wrap gap-1.5">
+            <span class="font-mono text-[11px] border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">Chrome extension</span>
+            <span class="font-mono text-[11px] border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">X / Twitter</span>
+          </div>
+          <span class="font-mono text-xs text-gray-500 dark:text-gray-500 group-hover:text-black dark:group-hover:text-white transition-colors">argushq.cc <span class="inline-block transition-transform group-hover:translate-x-0.5">&rarr;</span></span>
+        </div>
       </div>
     </a>
   </div>

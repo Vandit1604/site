@@ -1,22 +1,17 @@
-<!-- Live GitHub activity: contribution calendar + top repos. Populated by
-     micro.js from /api/github (cached server-side). Hidden until data loads. -->
-<section data-reveal class="box" data-github hidden>
-  <div class="flex items-end justify-between mb-5">
-    <h2 class="text-2xl font-bold tracking-tight">GitHub</h2>
-    <a href="https://github.com/Vandit1604" target="_blank" rel="noopener noreferrer"
-       class="press coord text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-      @Vandit1604 &rarr;
-    </a>
-  </div>
+<!-- Live GitHub contribution calendar, shown at the foot of the Open Source
+     section (the receipts and the graph tell one story). Populated by micro.js
+     from /api/github (cached server-side). Hidden until data loads. -->
+<div class="mt-9" data-github hidden>
+  <h3 class="coord uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-3">Contribution activity</h3>
 
-  <!-- Contribution calendar, framed. -->
-  <div class="gh-panel cell">
+  <!-- Contribution calendar, unframed. -->
+  <div class="gh-panel">
     <div class="gh-cal-wrap">
       <div class="gh-cal" data-gh-cal aria-hidden="true"></div>
     </div>
     <div class="gh-cal-foot">
       <span class="coord text-gray-500 dark:text-gray-500">
-        <span class="font-semibold text-black dark:text-white" data-gh-total>—</span> contributions in the last year
+        <span class="font-semibold text-black dark:text-white" data-gh-total>&mdash;</span> contributions in the last year
       </span>
       <span class="gh-legend coord text-gray-500 dark:text-gray-500" aria-hidden="true">
         Less
@@ -29,4 +24,4 @@
       </span>
     </div>
   </div>
-</section>
+</div>

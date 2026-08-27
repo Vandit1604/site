@@ -65,10 +65,10 @@
       '<div class="cmdk-panel">' +
       '  <div class="cmdk-search">' +
       '    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>' +
-      '    <input type="text" autocomplete="off" spellcheck="false" placeholder="Search pages, writing, projects, talks…" aria-label="Search" />' +
+      '    <input type="text" autocomplete="off" spellcheck="false" placeholder="Search pages, writing, projects, talks…" aria-label="Search" role="combobox" aria-expanded="true" aria-controls="cmdk-results" aria-autocomplete="list" />' +
       '    <span class="cmdk-esc">ESC</span>' +
       "  </div>" +
-      '  <div class="cmdk-results" role="listbox"></div>' +
+      '  <div class="cmdk-results" role="listbox" id="cmdk-results" aria-label="Results"></div>' +
       "</div>";
     document.body.appendChild(backdrop);
     input = backdrop.querySelector("input");
@@ -95,7 +95,7 @@
         lastSection = d.section;
       }
       html +=
-        '<div class="cmdk-item" role="option" data-i="' + idx + '"' +
+        '<div class="cmdk-item" role="option" id="cmdk-opt-' + idx + '" data-i="' + idx + '"' +
         (idx === 0 ? ' aria-selected="true"' : "") + ">" +
         '<span class="cmdk-item-title">' + esc(d.title) + "</span>" +
         (d.desc ? '<span class="cmdk-item-desc">' + esc(d.desc) + "</span>" : "") +
@@ -117,6 +117,7 @@
     nodes.forEach(function (el, j) {
       el.setAttribute("aria-selected", j === selected ? "true" : "false");
     });
+    if (input) input.setAttribute("aria-activedescendant", "cmdk-opt-" + selected);
     nodes[selected].scrollIntoView({ block: "nearest" });
   }
 
@@ -125,6 +126,9 @@
     else if (e.key === "ArrowUp") { e.preventDefault(); select(selected - 1); }
     else if (e.key === "Enter") { e.preventDefault(); if (items[selected]) go(items[selected]); }
     else if (e.key === "Escape") { e.preventDefault(); close(); }
+    // Focus trap: the input is the only focusable node in the dialog, so keep
+    // Tab from walking out into the page behind the modal.
+    else if (e.key === "Tab") { e.preventDefault(); }
   }
 
   function go(d) {

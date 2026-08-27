@@ -6,7 +6,7 @@
   // Decide trail-vs-grid before the browser paints anything below. These are
   // the same conditions gallery-trail.js needs to run at all; answering them
   // here means the fallback grid never flashes on its way out. Runs inline and
-  // ahead of the markup on purpose — a deferred script is far too late.
+  // ahead of the markup on purpose: a deferred script is far too late.
   (function () {
     try {
       var pointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -29,7 +29,7 @@
         type="button"
         hidden
         aria-pressed="false"
-        class="press inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-neutral-700 px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:border-gray-500 dark:hover:border-neutral-500 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+        class="press inline-flex items-center gap-2 border border-gray-300 dark:border-neutral-700 px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:border-gray-500 dark:hover:border-neutral-500 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
       >
         <span id="audio-icon">♪</span>
         <span id="audio-label">Play piano</span>
@@ -40,7 +40,7 @@
     {{ if .galleryPhotos }}
     <!-- Interactive cursor image-trail stage (pointer devices, motion allowed).
          Shown/hidden by gallery.css via the `trail-mode` class set above, not
-         by script — see gallery.css for why. -->
+         by script, see gallery.css for why. -->
     <div
       id="trail-stage"
       class="gallery-stage relative w-full h-[70vh] overflow-hidden border border-gray-200 dark:border-neutral-800 cursor-grab select-none"
@@ -54,7 +54,7 @@
         href="{{ . }}"
         target="_blank"
         rel="noopener"
-        class="mb-3 block overflow-hidden rounded-lg break-inside-avoid group"
+        class="mb-3 block overflow-hidden  break-inside-avoid group"
       >
         <img
           src="{{ . }}"
@@ -73,7 +73,7 @@
     </script>
     <!-- Tone.js is NOT loaded here. It used to be a render-blocking tag, which
          stalled the parser on a third-party CDN round trip and held up the
-         deferred script below — the grid painted in that gap. The piano can't
+         deferred script below, the grid painted in that gap. The piano can't
          make a sound before a user gesture anyway, so the script fetches it on
          the first press instead. Nothing audio-related is on the load path. -->
     <script src="/static/js/gallery-trail.js" defer></script>

@@ -7,14 +7,14 @@
      destination.
 
      The whole card is a single link because every project has exactly one
-     destination — a live site or a repo, never both. That also means a nested
+     destination: a live site or a repo, never both. That also means a nested
      <a> is impossible, which is why a collaborator is credited as text here
      rather than as a link to their profile. */}}
 {{ define "projectCard" }}
 {{ $url := .PrimaryURL }}
 <a
   {{ if $url }}href="{{ $url }}" target="_blank" rel="noopener noreferrer"{{ end }}
-  class="cell lift boxy-hover press group flex flex-col overflow-hidden"
+  class="cell boxy-hover press group flex flex-col overflow-hidden"
 >
   {{ if .Art }}
   <div class="relative aspect-[16/9] w-full border-b border-gray-200 bg-gray-50/70 p-4 text-gray-900 dark:border-neutral-800 dark:bg-neutral-900/50 dark:text-gray-100">
@@ -37,7 +37,7 @@
     <div class="mt-4 flex items-end justify-between gap-3">
       <div class="flex flex-wrap gap-1.5">
         {{ range .Tags }}
-        <span class="font-mono text-[11px] rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">{{ . }}</span>
+        <span class="font-mono text-[11px] border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">{{ . }}</span>
         {{ end }}
       </div>
       {{ if $url }}

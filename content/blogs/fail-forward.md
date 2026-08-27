@@ -16,7 +16,7 @@ Failure is often seen as a dead-end, but it's actually an opportunity for growth
 
 ### Avoiding Stagnant Failure
 
-A failure without progress is a missed opportunity. For example, starting a project but leaving it unfinished yields little value. To gain from failure, aim to complete what you start—even if it doesn’t work out—so you walk away with lessons learned.
+A failure without progress is a missed opportunity. For example, starting a project but leaving it unfinished yields little value. To gain from failure, aim to complete what you start, even if it doesn’t work out, so you walk away with lessons learned.
 
 ### The Danger of Half-Knowledge
 

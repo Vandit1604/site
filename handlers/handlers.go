@@ -76,7 +76,7 @@ func ShowIndexPage(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "index.html", merge(
 		pageMeta(
-			"Vandit Singh — Golang & Distributed Systems Engineer",
+			"Vandit Singh | Golang & Distributed Systems Engineer",
 			"Golang engineer for distributed systems, storage & p2p. Merged contributor to Kubernetes, Prometheus & Jenkins.",
 			"/",
 		),

@@ -250,7 +250,7 @@
 }
 /* The one deliberate exception to the motion system: this bar reports scroll
    position, so it must track 1:1. An ease-out would make it drift behind the
-   thumb and overshoot on stop — the readout would be lying. Linear, and short
+   thumb and overshoot on stop; the readout would be lying. Linear, and short
    enough to only smooth the sampling, is the honest choice. */
 .blog-progress span {
     display: block;

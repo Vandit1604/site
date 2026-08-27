@@ -19,4 +19,10 @@ categories:
           Engineering & SysAdmin
         url: https://raw.githubusercontent.com/sharjeelsayed/learn.sharjeelsayed.com/master/selfupgradeitprof.txt
         description: Collection of links related to CSE curriculum
+  - name: UI / UX
+    links:
+      - title: Checklist Design
+        url: https://www.checklist.design/
+        description: A collection of UI and UX checklists for common product
+          components and states.
 

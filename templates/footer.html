@@ -1,19 +1,36 @@
 <footer class="mt-16 border-t border-gray-200 dark:border-neutral-800">
-  <div class="max-w-4xl w-full mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <p class="coord text-gray-500 dark:text-gray-500">
-      &copy; <span id="footer-year">2026</span> · VANDIT SINGH
-    </p>
-    <nav aria-label="Footer" class="coord flex items-center gap-4 text-gray-600 dark:text-gray-400">
-      <a href="https://github.com/Vandit1604" target="_blank" rel="noopener noreferrer" class="border border-gray-200 dark:border-neutral-800 px-2 py-1 boxy-hover hover:text-gray-900 dark:hover:text-gray-100">GitHub</a>
-      <a href="https://x.com/v4nd1t" target="_blank" rel="noopener noreferrer" class="border border-gray-200 dark:border-neutral-800 px-2 py-1 boxy-hover hover:text-gray-900 dark:hover:text-gray-100">X</a>
-      <a href="https://www.linkedin.com/in/vandit-singh/" target="_blank" rel="noopener noreferrer" class="border border-gray-200 dark:border-neutral-800 px-2 py-1 boxy-hover hover:text-gray-900 dark:hover:text-gray-100">LinkedIn</a>
-      <a href="/resume" target="_blank" rel="noopener noreferrer" class="border border-gray-200 dark:border-neutral-800 px-2 py-1 boxy-hover hover:text-gray-900 dark:hover:text-gray-100">Résumé</a>
-    </nav>
-  </div>
+  <div class="max-w-4xl w-full mx-auto px-4 py-10">
+    <div class="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+      <div class="max-w-sm">
+        <p class="text-sm font-semibold text-black dark:text-white">Vandit Singh</p>
+        <p class="mt-1.5 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+          Golang engineer for distributed systems, storage, and p2p. Merged into Kubernetes, Prometheus, and Jenkins. Open to remote work.
+        </p>
+        <a href="https://cal.com/v4nd1t/30min" target="_blank" rel="noopener noreferrer"
+           class="press mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-black dark:text-white underline decoration-gray-300 dark:decoration-neutral-600 underline-offset-2 hover:decoration-current transition-colors">
+          Book a call <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
 
-  <!-- Interactive cat easter egg (shared partial). Sleeps by default; wakes and
-       watches the cursor, and reacts on hover. Wired up by micro.js. -->
-  <div class="cat cat--footer is-sleeping" title="hi :)">{{ template "catInner" . }}</div>
+      <nav aria-label="Footer" class="grid grid-cols-2 gap-x-10 gap-y-2 text-sm text-gray-600 dark:text-gray-400">
+        <a href="/projects" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Projects</a>
+        <a href="https://github.com/Vandit1604" target="_blank" rel="noopener noreferrer" class="press w-fit hover:text-black dark:hover:text-white transition-colors">GitHub</a>
+        <a href="/blogs" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Blogs</a>
+        <a href="https://x.com/v4nd1t" target="_blank" rel="noopener noreferrer" class="press w-fit hover:text-black dark:hover:text-white transition-colors">X</a>
+        <a href="/talks" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Talks</a>
+        <a href="https://www.linkedin.com/in/vandit-singh/" target="_blank" rel="noopener noreferrer" class="press w-fit hover:text-black dark:hover:text-white transition-colors">LinkedIn</a>
+        <a href="/gallery" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Gallery</a>
+        <a href="/resume" target="_blank" rel="noopener noreferrer" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Résumé <span aria-hidden="true">&#8599;</span></a>
+      </nav>
+    </div>
+
+    <div class="mt-9 flex flex-col-reverse items-start gap-2 border-t border-gray-200 pt-5 dark:border-neutral-800 sm:flex-row sm:items-center sm:justify-between">
+      <p class="coord text-gray-500 dark:text-gray-500">
+        &copy; <span id="footer-year">2026</span> &middot; VANDIT SINGH
+      </p>
+      <p class="coord text-gray-500 dark:text-gray-500">Built with Go &amp; Tailwind</p>
+    </div>
+  </div>
 </footer>
 <!-- close .site-frame opened in header.html -->
 </div>
@@ -26,6 +43,7 @@
 </script>
 <script src="/static/js/cmdk.js" defer></script>
 <script src="/static/js/micro.js" defer></script>
+<script src="/static/js/dither.js" defer></script>
 </body>
 
 </html>

@@ -4,7 +4,7 @@ date: "2024-09-19"
 tags: ["tech"]  
 ---
 
-> **Disclaimer:** Contributing to open source requires patience—lots of it. If you lack the time or willingness to persevere, open source may not be the right choice for you. Instead, consider building impactful projects that demonstrate your skills. The goal is to showcase proof of work, especially if you're pursuing a job.
+> **Disclaimer:** Contributing to open source requires patience, lots of it. If you lack the time or willingness to persevere, open source may not be the right choice for you. Instead, consider building impactful projects that demonstrate your skills. The goal is to showcase proof of work, especially if you're pursuing a job.
 
 Getting started with open-source projects can feel overwhelming, but with the right approach, it becomes manageable. Here’s a straightforward guide to help you contribute effectively:
 
@@ -27,7 +27,7 @@ Getting started with open-source projects can feel overwhelming, but with the ri
 ```
 git log --pretty=format: --name-only | sort | uniq -c | sort -rg | head -10
 ```
-- Identify files that are updated most frequently; these are likely critical components of the project. This aligns with the 80/20 rule—most impactful work happens in a minority of files.
+- Identify files that are updated most frequently; these are likely critical components of the project. This aligns with the 80/20 rule: most impactful work happens in a minority of files.
 
 ## 6. **Understand the Repository Structure**
 - Gain a high-level overview of the directory structure. For example:
@@ -53,4 +53,4 @@ git log --pretty=format: --name-only | sort | uniq -c | sort -rg | head -10
 - Create and utilize your debugging hacks as needed.
 
 ## Conclusion
-Contributing to open source takes effort and time, but it’s a rewarding experience. Start with a project aligned with your skills, understand its structure and culture, and focus on delivering a meaningful first PR. Be patient, persistent, and open to learning—the process becomes easier as you grow. 🚀
+Contributing to open source takes effort and time, but it’s a rewarding experience. Start with a project aligned with your skills, understand its structure and culture, and focus on delivering a meaningful first PR. Be patient, persistent, and open to learning. The process becomes easier as you grow. 🚀

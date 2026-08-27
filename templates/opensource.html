@@ -18,14 +18,14 @@
      runtime — the numbers on a merged PR never change again, and the section
      must render with no network and no API token. Green/red are GitHub's own
      diff colours, the one place on the site where hue carries meaning. */}}
-{{ define "pr" }}<a target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1.5 font-mono text-[11px] rounded border border-gray-200 dark:border-neutral-800 px-1.5 py-0.5 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:border-gray-400 dark:hover:border-neutral-600 transition-colors"{{ end }}
+{{ define "pr" }}<a target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1.5 font-mono text-[11px]  border border-gray-200 dark:border-neutral-800 px-1.5 py-0.5 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:border-gray-400 dark:hover:border-neutral-600 transition-colors"{{ end }}
 {{ define "prIcon" }}<span class="text-[13px] text-[#1a7f37] dark:text-[#3fb950]" aria-hidden="true">{{ template "icon:pr" }}</span>{{ end }}
 {{ define "add" }}<span class="text-[#1a7f37] dark:text-[#3fb950]">{{ end }}
 {{ define "del" }}<span class="text-[#cf222e] dark:text-[#f85149]">{{ end }}
 <section data-reveal class="box">
   <h2 class="text-2xl font-bold tracking-tight mb-2">Open Source</h2>
   <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-2xl">
-    Not tutorials. Merged, reviewed code in the infrastructure the industry actually runs on, since 2022. Two years of Google Summer of Code with Jenkins: mentee in 2023, back as a mentor in 2024. Currently also contributing to a Lightning Network node. Every line below links to a real merged PR.
+    Not tutorials. Merged, reviewed code in the infrastructure the industry actually runs on, since 2022. Two years of Google Summer of Code with Jenkins: mentee in 2023, back as a mentor in 2024. Every line below links to a real merged PR.
   </p>
 
   <div class="space-y-5">
@@ -89,4 +89,6 @@
       GitHub profile &rarr;
     </a>
   </div>
+
+  {{ template "github.html" . }}
 </section>

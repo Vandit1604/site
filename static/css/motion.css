@@ -3,7 +3,7 @@
    prefers-reduced-motion.
 
    Two rules govern every call site:
-     1. Everything decelerates. Ease-out only — no bounce, no elastic, no
+     1. Everything decelerates. Ease-out only, no bounce, no elastic, no
         ease-in-out. Things arrive and settle; they never overshoot.
      2. Duration follows what's moving, not taste. Pick the step below by the
         size of the change, so a hover and a hero entrance can't drift into
@@ -32,7 +32,7 @@
    utilities at the system rather than hand-editing 40-odd call sites.
 
    This wins over Tailwind's own `duration-*`/`ease-*` utilities too: same
-   specificity, and tailwind.css loads first. That's deliberate — ad-hoc
+   specificity, and tailwind.css loads first. That's deliberate; ad-hoc
    per-element timings are the drift this system exists to remove. An element
    that genuinely needs a different step gets a named class below, not a
    utility. */
@@ -49,13 +49,13 @@
 }
 
 /* ---- Scroll reveal: REMOVED ----
-   Content is never hidden — every box paints on load, no JS gating. The
+   Content is never hidden; every box paints on load, no JS gating. The
    [data-reveal] attributes are now genuinely inert: nothing reads them, and
    the observer that used to (interactions.js) is deleted. Don't reintroduce
    one. A section that starts invisible and waits to be scrolled to is a
    section that ships blank to anything that renders without scrolling. */
 
-/* ---- Hover (cards): boxy surfaces don't float — shift fill + border
+/* ---- Hover (cards): boxy surfaces don't float, shift fill + border
         instead of lifting/shadowing (see grid.css tokens). ---- */
 .lift {
   transition:
@@ -89,7 +89,7 @@
 
 /* ---- Hero entrance: the single orchestrated page-load beat. The name's
         words rise in sequence, then the mono role-line + caret take over.
-        Progressive enhancement — micro.js adds .hero-anim only when motion is
+        Progressive enhancement: micro.js adds .hero-anim only when motion is
         allowed; without it the hero is fully visible and static. ---- */
 .hero-anim .hero-word {
   display: inline-block;
@@ -102,6 +102,86 @@
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ---- Hero liquid morph: the headline melts between the greeting (नमस्ते) and
+        the name, on a loop. The two words stack, each gets a JS-driven blur, and
+        the container's #morph-threshold filter re-sharpens their combined alpha
+        so letters fuse and split like liquid (not a cross-fade). micro.js drives
+        the blur/opacity; under reduced motion it holds "I'm Vandit" static. ---- */
+.morph {
+  display: inline-grid;
+  filter: url(#morph-threshold);
+}
+/* Both words share one centred grid cell so the morph reads as one liquid word. */
+.morph__t {
+  grid-area: 1 / 1;
+  justify-self: center;
+  white-space: nowrap;
+}
+.morph__t[data-morph2] {
+  opacity: 0;
+}
+
+/* ---- Lanyard hero: the ID card hangs from a strap and swings gently like a
+        pendulum (pivot at the top of the strap). Scrolling lifts the whole
+        lanyard up and fades it, revealing the portfolio beneath. The swing lives
+        on .lanyard; the scroll lift on its parent .lanyard-lift, so the two
+        transforms never fight. ---- */
+@media (prefers-reduced-motion: no-preference) {
+  /* Opening animation: the lanyard drops in from above and settles once, then
+     hangs still (no perpetual swing). */
+  .lanyard {
+    transform-origin: top center;
+    animation: lanyard-drop 1200ms var(--ease-out-expo) both;
+  }
+  @keyframes lanyard-drop {
+    0% { transform: translateY(-115%) rotate(-7deg); opacity: 0; }
+    55% { opacity: 1; }
+    78% { transform: translateY(0) rotate(2.5deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+  }
+  @supports (animation-timeline: scroll()) {
+    .lanyard-lift {
+      animation: lanyard-lift linear both;
+      animation-timeline: scroll(nearest);
+      animation-range: 0 62vh;
+    }
+    @keyframes lanyard-lift {
+      to {
+        transform: translateY(-44vh);
+        opacity: 0;
+      }
+    }
+  }
+}
+
+/* ---- Scroll rhythm: each section rises a touch as it enters the viewport.
+        Progressive enhancement only: guarded by @supports so browsers without
+        scroll-driven animation show everything in place, and it never fades
+        from zero, so content is always legible even if the animation never
+        runs. The hero (first box) paints immediately. ---- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .app-scroll .box {
+      animation: box-rise linear both;
+      animation-timeline: view();
+      animation-range: cover 2% cover 20%;
+    }
+    .app-scroll .box:first-child {
+      animation: none;
+    }
+    @keyframes box-rise {
+      from {
+        opacity: 0.6;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
   }
 }
 
@@ -137,7 +217,7 @@
    ============================================================ */
 
 /* ---- Navigation: cross-document transitions. This is a server-rendered
-        multi-page site, so every nav click is a full document load — roughly a
+        multi-page site, so every nav click is a full document load, roughly a
         second of frozen page and then a hard swap. Opting in hands that gap to
         the browser, which crossfades the old paint into the new one. No JS, no
         bytes, and nothing added to first paint. Browsers without the feature
@@ -210,6 +290,15 @@
     transform: none;
     animation: none;
   }
+  .morph {
+    filter: none;
+  }
+  .morph__t[data-morph1] {
+    display: none;
+  }
+  .morph__t[data-morph2] {
+    opacity: 1;
+  }
   .type-caret {
     animation: none;
     opacity: 1;
@@ -218,8 +307,8 @@
 
 /* ---- Project card diagrams ------------------------------------------
    One motion beat per card, and only on hover. The dashed paths in these
-   drawings represent something in transit — a block being fetched, an address
-   moving through a rule — so they march; everything else that moves is the
+   drawings represent something in transit, a block being fetched, an address
+   moving through a rule, so they march; everything else that moves is the
    single element the diagram is actually about. Nothing animates at rest,
    which is what keeps a grid of eight of them calm. */
 .art-pulse {

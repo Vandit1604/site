@@ -27,7 +27,7 @@ Choose one of the "big three" languages:
 
 ## 2. Practice and Implementation
 
-- **Build Something:** Apply what you've learned. Even if it’s as simple as a program that takes input and prints output in the terminal—**building something** is crucial.
+- **Build Something:** Apply what you've learned. Even if it’s as simple as a program that takes input and prints output in the terminal. **Building something** is crucial.
 
 **Exercise**: 
 
@@ -93,7 +93,7 @@ Role based roadmaps on https://roadmap.sh/ translate to job role. You can defini
 YouTube is your best friend. Don’t waste money on paid courses, especially in your first year or beginner phase.
 
 ### Warning:
-Avoid most Indian creators—some love to gaslight and push paid courses. While there are a few good ones, **no course will truly be beneficial for you in the first year**. You need to focus on hands-on learning.
+Avoid most Indian creators; some love to gaslight and push paid courses. While there are a few good ones, **no course will truly be beneficial for you in the first year**. You need to focus on hands-on learning.
 
 ## 5. Explore Domains That Translate to Job Roles
 

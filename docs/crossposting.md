@@ -2,7 +2,7 @@
 
 Every new blog post gets cross-posted to [dev.to](https://dev.to) with the
 canonical URL pointing back to vandit.dev, so the original keeps all SEO credit
-and there's no duplicate-content penalty. dev.to is the only target — Hashnode
+and there's no duplicate-content penalty. dev.to is the only target. Hashnode
 was dropped because its API now requires a paid Pro plan.
 
 The tool is `scripts/crosspost.go`.
@@ -36,7 +36,7 @@ enforces this: with no action flag it only previews and sends nothing.
 |------|--------|
 | `-slug <slug>` | which `content/blogs/<slug>.md` to post |
 | `-tags a,b,c,d` | up to 4 dev.to tags (falls back to the post's front-matter tags) |
-| _(none)_ | **preview only** — prints title/tags/canonical/cover, sends nothing |
+| _(none)_ | **preview only**: prints title/tags/canonical/cover, sends nothing |
 | `-draft` | create a dev.to draft (not public) |
 | `-publish` | publish live |
 | `-list` | list publishable slugs (drafts excluded) |
@@ -57,5 +57,5 @@ Extensions → DEV Community API Keys.
 ## The existing 17 posts
 
 The first 17 posts were scheduled on dev.to manually (weekly, from 2026-07-21).
-**Do not** run this tool on those — it would create duplicates. This is for new
+**Do not** run this tool on those; it would create duplicates. This is for new
 posts going forward.

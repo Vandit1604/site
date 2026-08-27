@@ -1,0 +1,54 @@
+<!-- About: the first real section, revealed once the intro card lifts away.
+     Carries the portrait and the full introduction. -->
+<section data-reveal class="box">
+  <div class="grid gap-6 md:grid-cols-[1fr_auto] md:items-start md:gap-10">
+    <div>
+      <h2 class="text-2xl font-bold tracking-tight mb-4">About</h2>
+
+      <div class="max-w-2xl space-y-4">
+        <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+          I&rsquo;m a Golang engineer building distributed systems, storage, and
+          p2p (libp2p), with the observability to run them in production. Member
+          of Technical Staff at FluidCloud, where I write cloud scanners in Go,
+          build service-to-service auth with Keycloak, and provision infra with
+          Terraform across Oracle Cloud, AWS, and Azure.
+        </p>
+
+        <p class="text-base leading-relaxed text-gray-600 dark:text-gray-400">
+          My code is merged into Kubernetes, Prometheus, and Jenkins. Two years of
+          Google Summer of Code with Jenkins: mentee in 2023, mentor in 2024.
+          Earlier, at RapidFort, I hardened OSS container images shipped to the
+          U.S. DoD and cut their CVEs by roughly 80%.
+        </p>
+
+        <p class="text-base leading-relaxed text-gray-600 dark:text-gray-400">
+          Right now I&rsquo;m contributing to a Lightning Network node and
+          exploring web3 infra. Open to remote work.
+        </p>
+      </div>
+    </div>
+
+    <div class="relative inline-block justify-self-start md:justify-self-end">
+      <img
+        src="../assets/images/vandit-singh.png"
+        alt="Vandit Singh"
+        width="144" height="144"
+        class="soft-media h-28 w-28 sm:h-36 sm:w-36 object-cover border border-gray-200 dark:border-neutral-800"
+      />
+      <div class="cat cat--hero is-sleeping" title="hi :)">{{ template "catInner" . }}</div>
+    </div>
+  </div>
+
+  <!-- Core stack, as logos. -->
+  <div class="pt-7">
+    <p class="coord uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-2.5">Core stack</p>
+    <div class="flex flex-wrap gap-2">
+      <span class="tech"><span aria-hidden="true">{{ template "icon:go" }}</span>Go</span>
+      <span class="tech"><span aria-hidden="true">{{ template "icon:terraform" }}</span>Terraform</span>
+      <span class="tech"><span aria-hidden="true">{{ template "icon:keycloak" }}</span>Keycloak</span>
+      <span class="tech"><span aria-hidden="true">{{ template "icon:kubernetes" }}</span>Kubernetes</span>
+      <span class="tech"><span aria-hidden="true">{{ template "icon:prometheus" }}</span>Prometheus</span>
+      <span class="tech"><span aria-hidden="true">{{ template "icon:opentelemetry" }}</span>OpenTelemetry</span>
+    </div>
+  </div>
+</section>
