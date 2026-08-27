@@ -1,4 +1,4 @@
-/* gallery-trail.js — cursor image-trail with synchronized ambient piano.
+/* gallery-trail.js: cursor image-trail with synchronized ambient piano.
  *
  * On pointer-capable devices (and when motion is allowed), photos spawn along
  * the cursor's path and fade out, each triggering a soft pentatonic piano note
@@ -40,7 +40,7 @@
   // The stage is already visible via CSS; only the JS-dependent chrome is
   // revealed here, so it stays hidden if this script never runs.
   if (toggle) toggle.hidden = false;
-  if (hint) hint.textContent = "Click and hold, then drag — your photos trail the cursor and the piano plays.";
+  if (hint) hint.textContent = "Click and hold, then drag. Your photos trail the cursor and the piano plays.";
   stage.style.cursor = "grab";
 
   // Shuffle (Fisher–Yates) so the trail order differs every visit.
@@ -103,7 +103,7 @@
     img.style.transformOrigin = "center center";
     stage.appendChild(img);
 
-    // No rotation — keep each photo's natural orientation. Quick fade-in,
+    // No rotation, keep each photo's natural orientation. Quick fade-in,
     // long hold at full opacity, gentle fade-out only at the very end.
     var base = "translate(-50%, -50%)";
     var anim = img.animate(
@@ -123,7 +123,7 @@
   }
 
   // Photos (and piano notes) only appear while the pointer is held down, so
-  // the visitor actively "paints" the trail — which also gives the gesture
+  // the visitor actively "paints" the trail, which also gives the gesture
   // the browser needs to start audio.
   var pressed = false;
 
@@ -182,14 +182,14 @@
 
   // Pentatonic: there are no wrong notes, so any order of these is consonant.
   // Four keys rather than one, because the relative minor of a pentatonic is
-  // the same five pitches — only a genuine transposition changes the colour.
+  // the same five pitches; only a genuine transposition changes the colour.
   // Every note sits at C4 or above: the lowest Salamander sample is C4, and
   // anything under it gets pitch-shifted down into mud.
   var SCALES = [
-    ["C4", "D4", "E4", "G4", "A4", "C5", "D5", "E5", "G5", "A5"], // C — open, bright
-    ["D4", "E4", "F#4", "A4", "B4", "D5", "E5", "F#5", "A5", "B5"], // D — airy
-    ["F4", "G4", "A4", "C5", "D5", "F5", "G5", "A5"], // F — warm
-    ["G4", "A4", "B4", "D5", "E5", "G5", "A5", "B5"], // G — folk
+    ["C4", "D4", "E4", "G4", "A4", "C5", "D5", "E5", "G5", "A5"], // C: open, bright
+    ["D4", "E4", "F#4", "A4", "B4", "D5", "E5", "F#5", "A5", "B5"], // D: airy
+    ["F4", "G4", "A4", "C5", "D5", "F5", "G5", "A5"], // F: warm
+    ["G4", "A4", "B4", "D5", "E5", "G5", "A5", "B5"], // G: folk
   ];
   var scale = SCALES[Math.floor(Math.random() * SCALES.length)];
   var noteIndex = Math.floor(Math.random() * scale.length);
@@ -197,8 +197,8 @@
 
   // The melody used to be `scale[i++]`: a strict ascending run that hit the top
   // and snapped back down an octave, identical on every drag. That's a scale
-  // exercise, not a tune. Walk it instead — mostly neighbours with the odd
-  // leap, which is roughly how a melody actually moves — and reflect off the
+  // exercise, not a tune. Walk it instead, mostly neighbours with the odd
+  // leap, which is roughly how a melody actually moves, and reflect off the
   // ends rather than wrapping, since the wrap was the octave snap.
   function nextNote() {
     var r = Math.random();

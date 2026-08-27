@@ -1,119 +1,18 @@
-<!-- Connect section: a booking calendar and nothing else. The contact bento
-     that used to sit beside it repeated the four cards in the connect band at
-     the top of the page verbatim — same links, same sub-labels — so the page
-     asked twice and answered nothing new. The panel is narrower than the full
-     column because a month grid does not need the width, and a stretched one
-     just reads as an iframe someone forgot to size. -->
-<section data-reveal class="box" aria-labelledby="connect-heading">
-  <h2 id="connect-heading" class="text-2xl font-bold tracking-tight mb-2">Let's connect</h2>
+<!-- Booking: a direct link to Cal.com, no embedded widget. -->
+<section id="book" class="box" aria-labelledby="connect-heading" style="scroll-margin-top:5rem">
+  <h2 id="connect-heading" class="text-2xl font-bold tracking-tight mb-2">Let&rsquo;s connect</h2>
   <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-xl">
-    Grab a 30-minute slot — distributed systems, infrastructure, open source,
+    Grab a 30-minute slot for distributed systems, infrastructure, open source,
     or just to say hi.
   </p>
-
-  <div class="max-w-2xl">
-    <div
-      class="relative overflow-hidden border border-gray-200 dark:border-neutral-800"
-    >
-      <!-- Shown until the Cal.com embed mounts, and stays if it never loads,
-           so this panel is never just an empty box. -->
-      <div
-        id="cal-fallback"
-        class="absolute inset-0 z-0 flex flex-col items-center justify-center gap-3 p-6 text-center"
-      >
-        <svg class="h-6 w-6 animate-spin text-gray-400 motion-reduce:animate-none" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" />
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v3a5 5 0 00-5 5H4z" />
-        </svg>
-        <p class="text-sm text-gray-600 dark:text-gray-400">Loading the booking calendar…</p>
-        <a
-          href="https://cal.com/v4nd1t/30min"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sm font-medium text-gray-900 dark:text-gray-100 underline underline-offset-4 hover:opacity-80"
-        >
-          Or book directly on Cal.com →
-        </a>
-      </div>
-      <div
-        style="width:100%;height:480px;overflow:auto"
-        id="my-cal-inline-30min"
-        class="relative z-10"
-      ></div>
-    </div>
-
+  <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
+    <a href="https://cal.com/v4nd1t/30min" target="_blank" rel="noopener noreferrer"
+       class="press inline-flex items-center gap-2 bg-gray-900 dark:bg-white text-white dark:text-black px-5 py-2.5 text-sm font-semibold transition-transform active:scale-[.98]">
+      Book a call with me <span aria-hidden="true">&#8599;</span>
+    </a>
+    <a href="mailto:vanditsinghkv@gmail.com"
+       class="press text-sm font-medium text-gray-600 dark:text-gray-400 underline decoration-gray-300 dark:decoration-neutral-600 underline-offset-2 hover:text-black dark:hover:text-white transition-colors">
+      Or email me
+    </a>
   </div>
 </section>
-
-<script type="text/javascript">
-  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-  Cal("init", "30min", { origin: "https://app.cal.com" });
-
-  // Read the site's current theme from the `dark` class on <html> (set on boot
-  // in header.html, flipped by the nav toggle).
-  function siteTheme() {
-    return document.documentElement.classList.contains("dark") ? "dark" : "light";
-  }
-
-  function applyCalTheme() {
-    Cal.ns["30min"]("ui", {
-      hideEventTypeDetails: false,
-      layout: "month_view",
-      theme: siteTheme(),
-    });
-    retintMountedEmbed();
-  }
-
-  // The ui() call above only takes effect before the embed mounts: once the
-  // iframe exists, neither ui() nor a postMessage re-themes it, so toggling the
-  // site left a dark calendar sitting in a light page. The theme is baked into
-  // the iframe's query string, so the only thing that actually works is
-  // rewriting that param, which reloads the embed. Guarded on an actual change
-  // so we never reload for an unrelated class mutation on <html>.
-  function retintMountedEmbed() {
-    var frame = document.querySelector("#my-cal-inline-30min iframe");
-    if (!frame || !frame.src) return;
-    var url;
-    try {
-      url = new URL(frame.src);
-    } catch (e) {
-      return;
-    }
-    if (url.searchParams.get("theme") === siteTheme()) return;
-    url.searchParams.set("theme", siteTheme());
-    frame.src = url.toString();
-  }
-
-  Cal.ns["30min"]("inline", {
-    elementOrSelector: "#my-cal-inline-30min",
-    config: {
-      layout: "month_view",
-      useSlotsViewOnSmallScreen: "true",
-      theme: siteTheme(),
-    },
-    calLink: "v4nd1t/30min",
-  });
-
-  applyCalTheme();
-
-  // Hide the loading fallback once Cal injects its iframe; if it never loads,
-  // the fallback (with a direct booking link) stays visible.
-  (function () {
-    var target = document.getElementById("my-cal-inline-30min");
-    var fb = document.getElementById("cal-fallback");
-    if (!target || !fb) return;
-    var mo = new MutationObserver(function () {
-      if (target.children.length) {
-        fb.style.display = "none";
-        mo.disconnect();
-      }
-    });
-    mo.observe(target, { childList: true });
-  })();
-
-  // Re-theme the embed when the user toggles light/dark after load.
-  new MutationObserver(applyCalTheme).observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ["class"],
-  });
-</script>

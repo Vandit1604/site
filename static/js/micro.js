@@ -24,7 +24,7 @@
         targets.forEach(function (el) { countUp(el, n); });
       })
       .catch(function () {
-        targets.forEach(function (el) { el.textContent = "—"; });
+        targets.forEach(function (el) { el.textContent = "|"; });
       });
   })();
 
@@ -44,21 +44,97 @@
     requestAnimationFrame(frame);
   }
 
-  /* ---- Hero name word-stagger --------------------------------------- */
-  (function heroName() {
-    var h = document.querySelector("[data-hero-name]");
-    if (!h || reduce) return;
-    var words = h.textContent.trim().split(/\s+/);
-    h.textContent = "";
-    h.classList.add("hero-anim");
-    words.forEach(function (w, i) {
-      var span = document.createElement("span");
-      span.className = "hero-word";
-      span.style.setProperty("--i", i);
-      span.textContent = w;
-      h.appendChild(span);
-      if (i < words.length - 1) h.appendChild(document.createTextNode(" "));
+  /* ---- One-time intro cover ----------------------------------------------
+     The hero is a fixed cover shown on load. The first scroll intent lifts it
+     away and lets the site rise into place and stick; the cover is then removed,
+     so only a reload shows it again. */
+  (function intro() {
+    var cover = document.querySelector(".hero-stage");
+    if (!cover) return;
+    if (!document.body.classList.contains("intro-active"))
+      document.body.classList.add("intro-active");
+    var done = false;
+    function dismiss() {
+      if (done) return;
+      done = true;
+      document.body.classList.remove("intro-active");
+      document.body.classList.add("intro-dismissed");
+      var hide = function () { cover.style.display = "none"; };
+      cover.addEventListener("transitionend", hide, { once: true });
+      setTimeout(hide, 1100); // fallback (reduced motion has no transition)
+    }
+    window.addEventListener("wheel", dismiss, { passive: true });
+    window.addEventListener("touchmove", dismiss, { passive: true });
+    window.addEventListener("keydown", function (e) {
+      if (/^(Arrow|Page|End|Home| |Spacebar)/.test(e.key)) dismiss();
     });
+    var hint = cover.querySelector(".hero-scroll-hint");
+    if (hint) {
+      hint.style.cursor = "pointer";
+      hint.style.pointerEvents = "auto";
+      hint.addEventListener("click", dismiss);
+    }
+  })();
+
+  /* ---- Hero liquid morph -------------------------------------------------
+     Two stacked words, each blurred by a fraction; the container's SVG
+     threshold filter (#morph-threshold) re-sharpens their combined alpha so the
+     letters melt and merge like liquid. Blur/opacity curves from Robin Payot's
+     gooey morph. Reduced motion: the CSS holds "I'm Vandit" and this is a
+     no-op. */
+  (function heroMorph() {
+    var t1 = document.querySelector("[data-morph1]");
+    var t2 = document.querySelector("[data-morph2]");
+    if (!t1 || !t2 || reduce) return;
+
+    var texts = ["नमस्ते", "I’m Vandit"];
+    var morphTime = 0.9;    // seconds spent melting between two words
+    var cooldownTime = 1.9; // seconds a word rests, fully readable
+
+    var textIndex = texts.length - 1;
+    var morph = 0;
+    var cooldown = cooldownTime;
+    var time = new Date();
+
+    t1.textContent = texts[textIndex % texts.length];
+    t2.textContent = texts[(textIndex + 1) % texts.length];
+
+    function setMorph(fraction) {
+      t2.style.filter = "blur(" + Math.min(8 / fraction - 8, 100) + "px)";
+      t2.style.opacity = Math.pow(fraction, 0.4) * 100 + "%";
+      var inv = 1 - fraction;
+      t1.style.filter = "blur(" + Math.min(8 / inv - 8, 100) + "px)";
+      t1.style.opacity = Math.pow(inv, 0.4) * 100 + "%";
+      t1.textContent = texts[textIndex % texts.length];
+      t2.textContent = texts[(textIndex + 1) % texts.length];
+    }
+    function doMorph() {
+      morph -= cooldown;
+      cooldown = 0;
+      var fraction = morph / morphTime;
+      if (fraction > 1) { cooldown = cooldownTime; fraction = 1; }
+      setMorph(fraction);
+    }
+    function doCooldown() {
+      morph = 0;
+      t2.style.filter = ""; t2.style.opacity = "100%";
+      t1.style.filter = ""; t1.style.opacity = "0%";
+    }
+    function animate() {
+      requestAnimationFrame(animate);
+      var newTime = new Date();
+      var shouldIncrement = cooldown > 0;
+      var dt = (newTime - time) / 1000;
+      time = newTime;
+      cooldown -= dt;
+      if (cooldown <= 0) {
+        if (shouldIncrement) textIndex++;
+        doMorph();
+      } else {
+        doCooldown();
+      }
+    }
+    animate();
   })();
 
   /* ---- Typewriter role line ----------------------------------------- */

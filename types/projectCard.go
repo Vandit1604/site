@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-// Every project has exactly one destination — a live site or a repo, never
-// both — which is why the card can be a single link the way the indie cards
+// Every project has exactly one destination: a live site or a repo, never
+// both, which is why the card can be a single link the way the indie cards
 // are. PrimaryURL is empty only if a project has neither, in which case the
 // card renders as a plain block.
 func (p Project) PrimaryURL() string {

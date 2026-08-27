@@ -2,21 +2,27 @@
 
 <div class="w-full">
 
+  {{/* Proof leads: hero, then experience + open-source receipts + github,
+       then the work, then the stack, writing, and finally the ways to reach
+       out. Chrome (skills wall, now-playing) sits after the evidence. */}}
+
   {{ template "intro.html" .}}
 
-  {{ template "connect.html" .}}
+  {{/* One wrapper for the whole site so the intro-reveal animates a single
+       compositor layer (smooth), not every section at once. */}}
+  <div class="site-reveal">
 
-  {{ template "skills.html" .}}
+  {{ template "about.html" .}}
 
   {{ template "experience.html" .}}
 
   {{ template "opensource.html" .}}
 
-  {{ template "github.html" .}}
-
   {{ template "featured.html" .}}
 
   {{ template "indie.html" .}}
+
+  {{ template "skills.html" .}}
 
   <!-- Recent Blogs Section -->
   <section data-reveal class="box">
@@ -37,7 +43,7 @@
                 </h3>
                 <div class="mt-2.5 flex flex-wrap gap-1.5">
                     {{ range .Tags }}
-                    <span class="font-mono text-xs rounded-full border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">{{ . }}</span>
+                    <span class="font-mono text-xs border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">{{ . }}</span>
                     {{ end }}
                 </div>
             </a>
@@ -48,7 +54,10 @@
     </div>
   </section>
 
-  {{ template "cal.html" .}}
+  {{ template "connect.html" .}}
+
+  </div>{{/* .site-reveal */}}
+
 </div>
 
 {{ template "footer.html" .}}

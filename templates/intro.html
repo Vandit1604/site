@@ -1,69 +1,99 @@
-<!-- intro / hero section.
-     Mobile is a two-column grid so the portrait shares its row with the
-     greeting and name instead of sitting alone against a dead half-row, which
-     is what flex-col-reverse used to produce. The prose drops to a full-width
-     row beneath. From md the same three blocks resolve to the original shape:
-     identity over prose in column one, portrait spanning both rows in column
-     two and optically centred against them. -->
-<section data-reveal class="box grid grid-cols-[auto_1fr] items-start md:items-center gap-x-5 gap-y-6 sm:gap-x-9 md:grid-cols-[1fr_auto] md:gap-x-8">
-  <div class="col-start-2 row-start-1 md:col-start-1 md:row-start-1">
-    <span class="inline-flex items-center border border-gray-200 dark:border-neutral-800 px-3 py-1 text-sm font-semibold text-gray-900 dark:text-gray-100 mb-5">
-      नमस्ते
-    </span>
-    <h1 data-hero-name class="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-white">
-      Hi, I'm Vandit
-    </h1>
-
-    <!-- Signature motion beat: a mono role-line that types through what I build.
-         The first phrase is the static, no-JS fallback; micro.js cycles it. -->
-    <p class="mt-3 font-mono text-sm text-gray-500 dark:text-gray-400" aria-label="Building distributed systems, storage and p2p, observability, and open source.">
-      <span class="text-gray-400 dark:text-gray-600" aria-hidden="true">&gt;&nbsp;</span><span data-typewriter>building distributed systems</span><span class="type-caret" aria-hidden="true"></span>
-    </p>
+<!-- Hero: a detailed identification card hanging from a lanyard, over an animated
+     dithered background. It drops in once on load (opening animation), then hangs
+     still. Scrolling lifts the whole lanyard away to reveal the portfolio. The
+     bio prose lives in the About section below. -->
+<section class="hero-stage">
+  <!-- Arm the one-time intro cover before the content below paints (no flash). -->
+  <script>document.body.classList.add("intro-active");</script>
+  <div class="hero-chrome hero-chrome--top" aria-hidden="true">
+    <span>loading / vandit singh &mdash; portfolio</span>
+    <span>version 001</span>
   </div>
 
-  <div class="col-span-2 row-start-2 md:col-span-1 md:col-start-1 md:row-start-2">
-    <p class="text-lg leading-relaxed text-gray-600 dark:text-gray-400 max-w-2xl">
-      I build distributed systems, storage, and p2p (libp2p) in Go, plus the
-      observability to run them in production. Member of Technical Staff at
-      FluidCloud. My code is merged into Kubernetes, Prometheus, and Jenkins.
-    </p>
+  <div class="lanyard-lift">
+    <div class="lanyard">
+      <div class="lanyard__strap" aria-hidden="true"><span class="lanyard__clip"></span></div>
 
-    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 max-w-2xl">
-      Before FluidCloud: hardened OSS container images at RapidFort, shipped to the U.S. DoD. Jenkins GSoC: mentee&nbsp;'23, mentor&nbsp;'24.
-    </p>
+      <div class="idcard">
+        <!-- Passport-style seal, for character. -->
+        <svg class="idcard__seal" viewBox="0 0 100 100" aria-hidden="true">
+          <defs><path id="sealArc" d="M50,50 m-33,0 a33,33 0 1,1 66,0 a33,33 0 1,1 -66,0"/></defs>
+          <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="50" cy="50" r="33" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3"/>
+          <text font-family="Geist Mono, monospace" font-size="8.4" letter-spacing="1.5" fill="currentColor">
+            <textPath href="#sealArc" startOffset="0">· OPEN SOURCE · SINCE 2022 · MERGED &amp; SHIPPED </textPath>
+          </text>
+          <text x="50" y="45" text-anchor="middle" font-family="Geist Mono, monospace" font-weight="700" font-size="15" fill="currentColor">VS</text>
+          <text x="50" y="60" text-anchor="middle" font-family="Geist Mono, monospace" font-size="7" letter-spacing="1" fill="currentColor">GOLANG</text>
+        </svg>
 
-    <p class="mt-5 inline-flex items-start gap-2 border border-gray-200 dark:border-neutral-800 px-3 py-2 text-sm text-gray-600 dark:text-gray-400 max-w-2xl">
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-        class="mt-0.5 flex-shrink-0 text-gray-900 dark:text-gray-100"
-        aria-hidden="true"
-      >
-        <path
-          d="M9 21.5L17.5 13L13 10L15 2.5L6.5 11L11 14L9 21.5Z"
-          fill="currentColor"
-        />
-      </svg>
-      <span>Currently contributing to a Lightning Network node, exploring web3 infra</span>
-    </p>
-  </div>
+        <div class="idcard__grid">
+          <div class="idcard__photo-wrap">
+            <span class="idcard__serial" aria-hidden="true">1314&nbsp;5225&nbsp;2818&nbsp;1144&nbsp;154</span>
+            <img class="idcard__photo" src="../assets/images/vandit-singh.png" alt="Vandit Singh" width="144" height="144" />
+          </div>
 
-  <div class="col-start-1 row-start-1 flex flex-col items-start gap-3 md:col-start-2 md:row-span-2 md:row-start-1 md:items-end">
-    <!-- Total page views, sitting in the content (moved out of the nav). -->
-    <span class="site-views coord inline-flex items-center gap-1.5 text-gray-500 dark:text-gray-500 tabular-nums" title="Total page views" aria-label="Total page views">
-      <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="2.6"/></svg>
-      <span data-views aria-hidden="true">·</span>
-    </span>
-    <div class="relative inline-block">
-      <img
-        src="../assets/images/vandit-singh.png"
-        alt="Vandit Singh"
-        width="144" height="144" class="soft-media h-24 w-24 sm:h-32 sm:w-32 md:h-44 md:w-44 object-cover border border-gray-200 dark:border-neutral-800"
-      />
-      <!-- A cat perched at the corner of the photo (shared partial). -->
-      <div class="cat cat--hero is-sleeping" title="hi :)">{{ template "catInner" . }}</div>
+          <div class="idcard__body">
+            <p class="idcard__title">&ldquo;IDENTIFICATION&nbsp;CARD&rdquo;</p>
+
+            <div class="idcard__fields">
+              <div><span>[name]</span> Vandit Singh</div>
+              <div><span>[role]</span> Golang Engineer</div>
+              <div><span>[status]</span> MTS @ FluidCloud</div>
+              <div><span>[location]</span> India &middot; remote</div>
+            </div>
+
+            <div class="idcard__rule"></div>
+
+            <p class="idcard__section-label">[what i build]</p>
+            <div class="idcard__cols">
+              <ul>
+                <li>distributed systems</li>
+                <li>storage &amp; p2p (libp2p)</li>
+                <li>observability</li>
+              </ul>
+              <ul>
+                <li>cloud scanners in Go</li>
+                <li>service-to-service auth</li>
+                <li>infrastructure as code</li>
+              </ul>
+            </div>
+
+            <div class="idcard__rule"></div>
+
+            <div class="idcard__fields">
+              <div><span>[email]</span> vanditsinghkv@gmail.com</div>
+              <div><span>[github]</span> @Vandit1604</div>
+              <div><span>[x]</span> @v4nd1t</div>
+              <div><span>[website]</span> vandit.dev</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="idcard__sign">
+          <span class="idcard__sign-label">Signature:</span>
+          <span class="idcard__sign-mark">Vandit Singh</span>
+        </div>
+
+        <div class="idcard__foot">
+          <div class="idcard__barcode" aria-hidden="true"></div>
+          <div class="idcard__dates">
+            <span>[issue]<br>08/2025</span>
+            <span>[expires]<br>08/2125</span>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div class="hero-chrome hero-chrome--bottom" aria-hidden="true">
+    <span>golang &middot; distributed systems &middot; open source</span>
+    <span>@v4nd1t</span>
+    <span>2023&ndash;2024&ndash;2025</span>
+  </div>
+
+  <div class="hero-scroll-hint coord" aria-hidden="true">
+    scroll
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></svg>
   </div>
 </section>

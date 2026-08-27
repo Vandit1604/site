@@ -1,103 +1,91 @@
-<!-- skills / stack section. Every chip carries a mark: brand logos for products,
-     and concept glyphs (see icons.html) for the entries that are practices or
-     protocols rather than products, so no chip sits bare next to a marked one.
-     All are inlined SVG, so there is no CDN request and no icon-font FOUT. -->
-{{ define "chip" }}<span class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">{{ end }}
+<!-- skills / stack section, laid out as a spec-sheet: each category is a row
+     with its label on the left and rounded logo+name pills on the right. Every
+     mark is inlined SVG (see icons.html), so no CDN request and no icon-font
+     FOUT. -->
+{{ define "tech" }}<span class="tech">{{ end }}
 <section data-reveal class="box">
   <h2 class="text-2xl font-bold tracking-tight mb-6">Stack &amp; Tooling</h2>
 
-  <div class="space-y-6">
+  <div>
     <!-- DevOps & Infrastructure -->
-    <div>
-      <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-3">
-        DevOps &amp; Infrastructure
-      </h3>
-      <div class="flex flex-wrap gap-2">
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:docker" }}</span>Docker</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:kubernetes" }}</span>Kubernetes</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:terraform" }}</span>Terraform</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:helm" }}</span>Helm</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:jenkins" }}</span>Jenkins</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:gitlab" }}</span>GitLab CI</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:linux" }}</span>Linux</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:nginx" }}</span>Nginx</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:aws" }}</span>AWS</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:azure" }}</span>Azure</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:oracle" }}</span>Oracle Cloud</span>
+    <div class="stack-row">
+      <h3 class="stack-cat">DevOps &amp; Infrastructure</h3>
+      <div class="stack-chips">
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:docker" }}</span>Docker</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:kubernetes" }}</span>Kubernetes</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:terraform" }}</span>Terraform</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:helm" }}</span>Helm</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:jenkins" }}</span>Jenkins</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:gitlab" }}</span>GitLab CI</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:linux" }}</span>Linux</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:nginx" }}</span>Nginx</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:aws" }}</span>AWS</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:azure" }}</span>Azure</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:oracle" }}</span>Oracle Cloud</span>
       </div>
     </div>
 
     <!-- Security & Auth -->
-    <div>
-      <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-3">
-        Security &amp; Auth
-      </h3>
-      <div class="flex flex-wrap gap-2">
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:shield" }}</span>Container Security</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:layers" }}</span>Image Hardening</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:openid" }}</span>OAuth2 / OIDC</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:keycloak" }}</span>Keycloak</span>
+    <div class="stack-row">
+      <h3 class="stack-cat">Security &amp; Auth</h3>
+      <div class="stack-chips">
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:shield" }}</span>Container Security</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:layers" }}</span>Image Hardening</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:openid" }}</span>OAuth2 / OIDC</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:keycloak" }}</span>Keycloak</span>
       </div>
     </div>
 
     <!-- Observability -->
-    <div>
-      <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-3">
-        Observability
-      </h3>
-      <div class="flex flex-wrap gap-2">
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:prometheus" }}</span>Prometheus</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:grafana" }}</span>Grafana</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:opentelemetry" }}</span>OpenTelemetry</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:grafana" }}</span>Loki</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:prometheus" }}</span>Alertmanager</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:elasticsearch" }}</span>ELK Stack</span>
+    <div class="stack-row">
+      <h3 class="stack-cat">Observability</h3>
+      <div class="stack-chips">
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:prometheus" }}</span>Prometheus</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:grafana" }}</span>Grafana</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:opentelemetry" }}</span>OpenTelemetry</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:grafana" }}</span>Loki</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:prometheus" }}</span>Alertmanager</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:elasticsearch" }}</span>ELK Stack</span>
       </div>
     </div>
 
     <!-- Distributed Systems & P2P -->
-    <div>
-      <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-3">
-        Distributed Systems &amp; P2P
-      </h3>
-      <div class="flex flex-wrap gap-2">
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:go" }}</span>go-libp2p</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:nodes" }}</span>Kademlia DHT</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:hash" }}</span>Content Addressing</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:stream" }}</span>libp2p streams</span>
+    <div class="stack-row">
+      <h3 class="stack-cat">Distributed Systems &amp; P2P</h3>
+      <div class="stack-chips">
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:go" }}</span>go-libp2p</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:nodes" }}</span>Kademlia DHT</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:hash" }}</span>Content Addressing</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:stream" }}</span>libp2p streams</span>
       </div>
     </div>
 
     <!-- Languages & Data -->
-    <div>
-      <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-3">
-        Languages &amp; Data
-      </h3>
-      <div class="flex flex-wrap gap-2">
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:go" }}</span>Golang</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:javascript" }}</span>JavaScript</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:python" }}</span>Python</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:java" }}</span>Java</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:postgresql" }}</span>PostgreSQL</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:mongodb" }}</span>MongoDB</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:mysql" }}</span>MySQL</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:redis" }}</span>Redis</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:duckdb" }}</span>DuckDB</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:git" }}</span>Git</span>
+    <div class="stack-row">
+      <h3 class="stack-cat">Languages &amp; Data</h3>
+      <div class="stack-chips">
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:go" }}</span>Golang</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:javascript" }}</span>JavaScript</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:python" }}</span>Python</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:java" }}</span>Java</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:postgresql" }}</span>PostgreSQL</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:mongodb" }}</span>MongoDB</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:mysql" }}</span>MySQL</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:redis" }}</span>Redis</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:duckdb" }}</span>DuckDB</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:git" }}</span>Git</span>
       </div>
     </div>
 
     <!-- Backend & Web -->
-    <div>
-      <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-3">
-        Backend &amp; Web
-      </h3>
-      <div class="flex flex-wrap gap-2">
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:fastapi" }}</span>FastAPI</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:braces" }}</span>REST APIs</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:react" }}</span>React</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:nextjs" }}</span>Next.js</span>
-        {{ template "chip" }}<span class="text-[15px] text-gray-400 dark:text-gray-500">{{ template "icon:graphql" }}</span>GraphQL</span>
+    <div class="stack-row">
+      <h3 class="stack-cat">Backend &amp; Web</h3>
+      <div class="stack-chips">
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:fastapi" }}</span>FastAPI</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:braces" }}</span>REST APIs</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:react" }}</span>React</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:nextjs" }}</span>Next.js</span>
+        {{ template "tech" }}<span aria-hidden="true">{{ template "icon:graphql" }}</span>GraphQL</span>
       </div>
     </div>
   </div>

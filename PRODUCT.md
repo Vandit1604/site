@@ -15,7 +15,7 @@ Most are technical and skim-read; a meaningful share are on mobile.
 ## Product Purpose
 
 A personal portfolio that establishes Vandit as a serious Go / distributed-systems
-engineer and converts a quick visit into a concrete next step — a contact, a
+engineer and converts a quick visit into a concrete next step: a contact, a
 follow, a read of the writing, or an opportunity. It showcases work (projects,
 open-source contributions), thinking (blog, talks), and personality (gallery,
 library, now-playing) without ever feeling like a marketing funnel. Success =
@@ -26,7 +26,7 @@ a credible first impression in under five seconds and an easy path to "reach out
 Precise, calm, and quietly distinctive. The voice is an engineer who values
 substance over noise: confident without bragging, warm without being casual,
 technical without costume. Three words: **precise, calm, deliberate.** The
-emotional goal is earned trust — the visitor should think "this person is the
+emotional goal is earned trust. The visitor should think "this person is the
 real thing" and "how was this built?", not "nice template".
 
 ## Anti-references
@@ -41,15 +41,15 @@ real thing" and "how was this built?", not "nice template".
 
 ## Design Principles
 
-1. **Engineering credibility through restraint** — every element earns its place;
+1. **Engineering credibility through restraint**: every element earns its place;
    the absence of decoration is itself the statement of competence.
-2. **Substance over chrome** — the work, writing, and contributions are the
+2. **Substance over chrome**: the work, writing, and contributions are the
    content; the interface gets out of their way.
-3. **One signature, not many** — a single memorable moment (the नमस्ते greeting,
+3. **One signature, not many**: a single memorable moment (the नमस्ते greeting,
    one well-orchestrated motion beat) beats scattered flourishes.
-4. **Hierarchy without color** — structure comes from type weight, size, and
+4. **Hierarchy without color**: structure comes from type weight, size, and
    spacing in a black/white/neutral system, not from accent hues.
-5. **Fast and inclusive** — instant first paint (no runtime CDNs), WCAG 2.2 AA
+5. **Fast and inclusive**: instant first paint (no runtime CDNs), WCAG 2.2 AA
    contrast, full keyboard support, and motion that fully yields to
    `prefers-reduced-motion`.
 

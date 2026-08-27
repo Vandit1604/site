@@ -13,7 +13,7 @@ import (
 
 // feedTitle and feedDesc describe the channel to readers and aggregators.
 const (
-	feedTitle = "Vandit Singh — Blog"
+	feedTitle = "Vandit Singh | Blog"
 	feedDesc  = "Deep-dives on infrastructure, distributed systems, Go, and CNCF projects."
 )
 

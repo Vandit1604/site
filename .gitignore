@@ -15,3 +15,7 @@ assets/gallery/
 # Local view-counter state: the count plus its dedupe salt and visitor set
 # (prod uses VIEWS_PATH on the /data volume)
 views.count*
+
+# Job search: resume (contact details), target lists, per-application notes.
+# This repo is public and Coolify auto-deploys it. Never commit any of it.
+jobhunt/

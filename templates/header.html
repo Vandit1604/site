@@ -14,12 +14,15 @@
       document.documentElement.classList.add("js");
       (function () {
         try {
+          // Soft-UI default is dark (the tactile look); honour an explicit
+          // light choice, otherwise start dark.
           var saved = localStorage.getItem("theme");
-          var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-          if (saved === "dark" || (!saved && prefersDark)) {
+          if (saved !== "light") {
             document.documentElement.classList.add("dark");
           }
-        } catch (e) {}
+        } catch (e) {
+          document.documentElement.classList.add("dark");
+        }
       })();
     </script>
 
@@ -136,7 +139,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Pixelify+Sans:wght@600;700&family=Great+Vibes&display=swap"
       rel="stylesheet"
     />
 
@@ -169,10 +172,10 @@
   <body
     class="app-shell font-sans bg-white text-black antialiased dark:bg-black dark:text-white"
   >
-    <!-- Binary side columns: rows of 0101… filling the gutters beside the
-         content frame (desktop only). Filled by matrix.js, sized to fit. -->
-    <div class="binary-gutter binary-gutter--left" aria-hidden="true"></div>
-    <div class="binary-gutter binary-gutter--right" aria-hidden="true"></div>
+    <!-- Animated dithered side gutters: one full-viewport WebGL canvas behind
+         the opaque content column, so the animation shows only in the margins
+         either side of the frame (desktop). dither.js drives it. -->
+    <canvas class="gutter-dither" data-dither aria-hidden="true"></canvas>
 
     <!-- App shell: a fixed top nav bar, then the scrollable content in its own
          container below it, so the nav never overlaps content. -->

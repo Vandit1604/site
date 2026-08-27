@@ -95,6 +95,13 @@
   font-size: 0.95rem;
   color: inherit;
 }
+/* The input drops its own outline, so the search row shows the focus ring
+   instead (never remove a ring without a replacement). */
+.cmdk-search:focus-within {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
 .cmdk-search input::placeholder {
   color: #6b7280;
 }
@@ -109,6 +116,7 @@
 /* ---- Results ---- */
 .cmdk-results {
   overflow-y: auto;
+  overscroll-behavior: contain; /* don't scroll-chain to the page behind */
   padding: 0.35rem;
 }
 .cmdk-group-label {
