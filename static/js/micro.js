@@ -123,6 +123,9 @@
       return [e.clientX - r.left, e.clientY - r.top];
     }
     canvas.addEventListener("pointerdown", function (e) {
+      // Re-measure at interaction time: layout is final now, so the drawing
+      // buffer matches the on-screen size and the ink lands under the cursor.
+      if (canvas.clientWidth && canvas.width !== canvas.clientWidth) size();
       drawing = true;
       last = pos(e);
       pad.classList.add("is-signed");
