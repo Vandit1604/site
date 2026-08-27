@@ -4,7 +4,11 @@
   <div class="signcard">
     <div class="signcard__top">
       <span class="signcard__label">Sign here:</span>
-      <span class="signcard__mark">Vandit Singh</span>
+      <div class="signpad" data-signpad>
+        <canvas class="signpad__canvas" data-signpad-canvas aria-label="Signature pad. Draw your signature with your pointer or finger."></canvas>
+        <span class="signpad__hint" data-signpad-hint aria-hidden="true">leave your mark</span>
+        <button type="button" class="signpad__clear" data-signpad-clear>clear</button>
+      </div>
     </div>
 
     <div class="signcard__rule"></div>

@@ -81,6 +81,81 @@
     }
   })();
 
+  /* ---- Signature pad: visitors draw their mark; kept in localStorage so it
+     persists for them across visits (per-browser, never leaves the device). */
+  (function signpad() {
+    var pad = document.querySelector("[data-signpad]");
+    if (!pad) return;
+    var canvas = pad.querySelector("[data-signpad-canvas]");
+    if (!canvas || !canvas.getContext) return;
+    var clearBtn = pad.querySelector("[data-signpad-clear]");
+    var ctx = canvas.getContext("2d");
+    var drawing = false, last = null;
+
+    function stroke() {
+      ctx.lineWidth = 2.4;
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
+      ctx.strokeStyle =
+        getComputedStyle(document.documentElement).getPropertyValue("--ink").trim() || "#ededed";
+    }
+    function restore() {
+      try {
+        var s = localStorage.getItem("guest_sign");
+        if (!s) return;
+        var img = new Image();
+        img.onload = function () {
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          pad.classList.add("is-signed");
+        };
+        img.src = s;
+      } catch (e) {}
+    }
+    function size() {
+      // Setting width/height resets the context, so re-apply the stroke + art.
+      canvas.width = canvas.clientWidth || 600;
+      canvas.height = canvas.clientHeight || 120;
+      stroke();
+      restore();
+    }
+    function pos(e) {
+      var r = canvas.getBoundingClientRect();
+      return [e.clientX - r.left, e.clientY - r.top];
+    }
+    canvas.addEventListener("pointerdown", function (e) {
+      drawing = true;
+      last = pos(e);
+      pad.classList.add("is-signed");
+      try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+      e.preventDefault();
+    });
+    canvas.addEventListener("pointermove", function (e) {
+      if (!drawing) return;
+      var p = pos(e);
+      ctx.beginPath();
+      ctx.moveTo(last[0], last[1]);
+      ctx.lineTo(p[0], p[1]);
+      ctx.stroke();
+      last = p;
+    });
+    function endStroke() {
+      if (!drawing) return;
+      drawing = false;
+      try { localStorage.setItem("guest_sign", canvas.toDataURL()); } catch (e) {}
+    }
+    canvas.addEventListener("pointerup", endStroke);
+    canvas.addEventListener("pointercancel", endStroke);
+    if (clearBtn)
+      clearBtn.addEventListener("click", function () {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pad.classList.remove("is-signed");
+        try { localStorage.removeItem("guest_sign"); } catch (e) {}
+      });
+
+    size();
+    window.addEventListener("resize", size);
+  })();
+
   /* ---- Hero liquid morph -------------------------------------------------
      Two stacked words, each blurred by a fraction; the container's SVG
      threshold filter (#morph-threshold) re-sharpens their combined alpha so the
