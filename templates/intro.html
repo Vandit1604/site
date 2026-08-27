@@ -6,11 +6,6 @@
   <!-- Arm the one-time intro cover before the content below paints (no flash). -->
   <script>document.body.classList.add("intro-active");</script>
 
-  <!-- The cover has its own dither so it can be fully opaque (hides the site
-       beneath it), which lets the dismiss be a pure transform (no opacity fade
-       on a huge subtree = no jerk). dither.js drives every [data-dither]. -->
-  <canvas class="hero-dither" data-dither aria-hidden="true"></canvas>
-
   <div class="lanyard-lift">
     <div class="lanyard">
       <div class="lanyard__strap" aria-hidden="true"><span class="lanyard__clip"></span></div>
