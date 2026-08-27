@@ -20,6 +20,8 @@
   --surface-top: #fcfcfd; /* gradient top of a raised surface */
   --surface-2: #ececef; /* hover / recessed */
   --ink: #1b1b1e;
+  --ink-2: #5f6066; /* secondary text */
+  --ink-3: #8a8b92; /* muted labels */
   --groove-hi: rgba(255, 255, 255, 0.95);
   --groove-lo: rgba(0, 0, 0, 0.08);
   --shadow-raised:
@@ -42,6 +44,8 @@
   --surface-top: #2a2a2c; /* gradient top */
   --surface-2: #292929; /* hover / recessed */
   --ink: #ededed;
+  --ink-2: #a3a3a8; /* secondary text */
+  --ink-3: #7c7c83; /* muted labels */
   --groove-hi: rgba(255, 255, 255, 0.05);
   --groove-lo: rgba(0, 0, 0, 0.5);
   --shadow-raised:
@@ -1062,7 +1066,7 @@ footer {
 
 
 /* ============================================================
-   AUDIT PASS — section crosshairs, no side gutters, skill tooltips.
+   AUDIT PASS: section crosshairs, no side gutters, skill tooltips.
    ============================================================ */
 
 /* Blueprint crosshairs: a small + where each section divider meets the two
@@ -1591,14 +1595,15 @@ html.js .hero-stage {
   min-height: 0;
   margin: 0;
   background: transparent;
-  will-change: transform, opacity;
-  transition:
-    transform 560ms cubic-bezier(0.32, 0.72, 0, 1),
-    opacity 340ms ease-out;
+  /* Own compositor layer, so the card's gradients/shadows/barcode paint once and
+     the lift is a pure GPU transform (no per-frame repaint = no jerk). */
+  will-change: transform;
+  transform: translateZ(0);
+  transition: transform 640ms cubic-bezier(0.22, 1, 0.36, 1);
 }
+html.js body.intro-leaving .hero-stage,
 html.js body.intro-dismissed .hero-stage {
-  transform: translateY(-104%);
-  opacity: 0;
+  transform: translateY(-112%);
   pointer-events: none;
 }
 /* The whole site (one wrapper) is hidden and lifted while the cover is up, and
@@ -1607,15 +1612,19 @@ html.js body.intro-dismissed .hero-stage {
 html.js .site-reveal {
   will-change: transform, opacity;
   transition:
-    transform 620ms cubic-bezier(0.32, 0.72, 0, 1) 30ms,
-    opacity 440ms ease-out 30ms;
+    transform 660ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 440ms ease-out;
 }
 html.js body.intro-active .site-reveal {
   opacity: 0;
-  transform: translateY(54px);
+  transform: translateY(48px);
 }
-html.js body.intro-active .site-frame { border-inline-color: transparent; }
-html.js body.intro-active .app-scroll { overflow: hidden; }
+/* Scroll stays locked through the whole exit (intro-active AND intro-leaving),
+   so nothing scrolls under the lifting card. That under-scroll was the jerk. */
+html.js body.intro-active .site-frame,
+html.js body.intro-leaving .site-frame { border-inline-color: transparent; }
+html.js body.intro-active .app-scroll,
+html.js body.intro-leaving .app-scroll { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   html.js .hero-stage,
   html.js .site-reveal { transition: none; }
@@ -1630,11 +1639,17 @@ html.js body.intro-active .app-scroll { overflow: hidden; }
 .idcard__title {
   font-family: "Pixelify Sans", "Geist", sans-serif;
   font-weight: 700;
-  font-size: clamp(1.2rem, 3.8vw, 1.95rem);
+  font-size: clamp(1.1rem, 3.4vw, 1.7rem);
+  line-height: 1.05;
   letter-spacing: 0;
-  padding-right: 5rem;
+  padding-right: 4.5rem;
+  overflow-wrap: break-word;
 }
-.idcard__sign-mark { font-family: "Great Vibes", cursive; }
+.idcard__sign-mark {
+  font-family: "Mr Dafoe", "Great Vibes", cursive;
+  font-weight: 400;
+  font-size: clamp(2rem, 6.5vw, 2.9rem);
+}
 .idcard__seal {
   position: absolute;
   top: 0.9rem;
@@ -1652,7 +1667,7 @@ html.js body.intro-active .app-scroll { overflow: hidden; }
 }
 
 /* ============================================================
-   SOFT UI surfaces — the tactile reference applied site-wide.
+   SOFT UI surfaces: the tactile reference applied site-wide.
    Charcoal page, raised cards with soft shadows, grooved section dividers,
    pill controls. Driven by the tokens above so both themes stay coherent.
    ============================================================ */
@@ -1719,3 +1734,101 @@ a.press.inline-flex.bg-gray-900 {
     0 1px 0 var(--groove-hi) inset,
     0 40px 80px -30px rgba(0, 0, 0, 0.85);
 }
+
+/* ============================================================
+   Two-pill buttons (the reference "Write" / "Continue"): a light primary pill
+   and a bordered secondary pill. Token-driven, so both themes stay coherent.
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.62rem 1.2rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    transform var(--dur-1) var(--ease-out-quint),
+    background-color var(--dur-2) var(--ease-out-quint),
+    border-color var(--dur-2) var(--ease-out-quint),
+    filter var(--dur-2) var(--ease-out-quint);
+}
+.btn-primary {
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: var(--shadow-soft);
+}
+.btn-primary:hover { filter: brightness(0.92); }
+.btn-secondary {
+  background: linear-gradient(var(--surface-top), var(--surface));
+  color: var(--ink);
+  border-color: var(--frame-strong);
+  box-shadow: var(--shadow-soft);
+}
+.btn-secondary:hover { background: var(--surface-2); }
+@media (prefers-reduced-motion: no-preference) {
+  .btn:active { transform: scale(0.97); }
+}
+
+/* ============================================================
+   "Sign here" card: a soft raised panel echoing the reference, closing the page.
+   ============================================================ */
+.signcard {
+  background: linear-gradient(var(--surface-top), var(--surface));
+  border: 1px solid var(--frame-line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-raised);
+  padding: 2rem 2rem 1.6rem;
+}
+.signcard__top {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 5rem;
+}
+.signcard__label {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+}
+.signcard__mark {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2.4rem, 8vw, 3.6rem);
+  line-height: 0.82;
+  color: var(--ink);
+}
+.signcard__rule {
+  border-top: 1px solid var(--groove-lo);
+  box-shadow: 0 1px 0 var(--groove-hi);
+  margin: 1.4rem 0 1.1rem;
+}
+.signcard__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.signcard__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+.signcard__glyph {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: 9999px;
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+.signcard__glyph svg { width: 16px; height: 16px; }
+.signcard__actions { display: flex; gap: 0.6rem; }

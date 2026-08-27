@@ -57,11 +57,16 @@
     function dismiss() {
       if (done) return;
       done = true;
+      // Swap active -> leaving: the site rises in and the cover lifts, but scroll
+      // stays locked for both states so nothing scrolls under the lifting card.
       document.body.classList.remove("intro-active");
-      document.body.classList.add("intro-dismissed");
-      var hide = function () { cover.style.display = "none"; };
-      cover.addEventListener("transitionend", hide, { once: true });
-      setTimeout(hide, 1100); // fallback (reduced motion has no transition)
+      document.body.classList.add("intro-leaving");
+      var end = function () {
+        document.body.classList.remove("intro-leaving");
+        cover.style.display = "none";
+      };
+      cover.addEventListener("transitionend", end, { once: true });
+      setTimeout(end, 1000); // fallback (reduced motion has no transition)
     }
     window.addEventListener("wheel", dismiss, { passive: true });
     window.addEventListener("touchmove", dismiss, { passive: true });

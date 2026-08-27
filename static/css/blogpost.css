@@ -2,14 +2,22 @@
    Blog post reading experience.
    Loaded AFTER markdown.css so these refinements win for the
    shared .markdown-content/.blog-content element.
-   Monochrome, Geist body + Geist Mono code, dark-mode aware.
+   Monochrome, Geist body + Geist Mono code. Soft-UI, driven by
+   the grid.css tokens so light and dark stay coherent from one
+   set of rules (no separate .dark block to drift).
    ============================================================ */
 
 .blog-content {
+    /* Body text sits directly on the charcoal page, so it is a muted step off
+       --ink; headings and strong stay full --ink. Both are mixed toward --bg
+       so the same rule reads on the dark page and the light one. */
+    --prose-body: color-mix(in srgb, var(--ink) 82%, var(--bg));
+    --prose-muted: color-mix(in srgb, var(--ink) 55%, var(--bg));
+
     font-family: inherit; /* Geist, from the body */
     font-size: 1.0625rem; /* ~17px, comfortable reading */
     line-height: 1.75;
-    color: #2a2a2a;
+    color: var(--prose-body);
     -webkit-font-smoothing: antialiased;
 }
 
@@ -28,7 +36,7 @@
     font-weight: 600;
     line-height: 1.3;
     letter-spacing: -0.01em;
-    color: #111;
+    color: var(--ink);
     margin-top: 2.2em;
     margin-bottom: 0.6em;
     scroll-margin-top: 5rem; /* anchored headings clear the top */
@@ -42,13 +50,13 @@
     margin: 0 0 1.3em;
 }
 
-.blog-content strong { font-weight: 600; color: #111; }
+.blog-content strong { font-weight: 600; color: var(--ink); }
 
 /* ---- Links: editorial underline, no color shift ---- */
 .blog-content a {
     color: inherit;
     text-decoration: underline;
-    text-decoration-color: #c8c8c8;
+    text-decoration-color: var(--frame-strong);
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
     transition: text-decoration-color var(--dur-2) var(--ease-out-quart);
@@ -68,7 +76,7 @@
     font-weight: 600;
     line-height: 1;
     vertical-align: 0.28em;
-    color: #a3a3a3;
+    color: var(--prose-muted);
     transition: transform var(--dur-1) var(--ease-out-quint), color var(--dur-1) var(--ease-out-quint);
 }
 .blog-content a[href^="http"]:hover::after {
@@ -86,41 +94,51 @@
     padding-left: 1.4em;
 }
 .blog-content li { margin-bottom: 0.4em; }
-.blog-content li::marker { color: #9b9b9b; }
+.blog-content li::marker { color: var(--prose-muted); }
 
-/* ---- Inline code + code blocks (boxy: hard 1px borders, square) ---- */
+/* ---- Inline code: a small recessed chip ---- */
 .blog-content code {
     font-family: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
     font-size: 0.875em;
-    background-color: #f3f3f1;
-    border: 1px solid #e5e7eb;
+    color: var(--ink);
+    background: var(--surface-2);
+    border: 1px solid var(--frame-line);
+    border-radius: 6px;
     padding: 0.1em 0.4em;
 }
 
+/* ---- Code blocks: a raised, top-lit soft surface ---- */
 .blog-content pre {
-    background-color: #f6f8fa;
-    border: 1px solid #e5e7eb;
-    padding: 1rem 1.15rem;
+    background: linear-gradient(var(--surface-top), var(--surface));
+    border: 1px solid var(--frame-line);
+    box-shadow: var(--shadow-raised);
+    border-radius: var(--r);
+    padding: 1.1rem 1.25rem;
     margin: 1.6em 0;
     overflow-x: auto;
     line-height: 1.6;
     font-size: 0.9em;
+    color: var(--prose-body);
 }
 
 .blog-content pre code {
-    background-color: transparent;
+    background: transparent;
     border: 0;
+    border-radius: 0;
     padding: 0;
     font-size: inherit;
+    color: inherit;
 }
 
-/* ---- Blockquote: bordered box with a hard left rule (no italic) ---- */
+/* ---- Blockquote: a soft recessed panel with a left rule (no italic) ---- */
 .blog-content blockquote {
-    border: 1px solid #e5e7eb;
-    border-left: 3px solid #9ca3af;
-    padding: 0.8rem 1.1rem;
+    background: var(--surface-2);
+    box-shadow: inset 0 2px 4px -2px var(--groove-lo);
+    border-left: 3px solid var(--frame-strong);
+    border-radius: var(--r-sm);
+    padding: 0.9rem 1.2rem;
     margin: 1.6em 0;
-    color: #555;
+    color: var(--prose-muted);
 }
 .blog-content blockquote p { margin-bottom: 0; }
 
@@ -131,13 +149,15 @@
     max-width: 100%;
     height: auto;
     margin: 2em auto;
-    border: 1px solid #e7e7e7;
+    border: 1px solid var(--frame-line);
+    border-radius: var(--r-sm);
 }
 
-/* ---- Divider ---- */
+/* ---- Divider: a soft groove (dark line + bright lip), matching .box ---- */
 .blog-content hr {
     border: 0;
-    border-top: 1px solid #e7e7e7;
+    border-top: 1px solid var(--groove-lo);
+    box-shadow: 0 1px 0 var(--groove-hi);
     margin: 2.5em 0;
 }
 
@@ -152,24 +172,28 @@
 .blog-content figcaption {
     font-size: 0.85rem;
     line-height: 1.5;
-    color: #6b6b6b;
+    color: var(--prose-muted);
     text-align: center;
     max-width: 90%;
     margin: 0 auto;
 }
 
-/* ---- Callouts: boxed asides for notes, tips, gotchas ---- */
+/* ---- Callouts: raised asides for notes, tips, gotchas ---- */
 /* Block layout with the label as a stacked eyebrow. Never flex: a flex
    callout shatters raw inline bodies (each <code>/text run becomes its own
-   column). Block flow also lets long labels wrap cleanly. */
+   column). Block flow also lets long labels wrap cleanly. Strictly
+   monochrome: tip/warn read through the label text, not a color. */
 .blog-content .callout {
     display: block;
-    border: 1px solid #e5e7eb;
-    background: #fafafa;
-    padding: 0.9rem 1.05rem;
+    background: linear-gradient(var(--surface-top), var(--surface));
+    border: 1px solid var(--frame-line);
+    box-shadow: var(--shadow-raised);
+    border-radius: var(--r-sm);
+    padding: 1rem 1.15rem;
     margin: 1.7em 0;
     font-size: 0.97em;
     line-height: 1.65;
+    color: var(--prose-body);
 }
 .blog-content .callout > :first-child { margin-top: 0; }
 .blog-content .callout p { margin: 0; }
@@ -182,12 +206,8 @@
     font-size: 0.68rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #6b6b6b;
+    color: var(--prose-muted);
 }
-.blog-content .callout--tip { background: #f5faf6; border-color: #cfe6d5; }
-.blog-content .callout--tip::before { color: #2f7d46; content: attr(data-label); }
-.blog-content .callout--warn { background: #fdf7f4; border-color: #ecd7cc; }
-.blog-content .callout--warn::before { color: #a5502a; content: attr(data-label); }
 
 /* ---- "Read it in the repo" source line under a code block ---- */
 .blog-content .src-link {
@@ -196,41 +216,10 @@
     gap: 0.35rem;
     font-family: "Geist Mono", ui-monospace, monospace;
     font-size: 0.78rem;
-    color: #6b6b6b;
+    color: var(--prose-muted);
     margin: -1em 0 1.6em;
-    text-decoration-color: #d0d0d0;
+    text-decoration-color: var(--frame-line);
 }
-
-/* ============================================================
-   Dark mode (class-based, toggled from the nav)
-   ============================================================ */
-.dark .blog-content { color: #d0d0d0; }
-.dark .blog-content h1,
-.dark .blog-content h2,
-.dark .blog-content h3,
-.dark .blog-content h4,
-.dark .blog-content h5,
-.dark .blog-content h6,
-.dark .blog-content strong { color: #f4f4f4; }
-.dark .blog-content a { text-decoration-color: #4b4b4b; }
-.dark .blog-content li::marker { color: #6b6b6b; }
-.dark .blog-content code { background-color: #1c1c1f; border-color: #262626; }
-.dark .blog-content pre { background-color: #0d1117; border-color: #262626; }
-.dark .blog-content pre code { border-color: transparent; }
-.dark .blog-content blockquote { border-color: #262626; border-left-color: #525252; color: #9a9a9a; }
-.dark .blog-content img,
-.dark .blog-content svg { border-color: #262626; }
-.dark .blog-content hr { border-top-color: #2a2a2a; }
-.dark .blog-content figcaption { color: #8a8a8a; }
-.dark .blog-content .callout { background: #131316; border-color: #262626; }
-.dark .blog-content .callout::before { color: #9a9a9a; }
-.dark .blog-content .callout--tip { background: #10160f; border-color: #24361f; }
-.dark .blog-content .callout--tip::before { color: #6fbf7f; }
-.dark .blog-content .callout--warn { background: #17110d; border-color: #3a281c; }
-.dark .blog-content .callout--warn::before { color: #d08a5f; }
-.dark .blog-content .src-link { color: #8a8a8a; text-decoration-color: #3a3a3a; }
-.dark .blog-content figure img,
-.dark .blog-content figure svg { border-color: #262626; }
 
 /* ============================================================
    Reading enhancements: progress bar, sticky TOC, type polish.
@@ -256,10 +245,9 @@
     display: block;
     height: 100%;
     width: 0;
-    background: #111;
+    background: var(--ink);
     transition: width 0.08s linear;
 }
-.dark .blog-progress span { background: #f4f4f4; }
 
 /* ---- Layout: a two-column grid INSIDE the 56rem site frame ----
    The article and the TOC share the frame width (article ~40rem + a 12rem
@@ -299,16 +287,15 @@
     font-size: 0.68rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #9b9b9b;
+    color: var(--prose-muted);
     margin-bottom: 0.7rem;
 }
 .blog-toc__list {
     list-style: none;
     margin: 0;
     padding: 0;
-    border-left: 1px solid #e5e7eb;
+    border-left: 1px solid var(--frame-line);
 }
-.dark .blog-toc__list { border-left-color: #262626; }
 .blog-toc__item { margin: 0; }
 .blog-toc__link {
     display: block;
@@ -317,7 +304,7 @@
     border-left: 1px solid transparent;
     font-size: 0.82rem;
     line-height: 1.4;
-    color: #8a8a8a;
+    color: var(--prose-muted);
     text-decoration: none;
     transition: color var(--dur-2) var(--ease-out-quart), border-color var(--dur-2) var(--ease-out-quart);
 }
@@ -325,16 +312,11 @@
     padding-left: 1.7rem;
     font-size: 0.78rem;
 }
-.blog-toc__link:hover { color: #111; }
-.dark .blog-toc__link:hover { color: #f4f4f4; }
+.blog-toc__link:hover { color: var(--ink); }
 .blog-toc__link.is-active {
-    color: #111;
-    border-left-color: #111;
+    color: var(--ink);
+    border-left-color: var(--ink);
     font-weight: 500;
-}
-.dark .blog-toc__link.is-active {
-    color: #f4f4f4;
-    border-left-color: #f4f4f4;
 }
 
 /* ---- Typography polish: even line lengths, fewer orphans, anchored jumps ---- */

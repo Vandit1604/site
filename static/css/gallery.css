@@ -48,3 +48,29 @@
     transition: none;
   }
 }
+
+/* ============================================================
+   Soft-UI chrome. The photos stay as shot; only the frame, the
+   interactive stage, and their hover read take on the raised
+   charcoal look. Driven by the shared tokens so both themes match.
+   ============================================================ */
+
+/* The trail stage is a recessed, rounded surface (the frame is CSS's job,
+   so the template carries no hard hairline of its own). */
+.gallery-stage {
+  border: 1px solid var(--frame-line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Each photo sits in a soft rounded frame. The anchor already clips with
+   overflow-hidden, so the image corners round with the frame. */
+.gallery-grid a {
+  border: 1px solid var(--frame-line);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-soft);
+  transition: border-color var(--dur-2) var(--ease-out-quart);
+}
+.gallery-grid a:hover {
+  border-color: var(--frame-strong);
+}
