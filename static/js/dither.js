@@ -5,9 +5,11 @@
    frame under prefers-reduced-motion. */
 (function () {
   "use strict";
-  var canvas = document.querySelector("[data-dither]");
-  if (!canvas) return;
+  var canvases = document.querySelectorAll("[data-dither]");
+  if (!canvases.length) return;
+  Array.prototype.forEach.call(canvases, initDither);
 
+function initDither(canvas) {
   var gl =
     canvas.getContext("webgl", { alpha: true, antialias: false, premultipliedAlpha: false }) ||
     canvas.getContext("experimental-webgl");
@@ -122,6 +124,11 @@
 
   var start = null, raf = 0;
   function frame(now) {
+    // Skip work while hidden (e.g. the intro cover after it is dismissed).
+    if (!canvas.clientWidth || !canvas.clientHeight) {
+      raf = requestAnimationFrame(frame);
+      return;
+    }
     if (start === null) start = now;
     resize();
     draw((now - start) / 1000);
@@ -148,4 +155,5 @@
       }
     });
   }
+}
 })();
