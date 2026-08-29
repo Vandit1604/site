@@ -1,36 +1,41 @@
-<nav aria-label="Main navigation" class="nav-inner font-sans text-sm font-medium text-gray-700 dark:text-gray-300">
-  <div class="flex items-center gap-1">
-    <a href="/" class="nav-link" aria-label="Home">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-      </svg>
-      <span class="sr-only">Home</span>
+<nav aria-label="Main navigation" class="nav-inner font-sans text-sm font-medium">
+  <div class="nav-tabs">
+    <button type="button" data-cmdk-open class="nav-tab nav-tab--icon" aria-label="Search (press Command K)" title="Search  ⌘K">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/></svg>
+    </button>
+    <a href="/" class="nav-tab nav-tab--icon" aria-label="Home" title="Home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 11.5 12 4l9 7.5M5.5 10v9a1 1 0 0 0 1 1H10v-5h4v5h3.5a1 1 0 0 0 1-1v-9"/></svg>
     </a>
-    <a href="/projects" class="nav-link">Projects</a>
-    <a href="https://cal.com/v4nd1t/30min" target="_blank" rel="noopener noreferrer" class="nav-link">Book a call</a>
-    <div class="nav-more">
-      <button type="button" class="nav-link nav-more__btn" aria-haspopup="true" aria-expanded="false" aria-controls="nav-more-menu">
-        More
-        <svg class="nav-more__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></svg>
-      </button>
-      <div id="nav-more-menu" class="nav-more__menu" role="menu" hidden>
-        <a href="/blogs" class="nav-more__item" role="menuitem">Blogs</a>
-        <a href="/talks" class="nav-more__item" role="menuitem">Talks</a>
-        <a href="/library" class="nav-more__item" role="menuitem">Library</a>
-        <a href="/gallery" class="nav-more__item" role="menuitem">Gallery</a>
-        <a href="/resume" target="_blank" rel="noopener noreferrer" class="nav-more__item" role="menuitem">Résumé <span aria-hidden="true">↗</span></a>
-      </div>
-    </div>
+    <a href="/projects" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3 4 7v10l8 4 8-4V7l-8-4Zm0 0v18M4 7l8 4 8-4"/></svg>
+      <span>Projects</span>
+    </a>
+    <a href="/blogs" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm8 0v5h5M8 13h8M8 17h6"/></svg>
+      <span>Blogs</span>
+    </a>
+    <a href="/talks" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3ZM6 11a6 6 0 0 0 12 0M12 17v4"/></svg>
+      <span>Talks</span>
+    </a>
+    <a href="/library" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v15l-6.5-3L5 20V5Z"/></svg>
+      <span>Library</span>
+    </a>
+    <a href="/gallery" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path stroke-linecap="round" stroke-linejoin="round" d="m5 17 4.5-4.5L13 16l3-3 3 3"/></svg>
+      <span>Gallery</span>
+    </a>
+
+    <span class="nav-divider" aria-hidden="true"></span>
+
+    <a href="/resume" target="_blank" rel="noopener noreferrer" class="nav-tab nav-tab--muted">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M7 3h7l4 4v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm7 0v4h4"/></svg>
+      <span>Résumé</span><span class="nav-ext" aria-hidden="true">↗</span>
+    </a>
   </div>
 
-  <span class="nav-divider" aria-hidden="true"></span>
-
-  <div class="flex items-center gap-1.5">
-    <button type="button" data-cmdk-open class="cmdk-trigger" aria-label="Search (press Command K)" title="Search  ⌘K">
-      <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <span class="hidden sm:inline">Search</span>
-      <kbd class="hidden sm:inline-block">⌘K</kbd>
-    </button>
+  <div class="nav-tools">
     <button type="button" class="theme-toggle nav-icon-btn" aria-label="Toggle dark mode" title="Toggle theme">
       <svg class="w-[18px] h-[18px] hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -43,51 +48,32 @@
 </nav>
 
 <script>
-  // "More" dropdown: toggle, close on outside click / Escape.
-  (function () {
-    var btn = document.querySelector(".nav-more__btn");
-    var menu = document.getElementById("nav-more-menu");
-    if (!btn || !menu) return;
-    function onDoc(e) {
-      if (!menu.contains(e.target) && !btn.contains(e.target)) close();
-    }
-    function onKey(e) {
-      if (e.key === "Escape") { close(); btn.focus(); }
-    }
-    function open() {
-      menu.hidden = false;
-      btn.setAttribute("aria-expanded", "true");
-      document.addEventListener("click", onDoc);
-      document.addEventListener("keydown", onKey);
-    }
-    function close() {
-      menu.hidden = true;
-      btn.setAttribute("aria-expanded", "false");
-      document.removeEventListener("click", onDoc);
-      document.removeEventListener("keydown", onKey);
-    }
-    btn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      menu.hidden ? open() : close();
-    });
-  })();
-
-  // Mark the current page for orientation (highlights a top link, or "More"
-  // when the active page lives inside the dropdown).
+  // Mark the current page tab as active (aria-current drives the raised style).
   (function () {
     var here = location.pathname.replace(/\/$/, "") || "/";
-    var inMore = false;
     document.querySelectorAll('.nav-inner a[href^="/"]').forEach(function (a) {
       var path = a.getAttribute("href").replace(/\/$/, "") || "/";
-      if (path === here) {
-        a.setAttribute("aria-current", "page");
-        if (a.classList.contains("nav-more__item")) inMore = true;
-      }
+      if (path === here) a.setAttribute("aria-current", "page");
     });
-    if (inMore) {
-      var b = document.querySelector(".nav-more__btn");
-      if (b) b.setAttribute("aria-current", "page");
+
+    // On mobile the tab strip scrolls. Keep the current page's tab visible, and
+    // show a right-edge fade only while more tabs sit off-screen to the right.
+    var tabs = document.querySelector(".nav-tabs");
+    if (!tabs) return;
+    var active = tabs.querySelector('.nav-tab[aria-current="page"]');
+    if (active) {
+      var tr = tabs.getBoundingClientRect(), ar = active.getBoundingClientRect();
+      if (ar.left < tr.left || ar.right > tr.right) {
+        active.scrollIntoView({ inline: "center", block: "nearest" });
+      }
     }
+    var updateFade = function () {
+      var more = tabs.scrollLeft + tabs.clientWidth < tabs.scrollWidth - 2;
+      tabs.classList.toggle("nav-tabs--more", more);
+    };
+    updateFade();
+    tabs.addEventListener("scroll", updateFade, { passive: true });
+    window.addEventListener("resize", updateFade);
   })();
 
   // Dark-mode toggle: flip the `dark` class on <html> via a View Transition
@@ -100,14 +86,25 @@
     btn.addEventListener("click", function () {
       var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduce || !document.startViewTransition) { setTheme(); return; }
-      // Page navigations are View Transitions too now, so the slash wipe has to
-      // say which one it belongs to: motion.css keys it off `vt-theme`.
-      // Without this, every nav click would wipe — far too loud for moving
-      // between pages, and it would spend the toggle's signature on nothing.
       var root = document.documentElement;
       root.classList.add("vt-theme");
       var vt = document.startViewTransition(setTheme);
       vt.finished.finally(function () { root.classList.remove("vt-theme"); });
     });
   });
+
+  // Page-slide for browsers WITHOUT cross-document view transitions (Firefox,
+  // older Safari). Chromium ships them, so the CSS @view-transition handles it
+  // there; `CSSViewTransitionRule` is the feature flag. Slide the incoming page
+  // in at full brightness (transform only, no fade) so the screen never dims.
+  (function () {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if ("CSSViewTransitionRule" in window) return;
+    var scroll = document.querySelector(".app-scroll");
+    if (!scroll || !scroll.animate) return;
+    scroll.animate(
+      [{ transform: "translateX(8%)" }, { transform: "none" }],
+      { duration: 340, easing: "cubic-bezier(0.25,1,0.5,1)" }
+    );
+  })();
 </script>

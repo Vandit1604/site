@@ -9,9 +9,11 @@
   // ahead of the markup on purpose: a deferred script is far too late.
   (function () {
     try {
-      var pointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+      // The trail runs on any device that allows motion. Pointer events (which
+      // gallery-trail.js uses) fire for both mouse and touch, so a finger paints
+      // the trail just like a cursor. Reduced-motion and no-JS keep the grid.
       var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (pointer && !reduced) document.documentElement.classList.add("trail-mode");
+      if (!reduced) document.documentElement.classList.add("trail-mode");
     } catch (e) {
       /* no matchMedia: fall through to the grid, which always works */
     }

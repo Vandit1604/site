@@ -1567,8 +1567,10 @@ footer {
   z-index: 0;
   pointer-events: none;
   display: block;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
+  /* Reaches the top edge (no top fade) so the dither shows in the nav's side
+     gutters; still fades out along the bottom. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 92%, transparent);
+  mask-image: linear-gradient(to bottom, #000 0, #000 92%, transparent);
 }
 @media (max-width: 960px) { .gutter-dither { display: none; } }
 /* Dither reveal + one-time intro cover.
@@ -1879,3 +1881,158 @@ a.press.inline-flex.bg-gray-900 {
   transition: color var(--dur-2) var(--ease-out-quart);
 }
 .signpad__clear:hover { color: var(--ink); }
+
+/* ============================================================
+   Nav as a TOP tab bar (pages = tabs), replacing the floating dock.
+   Dark, soft, raised active tab; muted inactive; a divider group.
+   ============================================================ */
+body.app-shell .app-nav {
+  position: static;
+  inset: auto;
+  transform: none;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  /* Bar itself is transparent so the side-gutter dither shows through beside it;
+     the dark strip lives on .nav-inner, capped to the content-column width. */
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  z-index: 40;
+}
+.dark .app-nav { background: transparent; box-shadow: none; }
+/* no more bottom-dock clearance */
+.app-scroll { padding-bottom: 2rem; scroll-padding-bottom: 2rem; }
+
+.nav-inner {
+  max-width: 56rem;                  /* == .site-frame, so rails and dither line up */
+  margin: 0 auto;
+  width: 100%;
+  padding: 0.4rem 1rem;
+  gap: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;                        /* above the dither canvas */
+  background: color-mix(in oklab, var(--bg) 82%, #000);
+  border-inline: 1px solid var(--frame-line);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+/* Scroll affordance: fade the right edge only while more tabs sit off-screen
+   (class toggled in nav.html). Absent on desktop where every tab fits. */
+.nav-tabs--more {
+  -webkit-mask-image: linear-gradient(to right, #000 84%, transparent);
+  mask-image: linear-gradient(to right, #000 84%, transparent);
+}
+
+/* nav-inner: tabs left, tools right, everything sat on the strip floor so the
+   active tab can reach the seam with the content. */
+.nav-inner { align-items: flex-end; padding-bottom: 0; }
+.nav-tabs { align-items: flex-end; }
+
+.nav-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.85rem;
+  margin-bottom: 5px;                /* inactive tabs float inside the strip */
+  border-radius: 11px;
+  color: var(--ink-3);
+  background: transparent;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 0;
+  transition:
+    color 140ms var(--ease-out-quint),
+    background-color 140ms var(--ease-out-quint),
+    transform 140ms var(--ease-out-quart);
+}
+.nav-tab svg { width: 18px; height: 18px; flex: none; }
+.nav-tab:hover { color: var(--ink); background: var(--surface-2); }
+.nav-tab:active { transform: scale(0.96); }          /* tactile press */
+.nav-tab--icon { padding-inline: 0.6rem; }
+.nav-tab--muted { color: var(--ink-3); }
+.nav-tab--muted:hover { color: var(--ink-2); background: var(--surface-2); }
+.nav-ext { font-size: 0.8em; opacity: 0.7; margin-left: -0.1rem; }
+
+/* Active tab = the content colour, rounded top, with concave "wings" at the
+   bottom corners that flare down into the content panel: browser-tab connection. */
+.nav-tab[aria-current="page"] {
+  color: var(--ink);
+  background: var(--bg);
+  border-radius: 12px 12px 0 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);   /* raised top sheen */
+  margin-bottom: 0;                  /* reaches the seam with the content */
+  padding-top: 0.62rem;
+  padding-bottom: 0.62rem;
+  position: relative;
+  z-index: 2;
+}
+.nav-tab[aria-current="page"]:hover { background: var(--bg); }
+.nav-tab[aria-current="page"]:active { transform: none; }   /* the connected tab shouldn't detach */
+.nav-tab[aria-current="page"]::before,
+.nav-tab[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  background: var(--bg);
+  pointer-events: none;
+}
+.nav-tab[aria-current="page"]::before {
+  left: -12px;
+  -webkit-mask: radial-gradient(circle at 0 0, #0000 12px, #000 12.5px);
+  mask: radial-gradient(circle at 0 0, #0000 12px, #000 12.5px);
+}
+.nav-tab[aria-current="page"]::after {
+  right: -12px;
+  -webkit-mask: radial-gradient(circle at 100% 0, #0000 12px, #000 12.5px);
+  mask: radial-gradient(circle at 100% 0, #0000 12px, #000 12.5px);
+}
+
+.nav-divider {
+  width: 1px;
+  height: 1.4rem;
+  align-self: center;
+  margin: 0 0.5rem 6px;
+  background: var(--frame-line);
+  flex: none;
+}
+.nav-tools { display: flex; align-items: center; gap: 0.15rem; flex: none; align-self: center; }
+@media (max-width: 640px) {
+  .nav-inner { padding: 0.35rem 0.5rem 0; gap: 0.4rem; }
+  .nav-tab { padding: 0.45rem 0.6rem; }
+}
+
+/* Nav tools: a single tiny muted icon (theme) so the tab strip stays the focus. */
+.nav-tool-btn, .nav-icon-btn {
+  display: inline-grid; place-items: center;
+  width: 32px; height: 32px; border-radius: 8px;
+  color: var(--ink-3); background: transparent; border: 0; cursor: pointer;
+  transition: color var(--dur-2) var(--ease-out-quint), background-color var(--dur-2) var(--ease-out-quint);
+}
+.nav-tool-btn:hover, .nav-icon-btn:hover { color: var(--ink); background: var(--surface-2); }
+
+/* Tab-change = page navigation: slide the pages instead of a crossfade.
+   (grid.css loads after motion.css, so this overrides its nav crossfade; the
+   theme toggle's .vt-theme slash-wipe keeps higher specificity and still wins.) */
+::view-transition-old(root) { animation: nav-slide-out 340ms var(--ease-out-quart) both; z-index: 0; }
+::view-transition-new(root) { animation: nav-slide-in 340ms var(--ease-out-quart) both; z-index: 1; }
+/* New page stays fully bright (translate only) so the screen never dims; the
+   old page fades out beneath it. */
+@keyframes nav-slide-out { to { transform: translateX(-5%); opacity: 0; } }
+@keyframes nav-slide-in { from { transform: translateX(8%); } }

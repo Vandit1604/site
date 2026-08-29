@@ -40,7 +40,13 @@
   // The stage is already visible via CSS; only the JS-dependent chrome is
   // revealed here, so it stays hidden if this script never runs.
   if (toggle) toggle.hidden = false;
-  if (hint) hint.textContent = "Click and hold, then drag. Your photos trail the cursor and the piano plays.";
+  var coarse = false;
+  try { coarse = window.matchMedia("(pointer: coarse)").matches; } catch (e) { /* assume fine */ }
+  if (hint) {
+    hint.textContent = coarse
+      ? "Touch and drag: your photos trail your finger and the piano plays."
+      : "Click and hold, then drag. Your photos trail the cursor and the piano plays.";
+  }
   stage.style.cursor = "grab";
 
   // Shuffle (Fisher–Yates) so the trail order differs every visit.

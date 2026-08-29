@@ -61,6 +61,8 @@
   border: 1px solid var(--frame-line);
   border-radius: var(--r);
   box-shadow: var(--shadow-soft);
+  /* A finger-drag paints the trail instead of scrolling the page. */
+  touch-action: none;
 }
 
 /* Each photo sits in a soft rounded frame. The anchor already clips with
