@@ -254,7 +254,11 @@
    sticky rail), so the TOC lives in real layout, not floated over the binary
    gutters. Only engages on wide screens and only when the TOC has content
    (:has), so short posts and mobile keep the article centered full-width. */
-.blog-layout { position: relative; }
+/* Opaque reading column: the article isn't a .box, so without this the fixed
+   dither canvas (z0) shows straight through behind the text and wrecks
+   readability. Fill the frame with the page bg; the dither stays in the outer
+   gutters, like every other page. */
+.blog-layout { position: relative; background: var(--bg); }
 .blog-toc { display: none; }
 
 @media (min-width: 1024px) {
