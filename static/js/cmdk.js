@@ -19,37 +19,29 @@
     return loading;
   }
 
-  // Subsequence fuzzy score: every query char must appear in order. Contiguous
-  // runs and word-start matches score higher; earlier matches win ties.
-  function score(query, text) {
-    var q = query.toLowerCase(), t = text.toLowerCase();
-    if (!q) return 0;
-    var qi = 0, ti = 0, s = 0, run = 0, prev = -2;
-    while (qi < q.length && ti < t.length) {
-      if (q[qi] === t[ti]) {
-        run = ti === prev + 1 ? run + 1 : 1;
-        s += run * 3;
-        if (ti === 0 || /[\s\/\-—·]/.test(t[ti - 1])) s += 8; // word start
-        prev = ti;
-        qi++;
-      }
-      ti++;
-    }
-    if (qi < q.length) return -1; // not all chars matched
-    return s - t.length * 0.05; // gently prefer shorter titles
-  }
-
+  // Substring match: the query must appear literally in the title or the
+  // description. Precise for a small curated index — "prom" finds Prometheus,
+  // not "PROgraMming" (which loose subsequence matching wrongly surfaced).
   function filter(query) {
     if (!docs) return [];
-    if (!query) return docs.slice(0, 40);
+    var q = query.toLowerCase();
+    if (!q) return docs.slice(0, 40);
     var scored = [];
     for (var i = 0; i < docs.length; i++) {
-      var hay = docs[i].title + " " + (docs[i].desc || "") + " " + docs[i].section;
-      var sc = score(query, hay);
-      // weight title matches above desc/section matches
-      var ts = score(query, docs[i].title);
-      if (ts >= 0) sc += ts * 2;
-      if (sc >= 0) scored.push({ d: docs[i], s: sc });
+      var d = docs[i];
+      var title = d.title.toLowerCase();
+      var desc = (d.desc || "").toLowerCase();
+      var ti = title.indexOf(q), di = desc.indexOf(q);
+      if (ti < 0 && di < 0) continue; // must appear as a substring somewhere
+      var s;
+      if (ti >= 0) {
+        s = 120 - ti; // title match, earlier position wins
+        if (ti === 0 || /[\s\/\-—·(]/.test(title[ti - 1])) s += 40; // word start
+      } else {
+        s = 40 - Math.min(di, 39); // description-only match ranks below any title match
+      }
+      s -= title.length * 0.05; // gently prefer shorter titles
+      scored.push({ d: d, s: s });
     }
     scored.sort(function (a, b) { return b.s - a.s; });
     return scored.slice(0, 40).map(function (x) { return x.d; });
@@ -88,9 +80,12 @@
       results.innerHTML = '<div class="cmdk-empty">No matches.</div>';
       return;
     }
+    // Browse (no query) is grouped by section; a search is a flat relevance
+    // ranking, so section labels are suppressed (they'd repeat as ranks interleave).
+    var query = input && input.value.trim();
     var html = "", lastSection = null, idx = 0;
     list.forEach(function (d) {
-      if (d.section !== lastSection) {
+      if (!query && d.section !== lastSection) {
         html += '<div class="cmdk-group-label">' + esc(d.section) + "</div>";
         lastSection = d.section;
       }

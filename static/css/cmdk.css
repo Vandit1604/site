@@ -136,8 +136,10 @@
   border: 1px solid transparent;
 }
 .cmdk-item[aria-selected="true"] {
-  background: var(--surface-2);
-  border-color: var(--frame-line);
+  /* Mix ink into the surface so the selected row reads clearly in both themes
+     (plain --surface-2 was invisible against the light panel). */
+  background: color-mix(in oklab, var(--surface) 90%, var(--ink));
+  border-color: var(--frame-strong);
 }
 .cmdk-item-title {
   font-size: 0.9rem;
