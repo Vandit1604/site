@@ -29,6 +29,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 )
 
 const (
@@ -53,6 +54,7 @@ func main() {
 		publish = flag.Bool("publish", false, "publish LIVE to dev.to (omit to preview)")
 		draft   = flag.Bool("draft", false, "create a dev.to draft instead of publishing live")
 		list    = flag.Bool("list", false, "list publishable post slugs and exit")
+		at      = flag.String("at", "", "with -publish: schedule for this future RFC3339 time instead of going live now")
 	)
 	flag.Parse()
 	loadDotenv(".env")
@@ -70,6 +72,13 @@ func main() {
 	p, err := loadPost(*slug, *tagsCSV)
 	if err != nil {
 		fatal("%v", err)
+	}
+	if *at != "" {
+		t, err := time.Parse(time.RFC3339, *at)
+		if err != nil || !t.After(time.Now()) || !*publish {
+			fatal("-at needs -publish and a future RFC3339 time")
+		}
+		p.Body = scheduleFrontmatter(p, t) + p.Body
 	}
 	if err := publishDevto(p, *publish, *draft); err != nil {
 		fatal("dev.to: %v", err)
@@ -221,12 +230,28 @@ func publishDevto(p post, publish, draft bool) error {
 		URL string `json:"url"`
 	}
 	_ = json.Unmarshal(b, &out)
-	state := "published live"
+	state := "published live (or scheduled with -at)"
 	if draft {
 		state = "draft created"
 	}
 	fmt.Printf("dev.to: %s -> %s\n", state, out.URL)
 	return nil
+}
+
+// scheduleFrontmatter returns the body front matter that makes dev.to schedule
+// the post. dev.to reads published_at only from here, quoted, and front matter
+// overrides the API params, so every field goes in it.
+func scheduleFrontmatter(p post, t time.Time) string {
+	q := func(s string) string { b, _ := json.Marshal(s); return string(b) }
+	return "---\n" +
+		"title: " + q(p.Title) + "\n" +
+		"published: true\n" +
+		"published_at: " + q(t.UTC().Format(time.RFC3339)) + "\n" +
+		"description: " + q(p.Description) + "\n" +
+		"tags: " + q(strings.Join(p.Tags, ", ")) + "\n" +
+		"canonical_url: " + q(p.Canonical) + "\n" +
+		"cover_image: " + q(p.CoverImage) + "\n" +
+		"---\n\n"
 }
 
 // ---- front-matter + helpers ------------------------------------------------

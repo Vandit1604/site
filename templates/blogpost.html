@@ -59,6 +59,17 @@
     <div data-reveal>
       {{ .blog.Content }}
     </div>
+
+    {{ if .related }}
+    <nav class="home-sec" aria-labelledby="h-more" style="margin-top:4rem">
+      <h2 id="h-more" class="home-h"><span>~/</span>More writing</h2>
+      <ol class="home-posts">
+        {{ range .related }}
+        <li><a href="/blogs/{{ .Slug }}"><span>{{ .Title }}</span><time class="home-when">{{ .Date }}</time></a></li>
+        {{ end }}
+      </ol>
+    </nav>
+    {{ end }}
   </article>
  </div>
 </section>

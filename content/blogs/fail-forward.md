@@ -1,6 +1,7 @@
 ---
 title: "Fail Forward"  
 date: "2024-11-01"  
+description: "Two kinds of failure: the kind that leaves you where you started, and the kind that leaves you a foundation. How to make each failure the second kind."
 tags: ["ideology"]
 ---
 
