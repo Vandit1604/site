@@ -65,7 +65,8 @@ func (r *codeBlockRenderer) renderCodeBlock(w util.BufWriter, source []byte, nod
 		log.Printf("Using fallback style")
 	}
 
-	formatter := html.New(html.WithClasses(true))
+	// The wrapper below writes the <pre><code>; chroma must not add its own.
+	formatter := html.New(html.WithClasses(true), html.PreventSurroundingPre(true))
 
 	iterator, err := lexer.Tokenise(nil, code)
 	if err != nil {

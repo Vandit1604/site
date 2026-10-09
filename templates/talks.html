@@ -1,55 +1,37 @@
 {{ template "header.html" .}}
 
-<section class="w-full">
+<div class="home">
 
-  <div class="px-6 pt-8 pb-6">
-    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-white">Talks.</h1>
-    <p class="mt-3 text-gray-600 dark:text-gray-400 max-w-xl">
-      Conference talks and sessions on Go, open source, and distributed systems.
+  <header class="home-hero">
+    <h1 class="home-name">Talks</h1>
+    <p class="home-p">
+      Talks and sessions I&rsquo;ve given on Go, open source and distributed systems.
     </p>
-  </div>
+  </header>
 
-  <section class="box">
-    <div class="space-y-6">
+  <section class="home-sec" aria-labelledby="h-talks">
+    <h2 id="h-talks" class="home-h"><span>~/</span>Talks</h2>
+    <ol class="home-rows">
       {{ range .Talks }}
-      <div data-reveal class="cell lift group flex flex-col p-6">
-        <div class="flex items-start gap-4">
-          <img
-            src="{{ .ImageURL }}"
-            alt="{{ .Title }}"
-            width="64" height="64" class="size-16  object-contain flex-shrink-0"
-            loading="lazy"
-          />
-          <div class="min-w-0">
-            <time class="font-mono text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500">{{ .Date }}</time>
-            <h3 class="mt-1 text-lg font-semibold text-gray-900 dark:text-gray-100">{{ .Title }}</h3>
-          </div>
+      <li class="home-li">
+        <div class="home-row">
+          <span class="home-tile home-tile--logo home-tile--pad" aria-hidden="true">
+            <img src="{{ .ImageURL }}" alt="" width="40" height="40" loading="lazy">
+          </span>
+          <p class="home-what">{{ if .VideoLink }}<a class="home-title" href="{{ .VideoLink }}" target="_blank" rel="noopener noreferrer" data-tip="Watch the talk">{{ .Title }}</a>{{ else if .SlidesLink }}<a class="home-title" href="{{ .SlidesLink }}" target="_blank" rel="noopener noreferrer" data-tip="Open the slides">{{ .Title }}</a>{{ else }}{{ .Title }}{{ end }}<button type="button" class="home-xbtn" aria-expanded="false" aria-label="Details: {{ .Title }}">{{ template "icon:chevron-down" }}</button></p>
+          <time class="home-when">{{ .Date }}</time>
         </div>
-
-        <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
-          {{ .Description }}
-        </p>
-
-        <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
-          {{ if .VideoLink }}
-          <a href="{{ .VideoLink }}" target="_blank" rel="noopener noreferrer"
-            class="press group/link inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-            Watch <span class="inline-block transition-transform group-hover/link:translate-x-0.5">&rarr;</span>
-          </a>
-          {{ end }}
-          {{ if .SlidesLink }}
-          <a href="{{ .SlidesLink }}" target="_blank" rel="noopener noreferrer"
-            class="press group/link inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-            Slides <span class="inline-block transition-transform group-hover/link:translate-x-0.5">&rarr;</span>
-          </a>
-          {{ end }}
-        </div>
-      </div>
+        <div class="home-xdetail" inert><div class="home-xinner">
+          <p class="home-note">{{ .Description }}</p>
+          {{ if and .VideoLink .SlidesLink }}<a class="home-more home-more--in" href="{{ .SlidesLink }}" target="_blank" rel="noopener noreferrer">Slides <span class="home-arrow" aria-hidden="true">&rarr;</span></a>{{ end }}
+        </div></div>
+      </li>
       {{ else }}
-      <p class="text-gray-500 dark:text-gray-400">No talks listed yet.</p>
+      <p class="home-note">No talks listed yet.</p>
       {{ end }}
-    </div>
+    </ol>
   </section>
-</section>
+
+</div>
 
 {{ template "footer.html" .}}

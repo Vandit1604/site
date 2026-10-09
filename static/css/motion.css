@@ -14,15 +14,12 @@
      The gap between them is small on purpose: one family, three tempos. */
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1); /* smooth: the default */
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1); /* snappier: feedback */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* decisive: entrances */
-
-  /* Duration, by the size of the thing that moves. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* Duration, by the size of the thing that moves. */
   --dur-1: 120ms; /* instant feedback: press, toggle, color shift */
   --dur-2: 220ms; /* state change: hover, menu, tooltip */
   --dur-3: 320ms; /* layout / media: panel, expand, image fade */
   --dur-4: 600ms; /* entrance: the hero beat */
-  --dur-exit: 160ms; /* exits run at ~75% of their entrance */
-}
+  --dur-exit: 160ms; }
 
 /* ---- Tailwind bridge ----
    The templates lean on Tailwind's `transition-*` utilities, which ship their
@@ -47,13 +44,6 @@
 .wipe {
   transition: transform var(--dur-3) var(--ease-out-quart);
 }
-
-/* ---- Scroll reveal: REMOVED ----
-   Content is never hidden; every box paints on load, no JS gating. The
-   [data-reveal] attributes are now genuinely inert: nothing reads them, and
-   the observer that used to (interactions.js) is deleted. Don't reintroduce
-   one. A section that starts invisible and waits to be scrolled to is a
-   section that ships blank to anything that renders without scrolling. */
 
 /* ---- Hover (cards): boxy surfaces don't float, shift fill + border
         instead of lifting/shadowing (see grid.css tokens). ---- */
@@ -87,24 +77,6 @@
   transform: scale(0.8) rotate(-12deg);
 }
 
-/* ---- Hero entrance: the single orchestrated page-load beat. The name's
-        words rise in sequence, then the mono role-line + caret take over.
-        Progressive enhancement: micro.js adds .hero-anim only when motion is
-        allowed; without it the hero is fully visible and static. ---- */
-.hero-anim .hero-word {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(0.5em);
-  animation: hero-word-in var(--dur-4) var(--ease-out-expo) forwards;
-  animation-delay: calc(var(--i, 0) * 70ms + 80ms);
-}
-@keyframes hero-word-in {
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 /* ---- Hero liquid morph: the headline melts between the greeting (नमस्ते) and
         the name, on a loop. The two words stack, each gets a JS-driven blur, and
         the container's #morph-threshold filter re-sharpens their combined alpha
@@ -114,16 +86,6 @@
   display: inline-grid;
   filter: url(#morph-threshold);
 }
-/* Both words share one centred grid cell so the morph reads as one liquid word. */
-.morph__t {
-  grid-area: 1 / 1;
-  justify-self: center;
-  white-space: nowrap;
-}
-.morph__t[data-morph2] {
-  opacity: 0;
-}
-
 /* ---- Lanyard hero: the ID card hangs from a strap and swings gently like a
         pendulum (pivot at the top of the strap). Scrolling lifts the whole
         lanyard up and fades it, revealing the portfolio beneath. The swing lives
@@ -132,28 +94,7 @@
 @media (prefers-reduced-motion: no-preference) {
   /* Opening animation: the lanyard drops in from above and settles once, then
      hangs still (no perpetual swing). */
-  .lanyard {
-    transform-origin: top center;
-    animation: lanyard-drop 1200ms var(--ease-out-expo) both;
-  }
-  @keyframes lanyard-drop {
-    0% { transform: translateY(-115%) rotate(-7deg); opacity: 0; }
-    55% { opacity: 1; }
-    78% { transform: translateY(0) rotate(2.5deg); }
-    100% { transform: translateY(0) rotate(0deg); }
-  }
   @supports (animation-timeline: scroll()) {
-    .lanyard-lift {
-      animation: lanyard-lift linear both;
-      animation-timeline: scroll(nearest);
-      animation-range: 0 62vh;
-    }
-    @keyframes lanyard-lift {
-      to {
-        transform: translateY(-44vh);
-        opacity: 0;
-      }
-    }
   }
 }
 
@@ -184,37 +125,6 @@
     }
   }
 }
-
-/* ---- Typewriter role line + blinking block caret. ---- */
-.type-caret {
-  display: inline-block;
-  width: 0.55em;
-  height: 1.05em;
-  margin-left: 0.1em;
-  transform: translateY(0.15em);
-  background: currentColor;
-  animation: caret-blink 1.05s steps(1) infinite;
-}
-@keyframes caret-blink {
-  0%,
-  50% {
-    opacity: 1;
-  }
-  50.01%,
-  100% {
-    opacity: 0;
-  }
-}
-
-/* ---- View counter: settle the number in as it counts up. ---- */
-.site-views [data-views] {
-  font-variant-numeric: tabular-nums;
-}
-
-/* ============================================================
-   View Transitions. Two different jobs share one API, so each says which
-   one it is: the theme toggle wipes, a navigation crossfades.
-   ============================================================ */
 
 /* ---- Navigation: cross-document transitions. This is a server-rendered
         multi-page site, so every nav click is a full document load, roughly a
@@ -285,23 +195,8 @@
   .theme-toggle:hover svg {
     transform: none !important;
   }
-  .hero-anim .hero-word {
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
   .morph {
     filter: none;
-  }
-  .morph__t[data-morph1] {
-    display: none;
-  }
-  .morph__t[data-morph2] {
-    opacity: 1;
-  }
-  .type-caret {
-    animation: none;
-    opacity: 1;
   }
 }
 

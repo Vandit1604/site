@@ -1,65 +1,193 @@
 {{ template "header.html" .}}
+{{/* Receipt chip: GitHub PR octicon, repo#number, then the real diffstat
+     (transcribed from the GitHub API; a merged PR never changes). */}}
+{{ define "pr" }}<a target="_blank" rel="noopener noreferrer" class="home-chip"{{ end }}
+{{ define "prIcon" }}<span class="home-chip-icon" aria-hidden="true">{{ template "icon:pr" }}</span>{{ end }}
+{{ define "add" }}<span class="home-add">{{ end }}
+{{ define "del" }}<span class="home-del">{{ end }}
 
-<div class="w-full">
+{{/* One calm column: who, then the proof in the order a reviewer checks it.
+     Links live inside sentences instead of a button row. */}}
+<script>
+  // Entrance plays once per browser session; repeat views render still.
+  try {
+    if (!sessionStorage.getItem("homeSeen")) {
+      document.documentElement.classList.add("home-enter");
+      sessionStorage.setItem("homeSeen", "1");
+    }
+  } catch (e) {}
+</script>
+<div class="home">
 
-  {{/* Proof leads: hero, then experience + open-source receipts + github,
-       then the work, then the stack, writing, and finally the ways to reach
-       out. Chrome (skills wall, now-playing) sits after the evidence. */}}
-
-  {{ template "intro.html" .}}
-
-  {{/* One wrapper for the whole site so the intro-reveal animates a single
-       compositor layer (smooth), not every section at once. */}}
-  <div class="site-reveal">
-
-  {{ template "about.html" .}}
-
-  {{ template "experience.html" .}}
-
-  {{ template "opensource.html" .}}
-
-  {{ template "featured.html" .}}
-
-  {{ template "indie.html" .}}
-
-  {{ template "skills.html" .}}
-
-  <!-- Recent Blogs Section -->
-  <section data-reveal class="box">
-    <div class="flex items-end justify-between mb-4">
-      <h2 class="text-2xl font-bold tracking-tight">Recent Blogs</h2>
-      <a href="/blogs" class="press coord text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-        All blogs &rarr;
-      </a>
+  <header class="home-hero">
+    <div class="home-id">
+      <img class="home-photo" src="/assets/images/vandit-portrait.jpg" alt="Vandit Singh" width="64" height="64">
+      <div>
+        <h1 class="home-name">Vandit Singh</h1>
+        <p class="home-role">Go engineer for observability and distributed systems</p>
+      </div>
     </div>
-    <div class="border-t border-gray-200 dark:border-neutral-800">
-        {{ if .recentBlogs }}
-            {{ range .recentBlogs }}
-            <a href="blogs/{{.Slug}}"
-              class="press group block border-b border-gray-200 dark:border-neutral-800 py-5 hover:bg-gray-50 dark:hover:bg-neutral-900 transition-colors">
-                <time class="font-mono text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500">{{ .Date }}</time>
-                <h3 class="mt-1.5 text-xl font-semibold text-black dark:text-white">
-                  <span class="inline-block transition-transform group-hover:translate-x-1">{{ .Title }}</span>
-                </h3>
-                <div class="mt-2.5 flex flex-wrap gap-1.5">
-                    {{ range .Tags }}
-                    <span class="font-mono text-xs border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">{{ . }}</span>
-                    {{ end }}
-                </div>
-            </a>
-            {{ end }}
-        {{ else }}
-            <p class="py-4 text-gray-500 dark:text-gray-400">No recent blogs found.</p>
-        {{ end }}
+
+    <p class="home-p">
+      I write Go for infrastructure: observability, storage and the services
+      in between. My code is merged into Kubernetes, Prometheus, VictoriaMetrics,
+      Lightning Labs and Jenkins. These days I fix bugs across the
+      VictoriaMetrics stack and review pull requests in lnd.
+    </p>
+    <p class="home-p">
+      <a class="home-ilink" href="mailto:vanditsinghkv@gmail.com" data-tip="vanditsinghkv@gmail.com">{{ template "icon:mail" }}Email me</a><button type="button" class="home-copy" data-copy="vanditsinghkv@gmail.com" aria-label="Copy email address"><span class="home-copy-a">{{ template "icon:copy" }}</span><span class="home-copy-b">{{ template "icon:check" }}</span></button>,
+      or find me on <a class="home-ilink" href="https://github.com/Vandit1604" target="_blank" rel="noopener noreferrer" data-tip="github.com/Vandit1604">{{ template "icon:github" }}GitHub</a>,
+      <a class="home-ilink" href="https://www.linkedin.com/in/vandit-singh/" target="_blank" rel="noopener noreferrer" data-tip="linkedin.com/in/vandit-singh">{{ template "icon:linkedin" }}LinkedIn</a>
+      and <a class="home-ilink" href="https://x.com/v4nd1t" target="_blank" rel="noopener noreferrer" data-tip="x.com/v4nd1t">{{ template "icon:x" }}X</a>.
+      My <a class="home-ilink" href="/resume" target="_blank" rel="noopener noreferrer" data-tip="Opens the PDF">{{ template "icon:file" }}résumé</a> has the rest.
+    </p>
+    <p class="home-p">
+      Elsewhere here: <a class="home-ilink" href="/projects">projects</a>,
+      <a class="home-ilink" href="/blogs">writing</a>, <a class="home-ilink" href="/talks">talks</a>,
+      a reading <a class="home-ilink" href="/library">library</a> and a
+      <a class="home-ilink" href="/gallery">gallery</a>.
+    </p>
+    <div class="home-actions">
+      <a class="home-cta" href="https://cal.com/v4nd1t/30min" target="_blank" rel="noopener noreferrer" data-tip="30 minutes on cal.com">Book a call {{ template "icon:arrow-up-right" }}</a>
+      <p class="home-status"><i class="home-dot" aria-hidden="true"></i>Open to remote work &middot; India</p>
     </div>
+  </header>
+
+  <section class="home-sec" aria-labelledby="h-exp">
+    <h2 id="h-exp" class="home-h"><span>~/</span>Experience</h2>
+    <ol class="home-rows">
+      <li>
+        <details class="home-item">
+          <summary class="home-row"><span class="home-tile home-tile--logo home-tile--pad" aria-hidden="true"><img src="/assets/images/logos/fluidcloud.png" alt="" width="40" height="40" loading="lazy"></span><p class="home-what">FluidCloud <span>&middot; Member of Technical Staff</span></p><span class="home-when">Nov 2025 &ndash; May 2026</span><span class="home-toggle" aria-hidden="true">{{ template "icon:chevron-down" }}</span></summary>
+          <div class="home-detail">
+            <p class="home-note">Built Go scanners that read live cloud state across Oracle Cloud, AWS and Azure. Also owned Keycloak service-to-service auth and OpenTelemetry tracing into Prometheus and Grafana.</p>
+          </div>
+        </details>
+      </li>
+      <li>
+        <details class="home-item">
+          <summary class="home-row"><span class="home-tile home-tile--logo" aria-hidden="true"><img src="/assets/images/logos/rapidfort.png" alt="" width="40" height="40" loading="lazy"></span><p class="home-what">RapidFort <span>&middot; Software Development Engineer</span></p><span class="home-when">Jun 2024 &ndash; Nov 2025</span><span class="home-toggle" aria-hidden="true">{{ template "icon:chevron-down" }}</span></summary>
+          <div class="home-detail">
+            <p class="home-note">Hardened 12+ open source container images for the U.S. DoD&rsquo;s IronBank and cut their CVEs by about 80%, then worked on the CVE scanner.</p>
+          </div>
+        </details>
+      </li>
+      <li>
+        <details class="home-item">
+          <summary class="home-row"><span class="home-tile home-tile--logo" aria-hidden="true"><img src="/assets/images/logos/aquanode.png" alt="" width="40" height="40" loading="lazy"></span><p class="home-what">Aquanode <span>&middot; Founding Engineer, part-time</span></p><span class="home-when">Jun &ndash; Oct 2025</span><span class="home-toggle" aria-hidden="true">{{ template "icon:chevron-down" }}</span></summary>
+          <div class="home-detail">
+            <p class="home-note">Built the Go control plane that deploys GPU workloads across DataCrunch, Hyperstack and Nebius.</p>
+          </div>
+        </details>
+      </li>
+      <li>
+        <details class="home-item">
+          <summary class="home-row"><span class="home-tile" aria-hidden="true">{{ template "icon:jenkins" }}</span><p class="home-what">Jenkins <span>&middot; GSoC contributor, then mentor</span></p><span class="home-when">2023 &ndash; 2024</span><span class="home-toggle" aria-hidden="true">{{ template "icon:chevron-down" }}</span></summary>
+          <div class="home-detail">
+            <p class="home-note">Moved the Jenkins docs to a versioned Antora and GatsbyJS site as a GSoC contributor, then came back to mentor the next cohort.</p>
+          </div>
+        </details>
+      </li>
+    </ol>
   </section>
 
-  {{ template "signhere.html" .}}
+  <section class="home-sec" aria-labelledby="h-oss">
+    <h2 id="h-oss" class="home-h"><span>~/</span>Open-source</h2>
+    <ol class="home-rows">
+      <li class="home-li home-li--link">
+        <details class="home-item">
+          <summary class="home-row"><span class="home-tile" aria-hidden="true">{{ template "icon:victoriametrics" }}</span><p class="home-what">VictoriaMetrics <span>&middot; metrics, logs, traces, operator</span></p><span class="home-when">16 merged</span><span class="home-toggle" aria-hidden="true">{{ template "icon:chevron-down" }}</span></summary>
+          <div class="home-detail">
+          <p class="home-note">Fixed trace search on servers in time zones behind UTC, locked the delete API to POST, and triage user bug reports across metrics, logs and traces.</p>
+          <div class="home-chips">
+            {{ template "pr" }} href="https://github.com/VictoriaMetrics/VictoriaTraces/pull/262">{{ template "prIcon" }}VictoriaTraces#262 {{ template "add" }}+153</span>{{ template "del" }}&minus;40</span></a>
+            {{ template "pr" }} href="https://github.com/VictoriaMetrics/VictoriaTraces/pull/236">{{ template "prIcon" }}VictoriaTraces#236 {{ template "add" }}+319</span>{{ template "del" }}&minus;16</span></a>
+            {{ template "pr" }} href="https://github.com/VictoriaMetrics/operator/pull/2692">{{ template "prIcon" }}operator#2692 {{ template "add" }}+181</span>{{ template "del" }}&minus;9</span></a>
+          </div>
+          </div>
+        </details>
+        <a class="home-li-link" href="https://github.com/search?q=author%3AVandit1604+org%3AVictoriaMetrics+is%3Apr+is%3Amerged&amp;type=pullrequests" target="_blank" rel="noopener noreferrer" aria-label="My merged VictoriaMetrics PRs">{{ template "icon:arrow-up-right" }}</a>
+      </li>
+      <li class="home-li home-li--link">
+        <details class="home-item">
+          <summary class="home-row"><span class="home-tile" aria-hidden="true">{{ template "icon:bitcoin" }}</span><p class="home-what">Lightning Labs <span>&middot; lightning-terminal, taproot-assets, neutrino</span></p><span class="home-when">3 merged</span><span class="home-toggle" aria-hidden="true">{{ template "icon:chevron-down" }}</span></summary>
+          <div class="home-detail">
+          <p class="home-note">Stopped lightning-terminal from hiding payment errors, made taproot-assets reject negative invoice expiries, and fixed how neutrino announces transactions to peers. I also review and test lnd pull requests.</p>
+          <div class="home-chips">
+            {{ template "pr" }} href="https://github.com/lightninglabs/lightning-terminal/pull/1322">{{ template "prIcon" }}lightning-terminal#1322 {{ template "add" }}+111</span>{{ template "del" }}&minus;2</span></a>
+            {{ template "pr" }} href="https://github.com/lightninglabs/taproot-assets/pull/2267">{{ template "prIcon" }}taproot-assets#2267 {{ template "add" }}+48</span>{{ template "del" }}&minus;0</span></a>
+            {{ template "pr" }} href="https://github.com/lightninglabs/neutrino/pull/386">{{ template "prIcon" }}neutrino#386 {{ template "add" }}+33</span>{{ template "del" }}&minus;10</span></a>
+          </div>
+          </div>
+        </details>
+        <a class="home-li-link" href="https://github.com/search?q=author%3AVandit1604+org%3Alightninglabs+is%3Apr+is%3Amerged&amp;type=pullrequests" target="_blank" rel="noopener noreferrer" aria-label="My merged Lightning Labs PRs">{{ template "icon:arrow-up-right" }}</a>
+      </li>
+      <li class="home-li home-li--link">
+        <details class="home-item">
+          <summary class="home-row"><span class="home-tile" aria-hidden="true">{{ template "icon:kubernetes" }}</span><p class="home-what">Kubernetes <span>&middot; core, Kueue, Prow</span></p><span class="home-when">10 merged</span><span class="home-toggle" aria-hidden="true">{{ template "icon:chevron-down" }}</span></summary>
+          <div class="home-detail">
+          <p class="home-note">A regression test in kubernetes/kubernetes core, plus CI and Prow job work for Kueue.</p>
+          <div class="home-chips">
+            {{ template "pr" }} href="https://github.com/kubernetes/kubernetes/pull/122625">{{ template "prIcon" }}kubernetes#122625 {{ template "add" }}+25</span>{{ template "del" }}&minus;0</span></a>
+          </div>
+          </div>
+        </details>
+        <a class="home-li-link" href="https://github.com/search?q=author%3AVandit1604+org%3Akubernetes+org%3Akubernetes-sigs+is%3Apr+is%3Amerged&amp;type=pullrequests" target="_blank" rel="noopener noreferrer" aria-label="My merged Kubernetes PRs">{{ template "icon:arrow-up-right" }}</a>
+      </li>
+      <li class="home-li home-li--link">
+        <details class="home-item">
+          <summary class="home-row"><span class="home-tile" aria-hidden="true">{{ template "icon:prometheus" }}</span><p class="home-what">Prometheus <span>&middot; query layer, prombench</span></p><span class="home-when">8 merged</span><span class="home-toggle" aria-hidden="true">{{ template "icon:chevron-down" }}</span></summary>
+          <div class="home-detail">
+          <p class="home-note">Added a limit parameter to /query and /query_range, and worked on prombench, the benchmark test bench.</p>
+          <div class="home-chips">
+            {{ template "pr" }} href="https://github.com/prometheus/prometheus/pull/15552">{{ template "prIcon" }}prometheus#15552 {{ template "add" }}+280</span>{{ template "del" }}&minus;3</span></a>
+          </div>
+          </div>
+        </details>
+        <a class="home-li-link" href="https://github.com/search?q=author%3AVandit1604+org%3Aprometheus+is%3Apr+is%3Amerged&amp;type=pullrequests" target="_blank" rel="noopener noreferrer" aria-label="My merged Prometheus PRs">{{ template "icon:arrow-up-right" }}</a>
+      </li>
+    </ol>
+    <a class="home-more" href="https://github.com/search?q=author%3AVandit1604+is%3Apr+is%3Amerged&amp;type=pullrequests" target="_blank" rel="noopener noreferrer">All 207 merged PRs <span class="home-arrow" aria-hidden="true">&rarr;</span></a>
+  </section>
 
-  {{ template "connect.html" .}}
+  <section class="home-sec" aria-labelledby="h-proj">
+    <h2 id="h-proj" class="home-h"><span>~/</span>Projects</h2>
+    <ol class="home-rows">
+      {{ range .featuredProjects }}{{ if ne .Name "Aquanode" }}{{ template "projectCard" . }}{{ end }}{{ end }}
+    </ol>
+    <a class="home-more" href="/projects">All projects <span class="home-arrow" aria-hidden="true">&rarr;</span></a>
+  </section>
 
-  </div>{{/* .site-reveal */}}
+  <section class="home-sec" aria-labelledby="h-blog">
+    <h2 id="h-blog" class="home-h"><span>~/</span>Writing</h2>
+    <ol class="home-posts">
+      {{ range .recentBlogs }}
+      <li><a href="/blogs/{{ .Slug }}"><span>{{ .Title }}</span><time class="home-when">{{ .Date }}</time></a></li>
+      {{ else }}
+      <li class="home-note">No posts yet.</li>
+      {{ end }}
+    </ol>
+    <a class="home-more" href="/blogs">All writing <span class="home-arrow" aria-hidden="true">&rarr;</span></a>
+  </section>
 
 </div>
+
+<p class="visually-hidden" role="status" id="home-status-msg"></p>
+<script>
+  // Copy the email in place; the icon swap is the confirmation, the status
+  // line says it to screen readers.
+  document.querySelectorAll(".home-copy").forEach(function (btn) {
+    var timer;
+    btn.addEventListener("click", function () {
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(btn.dataset.copy).then(function () {
+        btn.classList.add("is-copied");
+        document.getElementById("home-status-msg").textContent = "Email copied";
+        clearTimeout(timer);
+        timer = setTimeout(function () { btn.classList.remove("is-copied"); }, 1600);
+      });
+    });
+  });
+</script>
 
 {{ template "footer.html" .}}

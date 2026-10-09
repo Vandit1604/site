@@ -1,51 +1,14 @@
-{{/* One project card, shared by /projects and the homepage featured grid.
-
-     Previously those two rendered their own markup and neither matched the
-     indie cards above them, so the same page showed three different card
-     designs. There is one now, and it is the indie one: diagram, then a
-     header row, the description, and a footer that pairs tags against the
-     destination.
-
-     The whole card is a single link because every project has exactly one
-     destination: a live site or a repo, never both. That also means a nested
-     <a> is impossible, which is why a collaborator is credited as text here
-     rather than as a link to their profile. */}}
+{{/* One project row, shared by /projects and the homepage. The title is the
+     link (GitHub, else the site); the chevron beside it shows the description. */}}
 {{ define "projectCard" }}
-{{ $url := .PrimaryURL }}
-<a
-  {{ if $url }}href="{{ $url }}" target="_blank" rel="noopener noreferrer"{{ end }}
-  class="cell boxy-hover press group flex flex-col overflow-hidden"
->
-  {{ if .Art }}
-  <div class="relative aspect-[16/9] w-full border-b border-gray-200 bg-gray-50/70 p-4 text-gray-900 dark:border-neutral-800 dark:bg-neutral-900/50 dark:text-gray-100">
-    {{ template "projectArt" . }}
+<li class="home-li">
+  <div class="home-row">
+    {{ if eq .Art "aquanode" }}<span class="home-tile home-tile--logo" aria-hidden="true"><img src="/assets/images/logos/aquanode.png" alt="" width="40" height="40" loading="lazy"></span>{{ else }}<span class="home-tile" aria-hidden="true">{{ if eq .Art "dockerium" }}{{ template "icon:container" }}{{ else if eq .Art "phile-storage" }}{{ template "icon:database" }}{{ else if eq .Art "go-lb" }}{{ template "icon:balancer" }}{{ else }}{{ template "icon:braces" }}{{ end }}</span>{{ end }}
+    <p class="home-what">{{ if .GithubLink }}<a class="home-title" href="{{ .GithubLink }}" target="_blank" rel="noopener noreferrer" data-tip="Code on GitHub">{{ .Name }}</a>{{ else if .DemoLink }}<a class="home-title" href="{{ .DemoLink }}" target="_blank" rel="noopener noreferrer" data-tip="Opens the site">{{ .Name }}</a>{{ else }}{{ .Name }}{{ end }}{{ if .CollabName }} <span>with {{ .CollabName }}</span>{{ end }}<button type="button" class="home-xbtn" aria-expanded="false" aria-label="Details: {{ .Name }}">{{ template "icon:chevron-down" }}</button></p>
+    <span class="home-when">{{ range $i, $t := .Tags }}{{ if $i }} &middot; {{ end }}{{ $t }}{{ end }}</span>
   </div>
-  {{ end }}
-
-  <div class="flex flex-1 flex-col p-6">
-    <div class="flex items-center justify-between gap-3">
-      <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ .Name }}</h3>
-      {{ if .CollabName }}
-      <span class="flex-shrink-0 font-mono text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-500">
-        with {{ .CollabName }}
-      </span>
-      {{ end }}
-    </div>
-
-    <p class="mt-2 flex-1 text-sm text-gray-600 dark:text-gray-400">{{ .Description }}</p>
-
-    <div class="mt-4 flex items-end justify-between gap-3">
-      <div class="flex flex-wrap gap-1.5">
-        {{ range .Tags }}
-        <span class="font-mono text-[11px] border border-gray-300 dark:border-neutral-700 px-2 py-0.5 text-gray-600 dark:text-gray-400">{{ . }}</span>
-        {{ end }}
-      </div>
-      {{ if $url }}
-      <span class="flex-shrink-0 font-mono text-xs text-gray-500 dark:text-gray-500 group-hover:text-black dark:group-hover:text-white transition-colors">
-        {{ .PrimaryLabel }} <span class="inline-block transition-transform group-hover:translate-x-0.5">&rarr;</span>
-      </span>
-      {{ end }}
-    </div>
-  </div>
-</a>
+  <div class="home-xdetail" inert><div class="home-xinner">
+    <p class="home-note">{{ .Description }}</p>
+  </div></div>
+</li>
 {{ end }}

@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/vandit1604/site/models"
-	"github.com/vandit1604/site/spotify"
 	"github.com/vandit1604/site/types"
 )
 
@@ -70,21 +70,20 @@ func ShowIndexPage(c *gin.Context) {
 		log.Printf("Error reading projects for homepage: %v", err)
 		featuredProjects = nil
 	}
-	if len(featuredProjects) > 3 {
-		featuredProjects = featuredProjects[:3]
+	// Four, because the template skips Aquanode (already under Experience).
+	if len(featuredProjects) > 4 {
+		featuredProjects = featuredProjects[:4]
 	}
 
 	c.HTML(http.StatusOK, "index.html", merge(
 		pageMeta(
 			"Vandit Singh | Golang & Distributed Systems Engineer",
-			"Golang engineer for distributed systems, storage & p2p. Merged contributor to Kubernetes, Prometheus & Jenkins.",
+			"Go engineer for observability & distributed systems. Merged into Kubernetes, Prometheus, VictoriaMetrics & Lightning Labs.",
 			"/",
 		),
 		gin.H{
 			"recentBlogs":      recentBlogs,
 			"featuredProjects": featuredProjects,
-			// nil when Spotify isn't configured; the template hides the widget.
-			"nowPlaying": spotify.RecentlyPlayed(),
 		},
 	))
 }
@@ -114,7 +113,7 @@ func ShowBlogPage(c *gin.Context) {
 	title := "Blogs · Vandit Singh"
 	description := "Writing on Go, distributed systems, open source contribution, and engineering career notes by Vandit Singh."
 	if selectedTag != "" {
-		title = selectedTag + " · Blogs by Vandit Singh"
+		title = selectedTag + " · Writing by Vandit Singh"
 	}
 
 	c.HTML(
@@ -137,18 +136,25 @@ func ShowBlogPage(c *gin.Context) {
 	)
 }
 
-// Helper function to get all unique tags
+// getAllTags returns each tag once, most-used first (alphabetical on ties), so
+// the filter row keeps a stable order instead of Go's random map order.
 func getAllTags(blogs map[string]types.BlogPost) []string {
-	tagSet := make(map[string]bool)
+	count := make(map[string]int)
 	for _, blog := range blogs {
 		for _, tag := range blog.Tags {
-			tagSet[tag] = true
+			count[tag]++
 		}
 	}
 
-	var allTags []string
-	for tag := range tagSet {
+	allTags := make([]string, 0, len(count))
+	for tag := range count {
 		allTags = append(allTags, tag)
 	}
+	slices.SortFunc(allTags, func(x, y string) int {
+		if count[x] != count[y] {
+			return count[y] - count[x]
+		}
+		return strings.Compare(x, y)
+	})
 	return allTags
 }
