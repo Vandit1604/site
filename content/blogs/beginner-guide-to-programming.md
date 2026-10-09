@@ -1,6 +1,7 @@
 ---
 title: "Beginner's Guide to Programming"
 date: "2024-09-26"
+description: "A roadmap for first-year students: pick one language, practice by building, choose a domain, learn from free resources and from people who have done it."
 tags: ["tech"]
 ---
 

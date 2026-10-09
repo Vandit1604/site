@@ -87,6 +87,8 @@
         "@type": "BlogPosting",
         "headline": "{{ .ArticleTitle }}",
         "datePublished": "{{ .ArticleDate }}",
+        "dateModified": "{{ .ArticleMod }}",
+        "description": "{{ $desc }}",
         "url": "{{ $canonical }}",
         "image": "{{ $ogImage }}",
         "author": { "@type": "Person", "name": "Vandit Singh", "url": "https://vandit.dev/" },
@@ -102,10 +104,12 @@
         "@type": "Person",
         "name": "Vandit Singh",
         "url": "https://vandit.dev/",
-        "image": "https://vandit.dev/static/images/og.png",
-        "jobTitle": "Golang Engineer",
+        "image": "https://vandit.dev/assets/images/vandit-portrait.jpg",
+        "jobTitle": "Go Engineer",
+        "description": "Go engineer for observability and distributed systems.",
         "sameAs": [
           "https://github.com/Vandit1604",
+          "https://dev.to/v4nd1t",
           "https://x.com/v4nd1t",
           "https://www.linkedin.com/in/vandit-singh/"
         ],

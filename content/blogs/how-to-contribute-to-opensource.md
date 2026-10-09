@@ -1,6 +1,7 @@
 ---
 title: "How to Contribute to Open Source"  
 date: "2024-09-19"
+description: "Eight steps to a first open source contribution: pick an organization, use the project, read CONTRIBUTING.md, set it up locally and land a first PR."
 tags: ["tech"]  
 ---
 

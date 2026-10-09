@@ -55,13 +55,7 @@ func ShowIndexPage(c *gin.Context) {
 	// Newest-first, tolerant of loose date formats in post front-matter.
 	blogSlice := sortedBlogs(blogs)
 
-	// Get the two most recent blogs
-	var recentBlogs []types.BlogPost
-	if len(blogSlice) > 2 {
-		recentBlogs = blogSlice[:2]
-	} else {
-		recentBlogs = blogSlice
-	}
+	recentBlogs := blogSlice[:min(4, len(blogSlice))]
 
 	// Surface the top projects as "featured work" on the homepage.
 	// projects.yml is ordered most-important-first, so we take the leading few.

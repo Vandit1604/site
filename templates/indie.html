@@ -3,14 +3,24 @@
      screenshot tile standing in for the icon tile, status instead of a date. -->
 <section class="home-sec" aria-labelledby="h-building">
   <h2 id="h-building" class="home-h"><span>~/</span>Building</h2>
-  <p class="home-p">Two products I&rsquo;m bootstrapping solo. Closed source, for now.</p>
+  <p class="home-p">Three products I&rsquo;m bootstrapping solo.</p>
   <ol class="home-rows" style="margin-top:1.5rem">
+    <li class="home-li">
+      <div class="home-row">
+        <span class="home-tile" aria-hidden="true">{{ template "icon:film" }}</span>
+        <p class="home-what"><a class="home-title" href="https://vawe.dev" target="_blank" rel="noopener noreferrer" data-tip="Opens the site">vawe</a><button type="button" class="home-xbtn" aria-expanded="false" aria-label="Details: vawe">{{ template "icon:chevron-down" }}</button></p>
+      </div>
+      <div class="home-xdetail" inert><div class="home-xinner">
+        <p class="home-note">A deterministic motion-graphics engine: one JSON file becomes one frame-perfect video, and the same input gives the same bytes every time. Renders with headless Chrome and ffmpeg. <a href="https://github.com/Vandit1604/vawe" target="_blank" rel="noopener noreferrer">Open source</a>.</p>
+        <div class="home-chips"><span class="home-chip home-chip--plain">Go</span><span class="home-chip home-chip--plain">Video</span></div>
+      </div></div>
+    </li>
     <li class="home-li">
       <div class="home-row">
         <span class="home-tile home-tile--logo home-tile--pad" aria-hidden="true">
           <img src="/static/assets/previews/threadcite.jpg" alt="" width="40" height="40" loading="lazy">
         </span>
-        <p class="home-what"><a class="home-title" href="https://threadcite.live" target="_blank" rel="noopener noreferrer" data-tip="Opens the site">ThreadCite</a> <span>&middot; in progress</span><button type="button" class="home-xbtn" aria-expanded="false" aria-label="Details: ThreadCite">{{ template "icon:chevron-down" }}</button></p>
+        <p class="home-what"><a class="home-title" href="https://threadcite.live" target="_blank" rel="noopener noreferrer" data-tip="Opens the site">ThreadCite</a><button type="button" class="home-xbtn" aria-expanded="false" aria-label="Details: ThreadCite">{{ template "icon:chevron-down" }}</button></p>
       </div>
       <div class="home-xdetail" inert><div class="home-xinner">
         <p class="home-note">Finds the Reddit threads ranking on Google for your keywords, tracks your share of voice, and hands you a coached reply for each.</p>
@@ -22,7 +32,7 @@
         <span class="home-tile home-tile--logo home-tile--pad" aria-hidden="true">
           <img src="/static/assets/previews/argus.jpg" alt="" width="40" height="40" loading="lazy">
         </span>
-        <p class="home-what"><a class="home-title" href="https://argushq.cc" target="_blank" rel="noopener noreferrer" data-tip="Opens the site">Argus</a> <span>&middot; in progress</span><button type="button" class="home-xbtn" aria-expanded="false" aria-label="Details: Argus">{{ template "icon:chevron-down" }}</button></p>
+        <p class="home-what"><a class="home-title" href="https://argushq.cc" target="_blank" rel="noopener noreferrer" data-tip="Opens the site">Argus</a><button type="button" class="home-xbtn" aria-expanded="false" aria-label="Details: Argus">{{ template "icon:chevron-down" }}</button></p>
       </div>
       <div class="home-xdetail" inert><div class="home-xinner">
         <p class="home-note">Reads your real X funnel (reach, visits, follows, saves) and tells you who to reply to, in your own voice.</p>
