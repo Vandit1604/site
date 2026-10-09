@@ -29,6 +29,40 @@
   </p>
 
   <div class="space-y-5">
+    <!-- VictoriaMetrics -->
+    <div class="flex items-start gap-4">
+      <span class="text-[30px] text-gray-700 dark:text-gray-300 flex-shrink-0 mt-0.5" aria-hidden="true">{{ template "icon:victoriametrics" }}</span>
+      <div>
+        <h3 class="font-semibold text-black dark:text-white">VictoriaMetrics</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+          <a href="https://github.com/search?q=author%3AVandit1604+is%3Apr+is%3Amerged+org%3AVictoriaMetrics&amp;type=pullrequests" target="_blank" rel="noopener noreferrer" class="ilink">16 PRs merged</a> across the VictoriaMetrics stack since August 2026: metrics, logs, traces and the Kubernetes operator. In VictoriaTraces I fixed trace search on servers behind UTC and made the delete API accept POST only. I also reproduce and triage user bug reports.
+        </p>
+        <div class="mt-2 flex flex-wrap gap-1.5">
+          {{ template "pr" }} href="https://github.com/VictoriaMetrics/VictoriaTraces/pull/262">{{ template "prIcon" }}VictoriaTraces#262<span class="tabular-nums">{{ template "add" }}+153</span>&thinsp;{{ template "del" }}&minus;40</span></span></a>
+          {{ template "pr" }} href="https://github.com/VictoriaMetrics/VictoriaTraces/pull/236">{{ template "prIcon" }}VictoriaTraces#236<span class="tabular-nums">{{ template "add" }}+319</span>&thinsp;{{ template "del" }}&minus;16</span></span></a>
+          {{ template "pr" }} href="https://github.com/VictoriaMetrics/operator/pull/2692">{{ template "prIcon" }}operator#2692<span class="tabular-nums">{{ template "add" }}+181</span>&thinsp;{{ template "del" }}&minus;9</span></span></a>
+          {{ template "pr" }} href="https://github.com/VictoriaMetrics/VictoriaMetrics/pull/11377">{{ template "prIcon" }}VictoriaMetrics#11377<span class="tabular-nums">{{ template "add" }}+134</span>&thinsp;{{ template "del" }}&minus;40</span></span></a>
+          {{ template "pr" }} href="https://github.com/VictoriaMetrics/metricsql/pull/79">{{ template "prIcon" }}metricsql#79<span class="tabular-nums">{{ template "add" }}+41</span>&thinsp;{{ template "del" }}&minus;4</span></span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightning -->
+    <div class="flex items-start gap-4">
+      <span class="text-[30px] text-gray-700 dark:text-gray-300 flex-shrink-0 mt-0.5" aria-hidden="true">{{ template "icon:bitcoin" }}</span>
+      <div>
+        <h3 class="font-semibold text-black dark:text-white">Lightning</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+          Merged into Lightning Labs' <a href="https://github.com/lightninglabs/lightning-terminal/pull/1322" target="_blank" rel="noopener noreferrer" class="ilink">lightning-terminal</a>, <a href="https://github.com/lightninglabs/taproot-assets/pull/2267" target="_blank" rel="noopener noreferrer" class="ilink">taproot-assets</a> and <a href="https://github.com/lightninglabs/neutrino/pull/386" target="_blank" rel="noopener noreferrer" class="ilink">neutrino</a>: payment errors that were being masked, a negative invoice expiry, and how transactions are announced to peers. I also review and test <a href="https://github.com/lightningnetwork/lnd/pull/11267" target="_blank" rel="noopener noreferrer" class="ilink">lnd</a> PRs.
+        </p>
+        <div class="mt-2 flex flex-wrap gap-1.5">
+          {{ template "pr" }} href="https://github.com/lightninglabs/lightning-terminal/pull/1322">{{ template "prIcon" }}lightning-terminal#1322<span class="tabular-nums">{{ template "add" }}+111</span>&thinsp;{{ template "del" }}&minus;2</span></span></a>
+          {{ template "pr" }} href="https://github.com/lightninglabs/taproot-assets/pull/2267">{{ template "prIcon" }}taproot-assets#2267<span class="tabular-nums">{{ template "add" }}+48</span>&thinsp;{{ template "del" }}&minus;0</span></span></a>
+          {{ template "pr" }} href="https://github.com/lightninglabs/neutrino/pull/386">{{ template "prIcon" }}neutrino#386<span class="tabular-nums">{{ template "add" }}+33</span>&thinsp;{{ template "del" }}&minus;10</span></span></a>
+        </div>
+      </div>
+    </div>
+
     <!-- Kubernetes -->
     <div class="flex items-start gap-4">
       <span class="text-[30px] text-gray-700 dark:text-gray-300 flex-shrink-0 mt-0.5" aria-hidden="true">{{ template "icon:kubernetes" }}</span>
@@ -83,7 +117,7 @@
 
   <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
     <a href="https://github.com/search?q=author%3AVandit1604+is%3Apr+is%3Amerged&amp;type=pullrequests" target="_blank" rel="noopener noreferrer" class="coord text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-      All 188 merged PRs &rarr;
+      All 207 merged PRs &rarr;
     </a>
     <a href="https://github.com/Vandit1604" target="_blank" rel="noopener noreferrer" class="coord text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
       GitHub profile &rarr;
