@@ -30,8 +30,8 @@
          MetaDescription, Canonical, OGType, OGImage, Noindex, IsArticle. */}}
     {{/* Keep $title under ~60 chars and $desc under ~125 so neither Google nor
          the social cards (X, LinkedIn) truncate them. */}}
-    {{ $title := or .MetaTitle "Vandit Singh — Golang & Distributed Systems Engineer" }}
-    {{ $desc := or .MetaDescription "Golang engineer for distributed systems, storage & p2p. Merged contributor to Kubernetes, Prometheus & Jenkins." }}
+    {{ $title := or .MetaTitle "Vandit Singh | Golang & Distributed Systems Engineer" }}
+    {{ $desc := or .MetaDescription "Go engineer for observability & distributed systems. Merged into Kubernetes, Prometheus, VictoriaMetrics & Lightning Labs." }}
     {{ $canonical := or .Canonical "https://vandit.dev/" }}
     {{ $ogType := or .OGType "website" }}
     {{ $ogImage := or .OGImage "https://vandit.dev/static/images/og.png" }}
@@ -46,7 +46,7 @@
     <meta name="robots" content="index, follow" />
     {{ end }}
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0a0a" />
     {{/* A noindex page must not also declare a canonical: the two are
          contradictory, and Google may carry the noindex over to the canonical
          target. The 404 page would otherwise point one at the homepage. */}}
@@ -55,7 +55,7 @@
     {{ end }}
 
     <!-- Feed auto-discovery: readers and aggregators find the RSS feed from any page. -->
-    <link rel="alternate" type="application/rss+xml" title="Vandit Singh — Blog" href="https://vandit.dev/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Vandit Singh: Blog" href="https://vandit.dev/rss.xml" />
 
     <!-- Favicon: SVG for modern browsers, PNG fallbacks for the rest + iOS. -->
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
@@ -138,7 +138,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Pixelify+Sans:wght@600;700&family=Great+Vibes&family=Mr+Dafoe&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
@@ -148,11 +148,6 @@
          rather than drifting off with its own hand-picked timing. */
       html {
         scroll-behavior: smooth;
-      }
-      body {
-        transition:
-          background-color var(--dur-2) var(--ease-out-quart),
-          color var(--dur-2) var(--ease-out-quart);
       }
 
       /* Hide scrollbar for Webkit-based browsers */
@@ -169,12 +164,9 @@
   </head>
 
   <body
-    class="app-shell font-sans bg-white text-black antialiased dark:bg-black dark:text-white"
+    class="app-shell font-sans text-black antialiased dark:text-white"
   >
-    <!-- Animated dithered side gutters: one full-viewport WebGL canvas behind
-         the opaque content column, so the animation shows only in the margins
-         either side of the frame (desktop). dither.js drives it. -->
-    <canvas class="gutter-dither" data-dither aria-hidden="true"></canvas>
+    <a href="#main" class="skip-link">Skip to content</a>
 
     <!-- App shell: a fixed top nav bar, then the scrollable content in its own
          container below it, so the nav never overlaps content. -->
@@ -182,4 +174,4 @@
     <div class="app-scroll">
     <!-- One boxed content column; the .site-frame rails run the full document
          height and close in footer.html. -->
-    <div class="site-frame">
+    <div class="site-frame" id="main" tabindex="-1">

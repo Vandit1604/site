@@ -1,16 +1,14 @@
 <!-- Booking: a direct link to Cal.com, no embedded widget. -->
-<section id="book" class="box" aria-labelledby="connect-heading" style="scroll-margin-top:5rem">
-  <h2 id="connect-heading" class="text-2xl font-bold tracking-tight mb-2">Let&rsquo;s connect</h2>
-  <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-xl">
+<section id="book" class="home-sec" aria-labelledby="connect-heading" style="scroll-margin-top:5rem">
+  <h2 id="connect-heading" class="home-h"><span>~/</span>Let&rsquo;s connect</h2>
+  <p class="home-p">
     Grab a 30-minute slot for distributed systems, infrastructure, open source,
     or just to say hi.
   </p>
-  <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
-    <a href="https://cal.com/v4nd1t/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-      Book a call with me <span aria-hidden="true">&#8599;</span>
+  <div class="home-actions">
+    <a href="https://cal.com/v4nd1t/30min" target="_blank" rel="noopener noreferrer" class="home-cta">
+      Book a call with me {{ template "icon:arrow-up-right" }}
     </a>
-    <a href="mailto:vanditsinghkv@gmail.com" class="btn btn-secondary">
-      Or email me
-    </a>
+    <a href="mailto:vanditsinghkv@gmail.com" class="home-ilink">{{ template "icon:mail" }}Or email me</a>
   </div>
 </section>

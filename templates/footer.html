@@ -4,7 +4,7 @@
       <div class="max-w-sm">
         <p class="text-sm font-semibold text-black dark:text-white">Vandit Singh</p>
         <p class="mt-1.5 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-          Golang engineer for distributed systems, storage, and p2p. Merged into Kubernetes, Prometheus, and Jenkins. Open to remote work.
+          Go engineer for observability and distributed systems, based in India. Open to remote work.
         </p>
         <a href="https://cal.com/v4nd1t/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-4">
           Book a call <span aria-hidden="true">&rarr;</span>
@@ -14,20 +14,22 @@
       <nav aria-label="Footer" class="grid grid-cols-2 gap-x-10 gap-y-2 text-sm text-gray-600 dark:text-gray-400">
         <a href="/projects" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Projects</a>
         <a href="https://github.com/Vandit1604" target="_blank" rel="noopener noreferrer" class="press w-fit hover:text-black dark:hover:text-white transition-colors">GitHub</a>
-        <a href="/blogs" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Blogs</a>
+        <a href="/blogs" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Writing</a>
         <a href="https://x.com/v4nd1t" target="_blank" rel="noopener noreferrer" class="press w-fit hover:text-black dark:hover:text-white transition-colors">X</a>
         <a href="/talks" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Talks</a>
         <a href="https://www.linkedin.com/in/vandit-singh/" target="_blank" rel="noopener noreferrer" class="press w-fit hover:text-black dark:hover:text-white transition-colors">LinkedIn</a>
+        <a href="/library" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Library</a>
+        <a href="https://github.com/search?q=author%3AVandit1604+is%3Apr+is%3Amerged&amp;type=pullrequests" target="_blank" rel="noopener noreferrer" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Merged PRs</a>
         <a href="/gallery" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Gallery</a>
         <a href="/resume" target="_blank" rel="noopener noreferrer" class="press w-fit hover:text-black dark:hover:text-white transition-colors">Résumé <span aria-hidden="true">&#8599;</span></a>
       </nav>
     </div>
 
     <div class="mt-9 flex flex-col-reverse items-start gap-2 border-t border-gray-200 pt-5 dark:border-neutral-800 sm:flex-row sm:items-center sm:justify-between">
-      <p class="coord text-gray-500 dark:text-gray-500">
-        &copy; <span id="footer-year">2026</span> &middot; VANDIT SINGH
+      <p class="footer-meta">
+        &copy; <span id="footer-year">2026</span> Vandit Singh
       </p>
-      <p class="coord text-gray-500 dark:text-gray-500">Built with Go &amp; Tailwind</p>
+      <p class="footer-meta">Built with Go &amp; Tailwind</p>
     </div>
   </div>
 </footer>
@@ -42,7 +44,20 @@
 </script>
 <script src="/static/js/cmdk.js" defer></script>
 <script src="/static/js/micro.js" defer></script>
-<script src="/static/js/dither.js" defer></script>
 </body>
 
 </html>
+
+<script>
+  // Rows with a destination: the title is the link, the chevron button beside
+  // it shows the details. Closed details stay inert (not focusable, not read).
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest(".home-xbtn");
+    if (!btn) return;
+    var row = btn.closest(".home-li");
+    var open = btn.getAttribute("aria-expanded") !== "true";
+    btn.setAttribute("aria-expanded", String(open));
+    row.classList.toggle("is-open", open);
+    row.querySelector(".home-xdetail").inert = !open;
+  });
+</script>

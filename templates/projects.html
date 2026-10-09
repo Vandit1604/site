@@ -1,29 +1,27 @@
 {{ template "header.html" .}}
 
-<section class="w-full">
+<div class="home">
 
-  <div class="px-6 pt-8 pb-6">
-    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-white">Projects.</h1>
-    <p class="mt-3 text-gray-600 dark:text-gray-400 max-w-xl">
-      Container runtimes, distributed storage, p2p systems, and developer tooling, mostly in Go. Plus the indie products I'm building on the side.
+  <header class="home-hero">
+    <h1 class="home-name">Projects</h1>
+    <p class="home-p">
+      Things I&rsquo;ve built, mostly in Go: a container runtime, p2p storage, a load balancer and a GPU cloud control plane. At the top are two products I&rsquo;m building on my own.
     </p>
-  </div>
+  </header>
 
   {{ template "indie.html" .}}
 
-  <div class="px-6 pt-2 pb-4">
-    <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500">Selected work &amp; open source</h2>
-  </div>
-
-  <section data-reveal class="box">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 auto-rows-fr">
+  <section class="home-sec" aria-labelledby="h-work">
+    <h2 id="h-work" class="home-h"><span>~/</span>Selected work &amp; open source</h2>
+    <ol class="home-rows">
       {{ range .Projects }}
       {{ template "projectCard" . }}
       {{ else }}
-      <p class="text-gray-500 dark:text-gray-400">Projects coming soon.</p>
+      <p class="home-note">Projects coming soon.</p>
       {{ end }}
-    </div>
+    </ol>
   </section>
-</section>
+
+</div>
 
 {{ template "footer.html" .}}
