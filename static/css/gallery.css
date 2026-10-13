@@ -64,6 +64,12 @@
   /* A finger-drag paints the trail instead of scrolling the page. */
   touch-action: none;
 }
+/* The stage swallows swipes, so on touch it leaves room above and below to scroll. */
+@media (pointer: coarse) {
+  .trail-mode .gallery-stage {
+    height: 55svh;
+  }
+}
 
 /* Each photo sits in a soft rounded frame. The anchor already clips with
    overflow-hidden, so the image corners round with the frame. */

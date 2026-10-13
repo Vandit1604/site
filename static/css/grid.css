@@ -1174,16 +1174,16 @@ body.app-shell .app-nav {
   transition: opacity var(--dur-1) var(--ease-out-quart), translate var(--dur-1) var(--ease-out-quart);
 }
 [data-tip]::before { content: attr(data-tip) / ""; }
-.page-tool::before { bottom: auto; top: calc(100% + 8px); translate: -50% -4px; }
+.page-tool::before { bottom: auto; top: calc(100% + 8px); left: auto; right: 0; translate: 0 -4px; }
 .home-li-link::before { left: auto; right: 0; translate: 0 4px; }
 @media (hover: hover) {
   .home-li-link:hover::before, .page-tool:hover::before, .home-copy:hover::before, [data-tip]:hover::before {
     opacity: 1; translate: -50% 0; transition-delay: 150ms;
   }
-  .home-li-link:hover::before { translate: 0 0; }
+  .home-li-link:hover::before, .page-tool:hover::before { translate: 0 0; }
 }
 .home-li-link:focus-visible::before, .page-tool:focus-visible::before, .home-copy:focus-visible::before, [data-tip]:focus-visible::before { opacity: 1; translate: -50% 0; }
-.home-li-link:focus-visible::before { translate: 0 0; }
+.home-li-link:focus-visible::before, .page-tool:focus-visible::before { translate: 0 0; }
 .home-copy.is-copied::before { content: "Copied" / ""; }
 .footer-meta { font-size: 0.875rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 /* Flush rows (no tile) are one text line tall: centre the 40px link box on it. */
