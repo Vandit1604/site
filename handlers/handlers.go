@@ -13,7 +13,7 @@ import (
 	"github.com/vandit1604/site/types"
 )
 
-var ResumeURL string = "https://drive.google.com/file/d/1PFmsMZC3fvg6W6GsCiglt2b2othhn7S6/view?usp=drive_link"
+var ResumeURL string = "/resume.pdf"
 
 // blogDateLayouts tolerates loose front-matter dates (zero-padded or not), so a
 // post dated "2024-9-26" sorts correctly alongside "2024-11-01".
@@ -83,7 +83,7 @@ func ShowIndexPage(c *gin.Context) {
 }
 
 func RedirectToResume(c *gin.Context) {
-	c.Redirect(http.StatusPermanentRedirect, ResumeURL)
+	c.Redirect(http.StatusFound, ResumeURL)
 }
 
 func ShowBlogPage(c *gin.Context) {

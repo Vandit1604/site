@@ -25,6 +25,7 @@ func setUpRoutes(router *gin.Engine) {
 	// SEO: serve robots.txt from disk; sitemap.xml is generated dynamically so
 	// newly published blog posts are always included.
 	router.StaticFile("/robots.txt", "./static/robots.txt")
+	router.StaticFile("/resume.pdf", "./static/resume.pdf")
 	router.GET("/sitemap.xml", handlers.ShowSitemap)
 
 	// RSS feed for readers and aggregators; llms.txt for AI search engines
