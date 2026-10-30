@@ -14,7 +14,7 @@
     --prose-body: color-mix(in srgb, var(--ink) 82%, var(--bg));
     --prose-muted: color-mix(in srgb, var(--ink) 55%, var(--bg));
 
-    font-family: inherit; /* Geist, from the body */
+    font-family: inherit; /* Vandit, from the body */
     font-size: 1.0625rem; /* ~17px, comfortable reading */
     line-height: 1.75;
     color: var(--prose-body);

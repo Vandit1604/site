@@ -138,11 +138,20 @@
     <!-- Command palette (⌘K) styling. -->
     <link rel="stylesheet" href="/static/css/cmdk.css" />
 
-    <!-- Type system: Geist (sans, everything) + Geist Mono (code). -->
+    <!-- Type system: Vandit (sans, everything; my own font, served from here) + Geist Mono (code). -->
+    <link rel="preload" href="/static/fonts/vandit.woff2" as="font" type="font/woff2" crossorigin />
+    <style>
+      @font-face {
+        font-family: "Vandit";
+        src: url("/static/fonts/vandit.woff2") format("woff2");
+        font-weight: 100 900;
+        font-display: swap;
+      }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 

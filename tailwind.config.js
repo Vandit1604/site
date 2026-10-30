@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Geist", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["Vandit", "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ['"Geist Mono"', "ui-monospace", "SFMono-Regular", "monospace"],
       },
     },
