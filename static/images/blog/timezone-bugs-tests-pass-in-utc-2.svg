@@ -1,0 +1,20 @@
+<svg width="100%" viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <rect class="diagram-bg" x="0" y="0" width="680" height="300" fill="#f8f8f7"/>
+  <title>String compare against instant compare in New York</title>
+  <desc>A UTC string 2026-10-01T02:00:00Z and a New York string 2026-09-30T23:00:00-04:00 are one hour apart. The string compare reads the characters and says the New York one is smaller. The instant compare says the UTC one is earlier.</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <text x="40" y="34" font-size="14" font-weight="500" fill="#1a1a18">Two strings, true order: A is earlier (02:00Z is 1 hour before 03:00Z)</text>
+  <g><rect x="40" y="54" width="290" height="44" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/><text x="56" y="73" font-size="12" fill="#185FA5">A  _time from storage (UTC)</text><text x="56" y="90" font-size="13" font-weight="500" fill="#0C447C">2026-10-01T02:00:00Z</text></g>
+  <g><rect x="350" y="54" width="290" height="44" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/><text x="366" y="73" font-size="12" fill="#993C1D">B  window end, server in New York</text><text x="366" y="90" font-size="13" font-weight="500" fill="#712B13">2026-09-30T23:00:00-04:00</text></g>
+  <text x="40" y="132" font-size="14" font-weight="500" fill="#1a1a18">String compare: character by character</text>
+  <text x="40" y="156" font-size="12" fill="#5f5e5a">"2026-1..." vs "2026-0...": the 7th character already differs, '1' vs '0'</text>
+  <text x="40" y="176" font-size="12" fill="#5f5e5a">so B sorts first, A is never smaller, and the code keeps B as the earliest start. Wrong.</text>
+  <line x1="40" y1="196" x2="640" y2="196" stroke="#d3d1c7" stroke-width="1"/>
+  <text x="40" y="224" font-size="14" font-weight="500" fill="#1a1a18">Instant compare: parse first, compare numbers</text>
+  <text x="40" y="248" font-size="12" fill="#5f5e5a">A = 1790820000000000000 ns     B = 1790823600000000000 ns</text>
+  <text x="40" y="268" font-size="12" fill="#5f5e5a">A &lt; B. Same answer in every time zone.</text>
+</svg>

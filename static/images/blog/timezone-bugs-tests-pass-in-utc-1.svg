@@ -1,0 +1,18 @@
+<svg width="100%" viewBox="0 0 680 280" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif">
+  <rect class="diagram-bg" x="0" y="0" width="680" height="280" fill="#f8f8f7"/>
+  <title>One Unix instant, three clocks</title>
+  <desc>The Unix number 1780000000 is one instant. UTC shows 20:26:40, Asia/Kolkata shows 01:56:40 the next day, America/New_York shows 16:26:40.</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <g><rect x="215" y="24" width="250" height="52" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/><text x="340" y="47" text-anchor="middle" font-size="12" fill="#5f5e5a">the instant (one number)</text><text x="340" y="66" text-anchor="middle" font-size="15" font-weight="500" fill="#2C2C2A">1780000000</text></g>
+  <line x1="300" y1="80" x2="120" y2="136" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="340" y1="80" x2="340" y2="136" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="380" y1="80" x2="560" y2="136" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <g><rect x="30" y="140" width="190" height="84" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/><text x="125" y="166" text-anchor="middle" font-size="14" font-weight="500" fill="#0C447C">UTC</text><text x="125" y="192" text-anchor="middle" font-size="14" fill="#0C447C">05-28 20:26:40</text><text x="125" y="212" text-anchor="middle" font-size="12" fill="#185FA5">offset +00:00</text></g>
+  <g><rect x="245" y="140" width="190" height="84" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/><text x="340" y="166" text-anchor="middle" font-size="14" font-weight="500" fill="#633806">Asia/Kolkata</text><text x="340" y="192" text-anchor="middle" font-size="14" fill="#633806">05-29 01:56:40</text><text x="340" y="212" text-anchor="middle" font-size="12" fill="#854F0B">offset +05:30</text></g>
+  <g><rect x="460" y="140" width="190" height="84" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/><text x="555" y="166" text-anchor="middle" font-size="14" font-weight="500" fill="#712B13">America/New_York</text><text x="555" y="192" text-anchor="middle" font-size="14" fill="#712B13">05-28 16:26:40</text><text x="555" y="212" text-anchor="middle" font-size="12" fill="#993C1D">offset -04:00 (EDT)</text></g>
+  <text x="340" y="258" text-anchor="middle" font-size="12" fill="#5f5e5a">Three different readings, even different dates. Same moment.</text>
+</svg>
