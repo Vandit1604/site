@@ -9,7 +9,7 @@ It works on my machine, because my machine is in India.
 
 India is UTC+5:30 all year, with no daylight saving. I run `go test`, everything is green, I push. Then someone on a laptop in Chicago, or a server in New York, runs the same code and gets zero results. The code is the same and so is the data. Only the clock setting differs.
 
-<!-- IMAGE: pinterest "works on my machine meme" | feeling: smug calm just before the disaster -->
+<img class="meme" src="/static/images/blog/memes/timezone-bugs-tests-pass-in-utc-1.webp" alt="Reaction image: Smug calm just before the disaster" width="680" height="641" loading="lazy">
 
 Here is the smallest version of that I could make: a function that finds the earliest of some timestamps, run under two zone settings.
 
@@ -91,7 +91,7 @@ Sun Nov  1 06:00:00 2026 UT = Sun Nov  1 01:00:00 2026 EST
 
 Read the first pair. One second after 01:59:59 comes 03:00:00. The hour from 02:00 to 03:00 never happens on that day. In November it goes the other way: 01:59:59 EDT is followed by 01:00:00 EST, so everything between 01:00 and 02:00 happens twice.
 
-<!-- IMAGE: pinterest "clock goes back one hour meme confused" | feeling: dizzy disbelief that 01:30 happens twice -->
+<img class="meme" src="/static/images/blog/memes/timezone-bugs-tests-pass-in-utc-2.webp" alt="Reaction image: Dizzy disbelief that 01:30 happens twice" width="680" height="631" loading="lazy">
 
 I ran both cases in Go to see what happens:
 
@@ -181,7 +181,7 @@ The fix is to turn text into instants before comparing. Strings only sort correc
 
 A user opened [VictoriaTraces issue #260](https://github.com/VictoriaMetrics/VictoriaTraces/issues/260), titled "Jaeger/Tempo API calls returning inconsistent results when compared to the UI". On version 0.11.1, a trace search with `minDuration=100ms` returned very different counts than `minDuration=101ms`. More restriction, more results. That should never happen.
 
-<!-- IMAGE: pinterest "detective finds clue meme" | feeling: groan and relief, "it was the timezone all along" -->
+<img class="meme" src="/static/images/blog/memes/timezone-bugs-tests-pass-in-utc-3.webp" alt="Reaction image: Groan and relief, &quot;it was the timezone all along&quot;" width="680" height="680" loading="lazy">
 
 I reproduced it and wrote the fix, [PR #262](https://github.com/VictoriaMetrics/VictoriaTraces/pull/262), merged on 2026-10-01. The reporter's host ran `America/Chicago`. In the issue thread they confirmed that adding `TZ=UTC` to the service fixed it. The same search against the same data gave these counts (limit=1000, copied from the PR description):
 
@@ -355,7 +355,7 @@ I expected UTC to pass everything and each other zone to break a different subse
 
 UTC is the only column with no failures. A suite that runs only in UTC cannot fail these checks.
 
-<!-- IMAGE: pinterest "tests all green shocked" | feeling: false confidence that holds until the first user in another zone -->
+<img class="meme" src="/static/images/blog/memes/timezone-bugs-tests-pass-in-utc-4.webp" alt="Reaction image: False confidence that holds until the first user in another zone" width="680" height="418" loading="lazy">
 
 Four things stood out:
 

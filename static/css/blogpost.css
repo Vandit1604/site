@@ -331,3 +331,7 @@
 @media (prefers-reduced-motion: no-preference) {
     html { scroll-behavior: smooth; }
 }
+
+.blog-content img.meme {
+    max-width: min(100%, 340px);
+}

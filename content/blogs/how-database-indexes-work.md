@@ -13,7 +13,7 @@ SELECT * FROM users WHERE email = 'user777777@example.com';
 
 It returns one row. On my laptop it took 63 ms. That sounds fine until you remember the page runs it on every request, and that the table will not stay at one million rows.
 
-<!-- IMAGE: pinterest "waiting for page to load meme" | feeling: slow dread -->
+<img class="meme" src="/static/images/blog/memes/how-database-indexes-work-1.webp" alt="Reaction image: Slow dread" width="350" height="350" loading="lazy">
 
 I added one line, `CREATE INDEX idx_email ON users(email)`, and the same query took 0.016 ms. About 4,000 times faster, same data, same machine. This post covers what that line builds, why it is fast, what it costs, and when the database ignores it and you pay full price anyway. The last case cost me a few weeks: a Prometheus regex query that read the same data four times.
 
@@ -29,7 +29,7 @@ SCAN users
 
 That is the whole query plan SQLite printed for the 63 ms query. The cost grows with the size of the table, not with the size of the answer. One matching row out of a million costs a million checks. One out of ten million costs ten million.
 
-<!-- IMAGE: pinterest "searching for keys in messy room meme" | feeling: dread, nothing is sorted -->
+<img class="meme" src="/static/images/blog/memes/how-database-indexes-work-2.webp" alt="Reaction image: Dread, nothing is sorted" width="680" height="680" loading="lazy">
 
 Computers are fast, so a scan is fine for a table of a few thousand rows. It stops being fine when the table grows, or when the query runs a thousand times a second.
 
@@ -177,7 +177,7 @@ email >= 'user7777' AND email < 'user7778'
 LIKE '%7777%'                         143.49 ms   SCAN users
 ```
 
-<!-- IMAGE: pinterest "I added an index and nothing changed meme" | feeling: betrayal -->
+<img class="meme" src="/static/images/blog/memes/how-database-indexes-work-4.webp" alt="Reaction image: Betrayal" width="680" height="663" loading="lazy">
 
 Two things to read here. First, `LIKE '%7777%'` does a full scan even though the index exists. This is the one everybody hits. Second, the plain prefix `LIKE` also scanned, until I turned on `PRAGMA case_sensitive_like`. SQLite's `LIKE` ignores case by default, and a normal index is case-sensitive, so the two orders do not match and the index cannot be used. Postgres has its own version of this trap: outside the `C` locale, a prefix `LIKE` can only use a B-tree built with `text_pattern_ops`.
 
@@ -221,7 +221,7 @@ After:
 SEARCH users USING INDEX idx_email (email=?)
 ```
 
-<!-- IMAGE: pinterest "finally found it meme" | feeling: relief -->
+<img class="meme" src="/static/images/blog/memes/how-database-indexes-work-5.webp" alt="Reaction image: Relief" width="632" height="577" loading="lazy">
 
 `SCAN` means every row. `SEARCH ... USING INDEX` means a tree lookup. `COVERING INDEX` means the table was not touched. In Postgres the equivalents are `Seq Scan`, `Index Scan` and `Index Only Scan`, from `EXPLAIN SELECT ...`. In MySQL it is `EXPLAIN`, and the `type` column reading `ALL` is the full scan.
 
