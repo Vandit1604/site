@@ -1226,8 +1226,6 @@ body.app-shell .app-nav {
   .home-li > .home-row--flush > .home-when { grid-column: 1; }
 }
 .home-rows:has(> .home-li > .home-row--flush) { gap: 1rem; }
-.home-year { margin: 1.5rem 0 0.75rem; font-size: 0.875rem; font-weight: 600; color: var(--ink-3); font-variant-numeric: tabular-nums; }
-.home-year:first-of-type { margin-top: 0.5rem; }
 /* Title links and the home link sit at 21px of text: pad the hit area to
    29px (WCAG 2.5.8 asks 24px) without moving the layout. */
 .home-title, .page-home { display: inline-block; padding-block: 0.25rem; margin-block: -0.25rem; }

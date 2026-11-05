@@ -6,7 +6,7 @@
 <li class="home-li">
   <div class="home-row home-row--flush">
     <p class="home-what"><a class="home-title" href="/blogs/{{ .Slug }}">{{ .Title }}</a><button type="button" class="home-xbtn" aria-expanded="false" aria-label="Details: {{ .Title }}">{{ template "icon:chevron-down" }}</button></p>
-    <span class="home-when">{{ .Date }} &middot; {{ .ReadingTime }} min</span>
+    <span class="home-when">{{ .ReadingTime }} min</span>
   </div>
   <div class="home-xdetail" inert><div class="home-xinner">
     {{ if .Description }}<p class="home-note">{{ .Description }}</p>{{ end }}
@@ -34,15 +34,10 @@
       {{ end }}
     </div>
 
-    {{/* Grouped by year so a long list reads as a few short chunks. */}}
-    {{ $prev := "" }}
-    {{ range .blogs }}{{ $y := "" }}{{ if ge (len .Date) 4 }}{{ $y = slice .Date 0 4 }}{{ end }}
-      {{ if ne $y $prev }}{{ if ne $prev "" }}</ol>{{ end }}<h3 class="home-year">{{ $y }}</h3><ol class="home-rows">{{ $prev = $y }}{{ end }}
-      {{ template "blogRow" . }}
+    {{ if .blogs }}<ol class="home-rows">{{ range .blogs }}{{ template "blogRow" . }}{{ end }}</ol>
     {{ else }}
     <p class="home-note">No posts here yet.</p>
     {{ end }}
-    {{ if ne $prev "" }}</ol>{{ end }}
   </section>
 
 </div>

@@ -32,7 +32,7 @@
     <!-- Post header -->
     <header data-reveal style="margin-bottom:2.5rem">
       <h1 class="home-name">{{ .blog.Title }}</h1>
-      <p class="home-when" style="margin-top:0.75rem;display:block">{{ .blog.Date }} &middot; {{ .blog.ReadingTime }} min read</p>
+      <p class="home-when" style="margin-top:0.75rem;display:block">{{ .blog.ReadingTime }} min read</p>
       {{ if .blog.Tags }}
       <div class="home-chips" style="margin-top:0.75rem">
         {{ range .blog.Tags }}
@@ -65,7 +65,7 @@
       <h2 id="h-more" class="home-h"><span>~/</span>More writing</h2>
       <ol class="home-posts">
         {{ range .related }}
-        <li><a href="/blogs/{{ .Slug }}"><span>{{ .Title }}</span><time class="home-when">{{ .Date }}</time></a></li>
+        <li><a href="/blogs/{{ .Slug }}"><span>{{ .Title }}</span><span class="home-when">{{ .ReadingTime }} min</span></a></li>
         {{ end }}
       </ol>
     </nav>

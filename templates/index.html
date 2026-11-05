@@ -162,7 +162,7 @@
     <h2 id="h-blog" class="home-h"><span>~/</span>Writing</h2>
     <ol class="home-posts">
       {{ range .recentBlogs }}
-      <li><a href="/blogs/{{ .Slug }}"><span>{{ .Title }}</span><time class="home-when">{{ .Date }}</time></a></li>
+      <li><a href="/blogs/{{ .Slug }}"><span>{{ .Title }}</span><span class="home-when">{{ .ReadingTime }} min</span></a></li>
       {{ else }}
       <li class="home-note">No posts yet.</li>
       {{ end }}

@@ -6,7 +6,6 @@ import (
 	"slices"
 	"sort"
 	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/vandit1604/site/models"
@@ -14,19 +13,6 @@ import (
 )
 
 var ResumeURL string = "/resume.pdf"
-
-// blogDateLayouts tolerates loose front-matter dates (zero-padded or not), so a
-// post dated "2024-9-26" sorts correctly alongside "2024-11-01".
-var blogDateLayouts = []string{"2006-01-02", "2006-1-2", "2006-01-2", "2006-1-02"}
-
-func parseBlogDate(s string) time.Time {
-	for _, layout := range blogDateLayouts {
-		if t, err := time.Parse(layout, s); err == nil {
-			return t
-		}
-	}
-	return time.Time{}
-}
 
 // sortedBlogs flattens the blog map into a slice ordered newest-first. Ranging a
 // Go map is randomized, so templates must be handed an explicitly sorted slice.
@@ -36,7 +22,7 @@ func sortedBlogs(blogs map[string]types.BlogPost) []types.BlogPost {
 		out = append(out, blog)
 	}
 	sort.Slice(out, func(i, j int) bool {
-		return parseBlogDate(out[i].Date).After(parseBlogDate(out[j].Date))
+		return models.ParseBlogDate(out[i].Date).After(models.ParseBlogDate(out[j].Date))
 	})
 	return out
 }

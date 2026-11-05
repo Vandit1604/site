@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/alecthomas/chroma/v2"
 	"github.com/alecthomas/chroma/v2/formatters/html"
@@ -92,6 +93,26 @@ func (r *codeBlockRenderer) renderCodeBlock(w util.BufWriter, source []byte, nod
 	return ast.WalkSkipChildren, nil
 }
 
+// blogDateLayouts tolerates loose front-matter dates (zero-padded or not), so a
+// post dated "2024-9-26" sorts correctly alongside "2024-11-01".
+var blogDateLayouts = []string{"2006-01-02", "2006-1-2", "2006-01-2", "2006-1-02"}
+
+// ParseBlogDate returns the zero time for a date it cannot parse.
+func ParseBlogDate(s string) time.Time {
+	for _, layout := range blogDateLayouts {
+		if t, err := time.Parse(layout, s); err == nil {
+			return t
+		}
+	}
+	return time.Time{}
+}
+
+// isLive reports whether a post is visible at now. A post's date is its go-live
+// moment (00:00 UTC that day), so a future-dated post stays hidden until then.
+func isLive(post *types.BlogPost, now time.Time) bool {
+	return post.Draft != "true" && !ParseBlogDate(post.Date).After(now)
+}
+
 func ReadBlogs() map[string]types.BlogPost {
 	blogs := make(map[string]types.BlogPost)
 	dir := "content/blogs/"
@@ -112,7 +133,7 @@ func ReadBlogs() map[string]types.BlogPost {
 			}
 
 			blogPost := transformDataToBlog(slug, string(data))
-			if blogPost.Draft == "true" {
+			if !isLive(blogPost, time.Now()) {
 				continue
 			}
 			blogs[slug] = *blogPost
