@@ -3,6 +3,7 @@ title: "How to Contribute to Open Source"
 date: "2024-09-19"
 description: "Eight steps to a first open source contribution: pick an organization, use the project, read CONTRIBUTING.md, set it up locally and land a first PR."
 tags: ["tech"]  
+draft: "true"
 ---
 
 > **Disclaimer:** Contributing to open source requires patience, lots of it. If you lack the time or willingness to persevere, open source may not be the right choice for you. Instead, consider building impactful projects that demonstrate your skills. The goal is to showcase proof of work, especially if you're pursuing a job.
