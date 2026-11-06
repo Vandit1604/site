@@ -130,7 +130,7 @@ Median of 7 runs, random keys. Each index roughly doubled the cost of the first,
 
 They also take disk and memory. On the one-million-row table, the data itself was 47.1 MB. Adding the index on `email` took the file to 78.1 MB, and adding a second one on `(email, name)` took it to 119.2 MB. Two indexes, and the file is 2.5 times bigger than the table. Indexes also compete with your data for the same RAM cache.
 
-<!-- IMAGE: pinterest "overloaded backpack meme" | feeling: mild guilt, too many indexes -->
+<img class="meme" src="/static/images/blog/memes/how-database-indexes-work-3.webp" alt="A cat packed inside a full suitcase, captioned "Cat? What cat?"" width="680" height="510" loading="lazy">
 
 So don't index everything. **Index the columns you filter, join and sort on, and nothing else.** Read-heavy tables can afford many indexes. A table that takes thousands of writes per second cannot.
 
