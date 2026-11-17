@@ -166,7 +166,6 @@ func transformDataToBlog(slug, data string) *types.BlogPost {
 			if strings.HasPrefix(line, "draft:") {
 				draft = strings.TrimSpace(strings.TrimPrefix(line, "draft:"))
 				draft = strings.Trim(draft, "\"")
-				return &types.BlogPost{Draft: draft}
 			} else if strings.HasPrefix(line, "title:") {
 				title = strings.TrimSpace(strings.TrimPrefix(line, "title:"))
 				title = strings.Trim(title, "\"")
@@ -243,6 +242,7 @@ func transformDataToBlog(slug, data string) *types.BlogPost {
 		Title:       title,
 		Date:        date,
 		Updated:     updated,
+		Draft:       draft,
 		Tags:        tags,
 		Description: description,
 		ReadingTime: readingTime,
